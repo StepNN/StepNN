@@ -26,14 +26,17 @@ AddTarget(NAME StepNN
 		StepNN/Neural/NeuralEngines
 		StepNN/Neural/NeuralEngines/NeuralEngineDummy
 		StepNN/Neural/NeuralEngines/NeuralEngineNeoML
+		StepNN/Neural/NeuralEngines/NeuralEngineNeoML/Configurator
 		StepNN/Neural/NeuralEngines/NeuralEngineNeoML/LayerEngine
 		StepNN/Neural/NeuralEngines/NeuralEngineNeoML/Layers
 		StepNN/Neural/NeuralEngines/NeuralEngineNeoML/NeuralNet
 		StepNN/Neural/NeuralEngines/NeuralEngineTF
+		StepNN/Neural/NeuralEngines/NeuralEngineTF/Configurator
 		StepNN/Neural/NeuralEngines/NeuralEngineTF/LayerEngine
 		StepNN/Neural/NeuralEngines/NeuralEngineTF/Layers
 		StepNN/Neural/NeuralEngines/NeuralEngineTF/NeuralNet
 		StepNN/Neural/NeuralEngines/NeuralEngineTorch
+		StepNN/Neural/NeuralEngines/NeuralEngineTorch/Configurator
 		StepNN/Neural/NeuralEngines/NeuralEngineTorch/LayerEngine
 		StepNN/Neural/NeuralEngines/NeuralEngineTorch/Layers
 		StepNN/Neural/NeuralEngines/NeuralEngineTorch/NeuralNet

@@ -36,6 +36,22 @@ const ILayerEngine& NeuralEngineTF::GetLayerEngine() const
 
 //.............................................................................
 
+INeuralConfigurator& NeuralEngineTF::GetConfigurator()
+{
+	assert(m_configurator);
+	return *m_configurator;
+}
+
+//.............................................................................
+
+const INeuralConfigurator& NeuralEngineTF::GetConfigurator() const
+{
+	assert(m_configurator);
+	return *m_configurator;
+}
+
+//.............................................................................
+
 bool NeuralEngineTF::SwitchImpl(NeuralFrameworkType)
 {
 	assert(!Defs::NOT_IMPL_STR);

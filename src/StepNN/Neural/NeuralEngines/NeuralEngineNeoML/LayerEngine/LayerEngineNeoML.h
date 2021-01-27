@@ -15,6 +15,7 @@ public:
 	LayerUPtr CreateLayer(const std::string& layerID) const override;
 	LayerUPtr CreateLayer(const BaseLayerSettings& settings) const override;
 ///
+
 };
 
 }

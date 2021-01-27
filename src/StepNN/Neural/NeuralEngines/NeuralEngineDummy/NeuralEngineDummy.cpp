@@ -28,6 +28,20 @@ const ILayerEngine& NeuralEngineDummy::GetLayerEngine() const
 
 //.............................................................................
 
+INeuralConfigurator& NeuralEngineDummy::GetConfigurator()
+{
+	throw std::runtime_error(Defs::NOT_IMPL_STR);
+}
+
+//.............................................................................
+
+const INeuralConfigurator& NeuralEngineDummy::GetConfigurator() const
+{
+	throw std::runtime_error(Defs::NOT_IMPL_STR);
+}
+
+//.............................................................................
+
 bool NeuralEngineDummy::SwitchImpl(NeuralFrameworkType)
 {
 	throw std::runtime_error(Defs::NOT_IMPL_STR);

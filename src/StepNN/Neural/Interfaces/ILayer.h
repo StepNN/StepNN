@@ -24,10 +24,10 @@ public:
 
 }
 
-using LayerPtr   = Interfaces::ILayer*;
-using LayerCPtr  = const LayerPtr;
-using LayerPtrs  = std::vector<LayerPtr>;
-using LayerUPtr  = std::unique_ptr<Interfaces::ILayer>;
-using LayerUPtrs = std::vector<LayerUPtr>;
+using LayerPtr		= Interfaces::ILayer*;
+using LayerCPtr		= const LayerPtr;
+using LayerPtrs		= std::vector<LayerPtr>;
+using LayerUPtr		= std::unique_ptr<Interfaces::ILayer>;
+using LayerUPtrs	= std::vector<LayerUPtr>;
 
 }

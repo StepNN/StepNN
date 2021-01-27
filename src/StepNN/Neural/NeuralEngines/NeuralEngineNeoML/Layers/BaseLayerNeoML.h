@@ -1,5 +1,7 @@
 #pragma once
 
+#include "NeoML/Dnn/Dnn.h"
+
 #include "StepNN/Neural/Interfaces/ILayer.h"
 
 using namespace StepNN::Interfaces;
@@ -33,6 +35,7 @@ protected:
 
 protected:
 	SettingsType m_typedSettings;
+	FObj::CPtr<NeoML::CBaseLayer> m_layer { nullptr };
 };
 
 }

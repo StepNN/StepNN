@@ -2,20 +2,26 @@
 
 #include <memory>
 
-#include "StepNN/Neural/Interfaces/INeuralNet.h"
+#include "StepNN/Neural/Interfaces/BaseNeuralNet.h"
 
 using namespace StepNN::Interfaces;
 
 namespace StepNN {
 
-class NeuralNetTF : public INeuralNet
+class NeuralNetTF : virtual public BaseNeuralNet
 {
 public:
-	NeuralNetTF();
+	explicit NeuralNetTF(const ILayerEngine* layerEngine);
+	~NeuralNetTF();
+
+/// INeuralNet
+///
+
+/// INeuralConfigurator
+///
 
 private:
-	class Impl;
-	std::unique_ptr<Impl> m_impl;
+	void OnSetNeuralConfiguration();
 };
 
 }

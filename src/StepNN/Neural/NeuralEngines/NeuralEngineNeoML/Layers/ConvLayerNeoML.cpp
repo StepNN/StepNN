@@ -1,3 +1,5 @@
+#include "NeoML/Dnn/Layers/ConvLayer.h"
+
 #include "StepNN/Neural/Layer/Settings/ConvLayerSettings.h"
 
 #include "BaseLayerNeoML.h"
@@ -18,12 +20,12 @@ public:
 	void SetSettings(const StepNN::ConvLayerSettings& typedSettings)
 	{
 		StepNN::BaseLayerNeoML<StepNN::ConvLayerSettings>::SetSettings(typedSettings);
+
+		/*if(!m_layer)
+			m_layer = new NeoML::CConvLayer*/
 	}
 
 	~ConvLayerNeoML() = default;
-
-private:
-
 };
 
 }

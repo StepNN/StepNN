@@ -14,6 +14,8 @@ public:
 /// Implementation of INeuralEngine
 	ILayerEngine& GetLayerEngine() override;
 	const ILayerEngine& GetLayerEngine() const override;
+	INeuralConfigurator& GetConfigurator() override;
+	const INeuralConfigurator& GetConfigurator() const override;
 	bool SwitchImpl(NeuralFrameworkType type) override;
 ///
 

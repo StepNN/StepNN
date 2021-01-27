@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ILayerEngine.h"
+#include "INeuralConfigurator.h"
 
 #include "StepNN/Neural/Data/NeuralFrameworkType.h"
 
@@ -15,6 +16,9 @@ public:
 
 	virtual ILayerEngine& GetLayerEngine() = 0;
 	virtual const ILayerEngine& GetLayerEngine() const = 0;
+
+	virtual INeuralConfigurator& GetConfigurator() = 0;
+	virtual const INeuralConfigurator& GetConfigurator() const = 0;
 
 	virtual bool SwitchImpl(NeuralFrameworkType type) = 0;
 };

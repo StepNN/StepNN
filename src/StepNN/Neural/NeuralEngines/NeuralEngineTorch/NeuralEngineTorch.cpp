@@ -36,6 +36,22 @@ const ILayerEngine& NeuralEngineTorch::GetLayerEngine() const
 
 //.............................................................................
 
+INeuralConfigurator& NeuralEngineTorch::GetConfigurator()
+{
+	assert(m_configurator);
+	return *m_configurator;
+}
+
+//.............................................................................
+
+const INeuralConfigurator& NeuralEngineTorch::GetConfigurator() const
+{
+	assert(m_configurator);
+	return *m_configurator;
+}
+
+//.............................................................................
+
 bool NeuralEngineTorch::SwitchImpl(NeuralFrameworkType)
 {
 	assert(!Defs::NOT_IMPL_STR);

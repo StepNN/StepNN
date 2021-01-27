@@ -15,8 +15,11 @@ public:
 	~NeuralEngine();
 
 /// INeuralEngine
-	ILayerEngine& GetLayerEngine() = 0;
-	const ILayerEngine& GetLayerEngine() const = 0;
+	ILayerEngine& GetLayerEngine() override;
+	const ILayerEngine& GetLayerEngine() const override;
+
+	INeuralConfigurator& GetConfigurator() override;
+	const INeuralConfigurator& GetConfigurator() const override;
 
 	bool SwitchImpl(NeuralFrameworkType type) override;
 ///

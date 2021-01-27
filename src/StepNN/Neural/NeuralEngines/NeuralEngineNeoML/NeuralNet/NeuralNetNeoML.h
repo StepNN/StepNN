@@ -2,20 +2,38 @@
 
 #include <memory>
 
-#include "StepNN/Neural/Interfaces/INeuralNet.h"
+#include "StepNN/Neural/Interfaces/BaseNeuralNet.h"
+
+namespace NeoML {
+	class IMathEngine;
+	class IGpuMathEngineManager;
+}
 
 using namespace StepNN::Interfaces;
 
 namespace StepNN {
 
-class NeuralNetNeoML : public INeuralNet
+class NeuralNetNeoML : virtual public BaseNeuralNet
 {
 public:
-    NeuralNetNeoML();
+	explicit NeuralNetNeoML(const ILayerEngine* layerEngine);
+	~NeuralNetNeoML();
+
+/// INeuralNet
+///
+
+/// INeuralConfigurator
+	void SetNeuralConfiguration(const NeuralConfiguration&);
+	void SetNeuralConfiguration(NeuralConfiguration&&);
+	void SetDeviceType(DeviceType type);
+///
 
 private:
-    class Impl;
-    std::unique_ptr<Impl> m_impl;
+	void OnSetNeuralConfiguration();
+
+private:
+	std::unique_ptr<NeoML::IGpuMathEngineManager> m_gpuManager;
+	std::unique_ptr<NeoML::IMathEngine> m_mathEngine;
 };
 
 }

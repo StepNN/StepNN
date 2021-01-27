@@ -1,21 +1,19 @@
+#include "StepNN/Neural/NeuralEngines/NeuralEngineNeoML/CommonNeoML.h"
+
 #include "NeuralNetNeoML.h"
 
 using namespace StepNN::Interfaces;
 
 namespace StepNN {
 
-class NeuralNetNeoML::Impl
-{
-};
-
-}
-
-namespace StepNN {
-
-
-
-NeuralNetNeoML::NeuralNetNeoML()
-	: m_impl(std::make_unique<Impl>())
+NeuralNetNeoML::NeuralNetNeoML(const ILayerEngine* layerEngine)
+	: BaseNeuralNet(layerEngine)
+	, m_gpuManager(nullptr)
+	, m_mathEngine(nullptr)
 {}
+
+//.............................................................................
+
+NeuralNetNeoML::~NeuralNetNeoML() = default;
 
 }

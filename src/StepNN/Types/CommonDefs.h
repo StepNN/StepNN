@@ -13,4 +13,8 @@ inline bool IsValid(int value) { return !IsInvalid(value); }
 
 constexpr const char* const NOT_IMPL_STR = "NOT_IMPL";
 
+//.............................................................................
+
+#define RETURN_IF(expr) if(##expr) return;
+
 }
