@@ -10,14 +10,15 @@ template<typename T>
 class STEPNN_API IDatasetUserImpl : virtual public IDatasetUser
 {
 public:
+	using Ptr = T*;
 	virtual ~IDatasetUserImpl() = default;
 
-	T* GetDatasetImpl()
+	Ptr GetDatasetImpl()
 	{
-		T* impl = nullptr;
+		Ptr impl = nullptr;
 		auto datasetSP = GetDataset();
 		if (datasetSP)
-			T* impl = dynamic_cast<T*>(m_dataset.get());
+			impl = dynamic_cast<Ptr>(datasetSP.get());
 
 		assert(impl);
 		return impl;

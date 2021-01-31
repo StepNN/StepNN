@@ -13,6 +13,10 @@ class STEPNN_API INeuralNet
 {
 public:
 	virtual ~INeuralNet() = default;
+
+	virtual void Configure() = 0;
+
+	virtual void ProcessTrain() = 0;
 };
 
 }

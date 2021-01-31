@@ -4,8 +4,8 @@
 
 #include "StepNN/Neural/Interfaces/IDatasetUserImpl.h"
 #include "StepNN/Neural/Interfaces/BaseNeuralNet.h"
-
 #include "StepNN/Neural/Impl/NeoML/Dataset/DatasetNeoML.h"
+#include "StepNN/Neural/Impl/NeoML/Layers/BaseLayerNeoML.h"
 
 namespace NeoML {
 	class IMathEngine;
@@ -30,8 +30,16 @@ public:
 	void SetDeviceType(DeviceType type);
 ///
 
+/// INeuralNet
+	void Configure() override;
+	void ProcessTrain() override;
+///
+
 private:
 	void OnSetNeuralConfiguration();
+	void Configure(NeoML::CDnn& dnn);
+
+	BaseLayerNeoML* CastLayer(ILayer*);
 
 private:
 	std::unique_ptr<NeoML::IGpuMathEngineManager> m_gpuManager;

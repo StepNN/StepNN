@@ -16,6 +16,7 @@ class BaseLayerEngine : public ILayerEngine
 protected:
 	BaseLayerEngine();
 
+public:
 /// ILayerEngine
 	bool AddLayer(const BaseLayerSettings& settings) override;
 	LayerCPtr GetLayer(const std::string& id) const override;
