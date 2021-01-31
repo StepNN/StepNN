@@ -4,7 +4,7 @@
 
 #include "StepNNLib.h"
 
-namespace StepNN {
+namespace StepNN::Neural {
 
 class STEPNN_API BaseNeuralConfigurator : public Interfaces::INeuralConfigurator
 {
@@ -15,7 +15,7 @@ public:
 	const NeuralConfiguration& GetNeuralConfiguration() const noexcept;
 
 	void SetDeviceType(DeviceType type) override;
-	StepNN::DeviceType GetDeviceType() const noexcept override;
+	StepNN::Neural::DeviceType GetDeviceType() const noexcept override;
 ///
 
 protected:

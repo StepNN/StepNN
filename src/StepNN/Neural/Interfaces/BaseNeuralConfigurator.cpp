@@ -2,7 +2,7 @@
 
 #include "BaseNeuralConfigurator.h"
 
-namespace StepNN {
+namespace StepNN::Neural {
 
 void BaseNeuralConfigurator::SetNeuralConfiguration(const NeuralConfiguration& config)
 {
@@ -32,7 +32,7 @@ void BaseNeuralConfigurator::SetDeviceType(DeviceType type)
 
 //.............................................................................
 
-StepNN::DeviceType BaseNeuralConfigurator::GetDeviceType() const noexcept
+StepNN::Neural::DeviceType BaseNeuralConfigurator::GetDeviceType() const noexcept
 {
 	return m_config.deviceType;
 }

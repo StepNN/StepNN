@@ -4,7 +4,7 @@
 
 #include "StepNNLib.h"
 
-namespace StepNN {
+namespace StepNN::Neural {
 
 class STEPNN_API ConvLayerSettings : public BaseLayerSettings
 {

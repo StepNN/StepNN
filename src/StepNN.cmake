@@ -18,26 +18,26 @@ AddTarget(NAME StepNN
 		StepNN/Utils/Containers
 		StepNN/Neural
 		StepNN/Neural/Data
+		StepNN/Neural/Engine
+		StepNN/Neural/Impl
+		StepNN/Neural/Impl/Dummy
+		StepNN/Neural/Impl/NeoML
+		StepNN/Neural/Impl/NeoML/Dataset
+		StepNN/Neural/Impl/NeoML/LayerEngine
+		StepNN/Neural/Impl/NeoML/Layers
+		StepNN/Neural/Impl/NeoML/NeuralEngine
+		StepNN/Neural/Impl/NeoML/NeuralNet
+		StepNN/Neural/Impl/TF
+		StepNN/Neural/Impl/TF/LayerEngine
+		StepNN/Neural/Impl/TF/Layers
+		StepNN/Neural/Impl/TF/NeuralEngine
+		StepNN/Neural/Impl/TF/NeuralNet
+		StepNN/Neural/Impl/Torch
+		StepNN/Neural/Impl/Torch/LayerEngine
+		StepNN/Neural/Impl/Torch/Layers
+		StepNN/Neural/Impl/Torch/NeuralEngine
+		StepNN/Neural/Impl/Torch/NeuralNet
 		StepNN/Neural/Interfaces
 		StepNN/Neural/Layer
-		StepNN/Neural/Layer/Engine
-		StepNN/Neural/Layer/Graph
 		StepNN/Neural/Layer/Settings
-		StepNN/Neural/NeuralEngines
-		StepNN/Neural/NeuralEngines/NeuralEngineDummy
-		StepNN/Neural/NeuralEngines/NeuralEngineNeoML
-		StepNN/Neural/NeuralEngines/NeuralEngineNeoML/Configurator
-		StepNN/Neural/NeuralEngines/NeuralEngineNeoML/LayerEngine
-		StepNN/Neural/NeuralEngines/NeuralEngineNeoML/Layers
-		StepNN/Neural/NeuralEngines/NeuralEngineNeoML/NeuralNet
-		StepNN/Neural/NeuralEngines/NeuralEngineTF
-		StepNN/Neural/NeuralEngines/NeuralEngineTF/Configurator
-		StepNN/Neural/NeuralEngines/NeuralEngineTF/LayerEngine
-		StepNN/Neural/NeuralEngines/NeuralEngineTF/Layers
-		StepNN/Neural/NeuralEngines/NeuralEngineTF/NeuralNet
-		StepNN/Neural/NeuralEngines/NeuralEngineTorch
-		StepNN/Neural/NeuralEngines/NeuralEngineTorch/Configurator
-		StepNN/Neural/NeuralEngines/NeuralEngineTorch/LayerEngine
-		StepNN/Neural/NeuralEngines/NeuralEngineTorch/Layers
-		StepNN/Neural/NeuralEngines/NeuralEngineTorch/NeuralNet
 )

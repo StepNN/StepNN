@@ -6,7 +6,7 @@
 
 #include "StepNNLib.h"
 
-namespace StepNN::Interfaces {
+namespace StepNN::Neural::Interfaces {
 
 class STEPNN_API ILayerGraph
 {

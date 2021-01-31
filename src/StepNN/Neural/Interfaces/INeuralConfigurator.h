@@ -4,7 +4,7 @@
 
 #include "StepNNLib.h"
 
-namespace StepNN::Interfaces {
+namespace StepNN::Neural::Interfaces {
 
 class STEPNN_API INeuralConfigurator
 {
@@ -16,7 +16,7 @@ public:
 	virtual const NeuralConfiguration& GetNeuralConfiguration() const noexcept = 0;
 
 	virtual void SetDeviceType(DeviceType type) = 0;
-	virtual StepNN::DeviceType GetDeviceType() const noexcept = 0;
+	virtual StepNN::Neural::DeviceType GetDeviceType() const noexcept = 0;
 };
 
 }

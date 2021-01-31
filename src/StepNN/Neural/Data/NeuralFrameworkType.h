@@ -2,7 +2,7 @@
 
 #include "StepNNLib.h"
 
-namespace StepNN {
+namespace StepNN::Neural {
 
 enum class STEPNN_API NeuralFrameworkType
 {

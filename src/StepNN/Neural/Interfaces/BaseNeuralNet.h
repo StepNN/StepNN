@@ -3,9 +3,9 @@
 #include "ILayerEngine.h"
 #include "INeuralNet.h"
 
-using namespace StepNN::Interfaces;
+using namespace StepNN::Neural::Interfaces;
 
-namespace StepNN {
+namespace StepNN::Neural {
 
 class BaseNeuralNet : public INeuralNet
 {

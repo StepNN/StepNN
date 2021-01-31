@@ -8,7 +8,7 @@
 
 //.............................................................................
 
-namespace StepNN {
+namespace StepNN::Neural {
 
 template<typename FuncType, typename ArgType> struct isBoolExecutableWithTwoSameTypeParams
 {

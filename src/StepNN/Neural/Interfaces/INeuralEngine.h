@@ -1,5 +1,6 @@
 #pragma once
 
+#include "IDatasetController.h"
 #include "ILayerEngine.h"
 #include "INeuralConfigurator.h"
 
@@ -7,7 +8,7 @@
 
 #include "StepNNLib.h"
 
-namespace StepNN::Interfaces {
+namespace StepNN::Neural::Interfaces {
 
 class STEPNN_API INeuralEngine
 {
@@ -19,6 +20,9 @@ public:
 
 	virtual INeuralConfigurator& GetConfigurator() = 0;
 	virtual const INeuralConfigurator& GetConfigurator() const = 0;
+
+	virtual IDatasetController& GetDatasetController() = 0;
+	virtual const IDatasetController& GetDatasetController() const = 0;
 
 	virtual bool SwitchImpl(NeuralFrameworkType type) = 0;
 };

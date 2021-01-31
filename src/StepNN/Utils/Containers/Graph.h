@@ -10,7 +10,7 @@
 
 #include "StepNN/Types/CommonDefs.h"
 
-namespace StepNN {
+namespace StepNN::Neural {
 
 template<typename DataType, typename IdType>
 class GraphNode

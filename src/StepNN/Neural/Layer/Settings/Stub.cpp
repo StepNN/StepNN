@@ -1,6 +1,6 @@
 #include "ConvLayerSettings.h"
 
-namespace StepNN {
+namespace StepNN::Neural {
 
 const std::string BaseLayerSettings::m_defaultSettingsId = "DEFAULT_SETTINGS_ID";
 
