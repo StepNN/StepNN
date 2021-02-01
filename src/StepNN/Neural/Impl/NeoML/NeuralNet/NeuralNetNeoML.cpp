@@ -29,9 +29,8 @@ NeoML::TBlobType GetBlobType(StepNN::Neural::BlobDataType type)
 
 namespace StepNN::Neural {
 
-NeuralNetNeoML::NeuralNetNeoML(const ILayerEngine* layerEngine, NeoMathEnginePtr mathEngine)
+NeuralNetNeoML::NeuralNetNeoML(const ILayerEngine* layerEngine)
 	: BaseNeuralNet(layerEngine)
-	, m_mathEngine(mathEngine)
 {}
 
 //.............................................................................
@@ -49,8 +48,7 @@ void NeuralNetNeoML::Configure()
 
 void NeuralNetNeoML::ProcessTrain()
 {
-	assert(m_mathEngine);
-	NeoMathEngineRef mathEngineRef = *m_mathEngine;
+	NeoMathEngineRef mathEngineRef = *GetMathEngine().get();
 
 	NeoML::CRandom random(0x123);
 	NeoML::CDnn dnn(random, mathEngineRef);

@@ -4,12 +4,6 @@
 
 #include "NeuralNetNeoML.h"
 
-namespace {
-
-constexpr size_t GIGABYTE = 1024 * 1024 * 1024;
-
-}
-
 namespace StepNN::Neural {
 
 void NeuralNetNeoML::SetNeuralConfiguration(const NeuralConfiguration& config)
@@ -23,6 +17,9 @@ void NeuralNetNeoML::SetNeuralConfiguration(const NeuralConfiguration& config)
 void NeuralNetNeoML::SetNeuralConfiguration(NeuralConfiguration&& config)
 {
 	BaseNeuralConfigurator::SetNeuralConfiguration(std::move(config));
+
+	PerformForEachEventHandler(std::bind(&IEventHandlerNeoML::OnSetNeuralConfiguration, std::placeholders::_1, std::cref(m_config)));
+
 	OnSetNeuralConfiguration();
 }
 
@@ -31,35 +28,12 @@ void NeuralNetNeoML::SetNeuralConfiguration(NeuralConfiguration&& config)
 void NeuralNetNeoML::SetDeviceType(DeviceType type)
 {
 	BaseNeuralConfigurator::SetDeviceType(type);
-
-	assert(type != DeviceType::Unknown);
-	if(type == DeviceType::CPU)
-	{
-		m_gpuManager.reset();
-		m_mathEngine.reset(&NeoML::GetMultiThreadCpuMathEngine());
-	}
-	else
-	{
-		m_gpuManager.reset(NeoML::CreateGpuMathEngineManager());
-		m_mathEngine.reset(m_gpuManager->CreateMathEngine(0, 0));
-	}
 }
 
 //.............................................................................
 
 void NeuralNetNeoML::OnSetNeuralConfiguration()
 {
-	assert(m_config.deviceType != DeviceType::Unknown);
-	if (m_config.deviceType == DeviceType::CPU)
-	{
-		m_gpuManager.reset();
-		m_mathEngine.reset(&NeoML::GetMultiThreadCpuMathEngine());
-	}
-	else
-	{
-		m_gpuManager.reset(NeoML::CreateGpuMathEngineManager());
-		m_mathEngine.reset(m_gpuManager->CreateMathEngine(0, m_config.memoryLimit * GIGABYTE));
-	}
 }
 
 }

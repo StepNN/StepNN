@@ -16,6 +16,7 @@ AddTarget(NAME StepNN
 		StepNN/Utils
 		StepNN/Utils/Algoritms
 		StepNN/Utils/Containers
+		StepNN/Utils/Templates
 		StepNN/Neural
 		StepNN/Neural/Data
 		StepNN/Neural/Engine
@@ -23,6 +24,7 @@ AddTarget(NAME StepNN
 		StepNN/Neural/Impl/Dummy
 		StepNN/Neural/Impl/NeoML
 		StepNN/Neural/Impl/NeoML/Dataset
+		StepNN/Neural/Impl/NeoML/Interfaces
 		StepNN/Neural/Impl/NeoML/LayerEngine
 		StepNN/Neural/Impl/NeoML/Layers
 		StepNN/Neural/Impl/NeoML/NeuralEngine

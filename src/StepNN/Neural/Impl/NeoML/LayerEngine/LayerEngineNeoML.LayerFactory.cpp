@@ -13,6 +13,8 @@
 #include "StepNN/Neural/Layer/Settings/SoftmaxLayerSettings.h"
 #include "StepNN/Neural/Layer/Settings/SourceLayerSettings.h"
 
+#include "StepNN/Neural/Layer/Settings/EmptySettings.h"
+
 #include "LayerEngineNeoML.h"
 
 namespace StepNN::Neural {
@@ -42,7 +44,7 @@ public:
 		if constexpr (std::is_same_v<T, std::string>)
 		{
 			const auto creator = FindPairIteratorByFirst(std::cbegin(creators), std::cend(creators), param);
-			return creator == std::cend(creators) ? creator->second(mathEngine) : nullptr;
+			return creator == std::cend(creators) ? creator->second(mathEngine, EmptySettings()) : nullptr;
 		}
 		else
 		{
@@ -75,14 +77,14 @@ LayerCreator<StepNN::Neural::BaseLayerSettings> g_settingsCreator;
 
 LayerUPtr LayerEngineNeoML::CreateLayer(const std::string& layerID) const
 {
-	return g_idCreator.Create(layerID, m_mathEngine);
+	return g_idCreator.Create(layerID, GetMathEngine().get());
 }
 
 //.............................................................................
 
 LayerUPtr LayerEngineNeoML::CreateLayer(const BaseLayerSettings& settings) const
 {
-	return g_settingsCreator.Create(settings, m_mathEngine);
+	return g_settingsCreator.Create(settings, GetMathEngine().get());
 }
 
 }

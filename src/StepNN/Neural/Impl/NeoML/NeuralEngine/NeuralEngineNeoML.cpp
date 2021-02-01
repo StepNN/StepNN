@@ -11,17 +11,25 @@
 
 using namespace StepNN::Neural::Interfaces;
 
+namespace {
+
+constexpr size_t GIGABYTE = 1024 * 1024 * 1024;
+
+}
+
 namespace StepNN::Neural {
 
 NeuralEngineNeoML::NeuralEngineNeoML()
+	: m_layerEngine(std::make_unique<LayerEngineNeoML>())
+	, m_net(std::make_unique<NeuralNetNeoML>(m_layerEngine.get()))
 {
-	//@todo initilization of gpuManager and mathEngine
-	assert(false);
+	IUserController<IDatasetUser>::AddUser(m_net.get());
 
-	m_layerEngine = std::make_unique<LayerEngineNeoML>(m_mathEngine.get());
-	m_net = std::make_unique<NeuralNetNeoML>(m_layerEngine.get(), *m_mathEngine.get());
+	auto netImplPtr = dynamic_cast<NeuralNetNeoML*>(m_net.get());
+	netImplPtr->RegisterEventHandler(this);
 
-	AddDatasetUser(m_net.get());
+	IUserController<IUserNeoML>::AddUser(netImplPtr);
+	IUserController<IUserNeoML>::AddUser(dynamic_cast<LayerEngineNeoML*>(m_layerEngine.get()));
 }
 
 //.............................................................................
@@ -66,6 +74,29 @@ bool NeuralEngineNeoML::SwitchImpl(NeuralFrameworkType)
 {
 	assert(!Defs::NOT_IMPL_STR);
 	return false;
+}
+
+//.............................................................................
+
+void NeuralEngineNeoML::OnSetNeuralConfiguration(const NeuralConfiguration& config)
+{
+	assert(config.deviceType != DeviceType::Unknown);
+
+	std::shared_ptr<NeoML::IGpuMathEngineManager> gpuManager;
+	std::shared_ptr<NeoML::IMathEngine> mathEngine;
+
+	if (config.deviceType == DeviceType::CPU)
+	{
+		gpuManager = nullptr;
+		mathEngine.reset(&NeoML::GetMultiThreadCpuMathEngine());
+	}
+	else
+	{
+		gpuManager.reset(NeoML::CreateGpuMathEngineManager());
+		mathEngine.reset(m_gpuManager->CreateMathEngine(0, config.memoryLimit * GIGABYTE));
+	}
+	SetGpuManager(gpuManager);
+	SetMathEngine(mathEngine);
 }
 
 }

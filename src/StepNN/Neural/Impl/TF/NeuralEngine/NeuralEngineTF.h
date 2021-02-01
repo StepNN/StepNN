@@ -1,7 +1,7 @@
 #pragma once
 
 #include "StepNN/Neural/Interfaces/INeuralEngine.h"
-#include "StepNN/Neural/Interfaces/BaseDatasetController.h"
+#include "StepNN/Neural/Interfaces/IDatasetController.h"
 
 using namespace StepNN::Neural::Interfaces;
 
@@ -9,7 +9,7 @@ namespace StepNN::Neural {
 
 class NeuralEngineTF
 	: public INeuralEngine
-	, virtual public BaseDatasetController
+	, public IDatasetController
 {
 public:
 	explicit NeuralEngineTF();
