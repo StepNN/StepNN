@@ -2,7 +2,15 @@
 
 #include "StepNN/Neural/Interfaces/INeuralEngine.h"
 #include "StepNN/Neural/Interfaces/INeuralNet.h"
-#include "StepNN/Neural/Interfaces/BaseDatasetController.h"
+#include "StepNN/Neural/Interfaces/IDatasetController.h"
+
+#include "StepNN/Neural/Impl/NeoML/Interfaces/IControllerNeoML.h"
+#include "StepNN/Neural/Impl/NeoML/Interfaces/IEventHandlerNeoML.h"
+
+namespace NeoML {
+	class IMathEngine;
+	class IGpuMathEngineManager;
+}
 
 using namespace StepNN::Neural::Interfaces;
 
@@ -10,13 +18,15 @@ namespace StepNN::Neural {
 
 class NeuralEngineNeoML
 	: public INeuralEngine
-	, virtual public BaseDatasetController
+	, virtual public IDatasetController
+	, virtual public IControllerNeoML
+	, public IEventHandlerNeoML
 {
 public:
 	explicit NeuralEngineNeoML();
 	~NeuralEngineNeoML();
 
-/// Implementation of INeuralEngine
+/// INeuralEngine
 	ILayerEngine& GetLayerEngine() override;
 	const ILayerEngine& GetLayerEngine() const override;
 	INeuralConfigurator& GetConfigurator() override;
@@ -24,6 +34,11 @@ public:
 	IDatasetController& GetDatasetController() override { return *this; }
 	const IDatasetController& GetDatasetController() const override { return *this; }
 	bool SwitchImpl(NeuralFrameworkType type) override;
+///
+
+/// IEventHandlerNeoML
+private:
+	void OnSetNeuralConfiguration(const NeuralConfiguration&) override;
 ///
 
 private:

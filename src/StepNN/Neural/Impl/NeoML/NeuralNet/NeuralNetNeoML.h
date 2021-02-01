@@ -2,15 +2,15 @@
 
 #include <memory>
 
+#include "StepNN/Utils/Interfaces/EventHandlerList.h"
+
 #include "StepNN/Neural/Interfaces/IDatasetUserImpl.h"
 #include "StepNN/Neural/Interfaces/BaseNeuralNet.h"
-#include "StepNN/Neural/Impl/NeoML/Dataset/DatasetNeoML.h"
-#include "StepNN/Neural/Impl/NeoML/Layers/BaseLayerNeoML.h"
 
-namespace NeoML {
-	class IMathEngine;
-	class IGpuMathEngineManager;
-}
+#include "StepNN/Neural/Impl/NeoML/Dataset/DatasetNeoML.h"
+#include "StepNN/Neural/Impl/NeoML/Interfaces/IUserNeoML.h"
+#include "StepNN/Neural/Impl/NeoML/Interfaces/IEventHandlerNeoML.h"
+#include "StepNN/Neural/Impl/NeoML/Layers/BaseLayerNeoML.h"
 
 using namespace StepNN::Neural::Interfaces;
 
@@ -19,6 +19,8 @@ namespace StepNN::Neural {
 class NeuralNetNeoML
 	: virtual public BaseNeuralNet
 	, virtual public IDatasetUserImpl<DatasetNeoML>
+	, public IUserNeoML
+	, public EventHandlerList<IEventHandlerNeoML>
 {
 public:
 	explicit NeuralNetNeoML(const ILayerEngine* layerEngine);
@@ -40,10 +42,6 @@ private:
 	void Configure(NeoML::CDnn& dnn);
 
 	BaseLayerNeoML* CastLayer(ILayer*);
-
-private:
-	std::unique_ptr<NeoML::IGpuMathEngineManager> m_gpuManager;
-	std::unique_ptr<NeoML::IMathEngine> m_mathEngine;
 };
 
 }

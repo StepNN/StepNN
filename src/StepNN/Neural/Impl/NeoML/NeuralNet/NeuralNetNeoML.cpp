@@ -31,8 +31,6 @@ namespace StepNN::Neural {
 
 NeuralNetNeoML::NeuralNetNeoML(const ILayerEngine* layerEngine)
 	: BaseNeuralNet(layerEngine)
-	, m_gpuManager(nullptr)
-	, m_mathEngine(nullptr)
 {}
 
 //.............................................................................
@@ -50,11 +48,10 @@ void NeuralNetNeoML::Configure()
 
 void NeuralNetNeoML::ProcessTrain()
 {
-	assert(m_mathEngine);
-	NeoMathEngineRef mathEngine = *m_mathEngine;
+	NeoMathEngineRef mathEngineRef = *GetMathEngine().get();
 
 	NeoML::CRandom random(0x123);
-	NeoML::CDnn dnn(random, mathEngine);
+	NeoML::CDnn dnn(random, mathEngineRef);
 	Configure(dnn);
 
 	auto* dataset = GetDatasetImpl();
@@ -63,9 +60,9 @@ void NeuralNetNeoML::ProcessTrain()
 	auto& dataBlob = dataset->GetDataBlob();
 	auto& labelBlob = dataset->GetLabelBlob();
 
-	dataBlob = NeoML::CDnnBlob::Create2DImageBlob(mathEngine, GetBlobType(m_config.blobDataType), m_config.trainBatchLength, m_config.trainBatchWidth,
+	dataBlob = NeoML::CDnnBlob::Create2DImageBlob(mathEngineRef, GetBlobType(m_config.blobDataType), m_config.trainBatchLength, m_config.trainBatchWidth,
 		m_config.sampleHeight, m_config.sampleWidth, m_config.channelsCount);
-	labelBlob = NeoML::CDnnBlob::CreateDataBlob(mathEngine, GetBlobType(m_config.blobDataType), m_config.trainBatchLength, m_config.trainBatchWidth, m_config.channelsCount);
+	labelBlob = NeoML::CDnnBlob::CreateDataBlob(mathEngineRef, GetBlobType(m_config.blobDataType), m_config.trainBatchLength, m_config.trainBatchWidth, m_config.channelsCount);
 
 	CheckCast<NeoML::CSourceLayer>(dnn.GetLayer(DefaultLayerID::SOURCE_LAYER_ID.data()))->SetBlob(dataBlob);
 	CheckCast<NeoML::CSourceLayer>(dnn.GetLayer(DefaultLayerID::LABEL_LAYER_ID.data()))->SetBlob(labelBlob);

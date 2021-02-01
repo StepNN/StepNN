@@ -1,6 +1,8 @@
 #pragma once
 
-#include "NeoML/Dnn/Dnn.h"
+#include "StepNN/Neural/Impl/NeoML/CommonNeoML.h"
+
+#include "StepNN/Neural/Layer/Settings/EmptySettings.h"
 
 #include "BaseLayerNeoML.h"
 
@@ -8,13 +10,19 @@ using namespace StepNN::Neural::Interfaces;
 
 namespace StepNN::Neural {
 
-template<typename SettingsTypeT>
+template<typename ImplTypeT, typename SettingsTypeT>
 class BaseLayerNeoMLImpl : virtual public BaseLayerNeoML
 {
 protected:
 	using SettingsType = SettingsTypeT;
+	using ImplType = ImplTypeT;
 
 	BaseLayerNeoMLImpl() = default;
+	explicit BaseLayerNeoMLImpl(NeoMathEnginePtr mathEngine) : BaseLayerNeoML(mathEngine) {};
+	explicit BaseLayerNeoMLImpl(const BaseLayerSettings& settings)
+	{
+		SetSettings(settings);
+	}
 	~BaseLayerNeoMLImpl() = default;
 
 /// ILayer
@@ -22,6 +30,11 @@ protected:
 	{
 		const SettingsType& typedSettings = dynamic_cast<const SettingsType&>(settings);
 		m_typedSettings = typedSettings;
+
+		assert(m_mathEngine);
+		//@todo check for release ptr
+		m_layerImpl = new ImplType(*m_mathEngine);
+		m_layerImpl->SetName(m_typedSettings.GetLayerId().data());
 	}
 
 	const BaseLayerSettings& GetBaseSettings() const override

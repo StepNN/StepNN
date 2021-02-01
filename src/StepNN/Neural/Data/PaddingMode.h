@@ -4,11 +4,9 @@
 
 namespace StepNN::Neural {
 
-enum class STEPNN_API BlobDataType
+enum class STEPNN_API PaddingMode
 {
-	Invalid,
-	Int,
-	Float,
+	Zeros,
 };
 
 }

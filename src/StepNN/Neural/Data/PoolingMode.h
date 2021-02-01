@@ -4,11 +4,9 @@
 
 namespace StepNN::Neural {
 
-enum class STEPNN_API BlobDataType
+enum class STEPNN_API PoolingMode
 {
-	Invalid,
-	Int,
-	Float,
+	Max,
 };
 
 }
