@@ -1,8 +1,3 @@
-set(STEPNN_LIB_TYPE shared_lib)
-if(NOT StepNN_BUILD_SHARED)
-	set(STEPNN_LIB_TYPE static_lib)
-endif()
-
 AddTarget(NAME StepNN
 	TYPE
 		${STEPNN_LIB_TYPE}

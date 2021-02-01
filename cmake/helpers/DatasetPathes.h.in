@@ -1,0 +1,9 @@
+#pragma once
+
+#include <string>
+
+namespace StepNN::Dataset {
+
+const std::string MNIST_PATH = "@DATASET_MNIST_PATH@";
+
+}
