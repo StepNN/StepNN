@@ -8,21 +8,36 @@ namespace StepNN::Neural {
 
 namespace {
 
-class ConvLayerNeoML : public StepNN::Neural::BaseLayerNeoMLImpl<StepNN::Neural::ConvLayerSettings>
+using namespace StepNN::Neural;
+
+class ConvLayerNeoML : public BaseLayerNeoMLImpl<NeoML::CConvLayer, ConvLayerSettings>
 {
 public:
-	ConvLayerNeoML() = default;
-	ConvLayerNeoML(const StepNN::Neural::BaseLayerSettings& settings)
+	ConvLayerNeoML(NeoMathEnginePtr mathEngine)
+		: BaseLayerNeoMLImpl<NeoML::CConvLayer, ConvLayerSettings>(mathEngine)
+	{}
+
+	ConvLayerNeoML(const BaseLayerSettings& settings, NeoMathEnginePtr mathEngine)
+		: BaseLayerNeoMLImpl<NeoML::CConvLayer, ConvLayerSettings>(mathEngine)
 	{
-		StepNN::Neural::BaseLayerNeoMLImpl<StepNN::Neural::ConvLayerSettings>::SetSettings(settings);
+		BaseLayerNeoMLImpl<NeoML::CConvLayer, ConvLayerSettings>::SetSettings(settings);
 	}
 
-	void SetSettings(const StepNN::Neural::ConvLayerSettings& typedSettings)
+	void SetSettings(const ConvLayerSettings& typedSettings)
 	{
-		StepNN::Neural::BaseLayerNeoMLImpl<StepNN::Neural::ConvLayerSettings>::SetSettings(typedSettings);
+		BaseLayerNeoMLImpl<NeoML::CConvLayer, ConvLayerSettings>::SetSettings(typedSettings);
 
-		/*if(!m_layer)
-			m_layer = new NeoML::CConvLayer*/
+		auto castedLayer = CheckCast<NeoML::CConvLayer>(m_layerImpl.Ptr());
+
+		castedLayer->SetFilterCount		(m_typedSettings.GetOutChannels		()); // @todo check In or Out channels
+		castedLayer->SetFilterWidth		(m_typedSettings.GetKernelWidth		());
+		castedLayer->SetFilterHeight	(m_typedSettings.GetKernelHeight	());
+		castedLayer->SetDilationWidth	(m_typedSettings.GetDilationWidth	());
+		castedLayer->SetDilationHeight	(m_typedSettings.GetDilationHeight	());
+		castedLayer->SetPaddingWidth	(m_typedSettings.GetPaddingWidth	());
+		castedLayer->SetPaddingHeight	(m_typedSettings.GetPaddingHeight	());
+		castedLayer->SetStrideWidth		(m_typedSettings.GetStrideWidth		());
+		castedLayer->SetStrideHeight	(m_typedSettings.GetStrideHeight	());
 	}
 
 	~ConvLayerNeoML() = default;
@@ -30,8 +45,12 @@ public:
 
 }
 
-LayerUPtr CreateConvLayerNeoML() { return std::unique_ptr<ConvLayerNeoML>(); }
-
-LayerUPtr CreateConvLayerNeoML(const BaseLayerSettings& settings) { return std::make_unique<ConvLayerNeoML>(settings); }
+LayerUPtr CreateConvLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings = EmptySettings())
+{
+	if (settings.GetSettingsID() == EmptySettings::SETTINGS_ID)
+		return std::make_unique<ConvLayerNeoML>(mathEngine);
+	else
+		return std::make_unique<ConvLayerNeoML>(settings, mathEngine);
+}
 
 }

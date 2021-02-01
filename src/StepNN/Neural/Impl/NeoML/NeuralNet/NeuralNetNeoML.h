@@ -7,11 +7,6 @@
 #include "StepNN/Neural/Impl/NeoML/Dataset/DatasetNeoML.h"
 #include "StepNN/Neural/Impl/NeoML/Layers/BaseLayerNeoML.h"
 
-namespace NeoML {
-	class IMathEngine;
-	class IGpuMathEngineManager;
-}
-
 using namespace StepNN::Neural::Interfaces;
 
 namespace StepNN::Neural {
@@ -21,7 +16,7 @@ class NeuralNetNeoML
 	, virtual public IDatasetUserImpl<DatasetNeoML>
 {
 public:
-	explicit NeuralNetNeoML(const ILayerEngine* layerEngine);
+	explicit NeuralNetNeoML(const ILayerEngine* layerEngine, NeoMathEnginePtr mathEngine);
 	~NeuralNetNeoML();
 
 /// INeuralConfigurator
@@ -42,8 +37,7 @@ private:
 	BaseLayerNeoML* CastLayer(ILayer*);
 
 private:
-	std::unique_ptr<NeoML::IGpuMathEngineManager> m_gpuManager;
-	std::unique_ptr<NeoML::IMathEngine> m_mathEngine;
+	NeoMathEnginePtr m_mathEngine;
 };
 
 }

@@ -14,9 +14,13 @@ using namespace StepNN::Neural::Interfaces;
 namespace StepNN::Neural {
 
 NeuralEngineNeoML::NeuralEngineNeoML()
-	: m_layerEngine(std::make_unique<LayerEngineNeoML>())
-	, m_net(std::make_unique<NeuralNetNeoML>(m_layerEngine.get()))
 {
+	//@todo initilization of gpuManager and mathEngine
+	assert(false);
+
+	m_layerEngine = std::make_unique<LayerEngineNeoML>(m_mathEngine.get());
+	m_net = std::make_unique<NeuralNetNeoML>(m_layerEngine.get(), *m_mathEngine.get());
+
 	AddDatasetUser(m_net.get());
 }
 

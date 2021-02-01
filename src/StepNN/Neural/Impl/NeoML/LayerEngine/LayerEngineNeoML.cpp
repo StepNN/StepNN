@@ -2,7 +2,8 @@
 
 namespace StepNN::Neural {
 
-LayerEngineNeoML::LayerEngineNeoML()
+LayerEngineNeoML::LayerEngineNeoML(NeoMathEnginePtr mathEngine)
+	: m_mathEngine(mathEngine)
 {}
 
 //.............................................................................

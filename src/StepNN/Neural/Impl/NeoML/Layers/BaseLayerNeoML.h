@@ -19,6 +19,7 @@ public:
 
 protected:
 	BaseLayerNeoML() = default;
+	explicit BaseLayerNeoML(NeoMathEnginePtr mathEngine) : m_mathEngine(mathEngine) {}
 	~BaseLayerNeoML() = default;
 
 /// ILayer
@@ -29,6 +30,7 @@ protected:
 
 protected:
 	FObj::CPtr<NeoML::CBaseLayer> m_layerImpl { nullptr };
+	NeoMathEnginePtr m_mathEngine { nullptr };
 };
 
 }

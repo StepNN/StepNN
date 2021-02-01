@@ -1,8 +1,10 @@
 #pragma once
 
+#include "StepNNLib.h"
+
 namespace StepNN::Neural {
 
-struct ClassificationSettings
+struct STEPNN_API ClassificationSettings
 {
 	size_t outputDimension;
 };

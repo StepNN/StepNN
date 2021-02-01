@@ -4,11 +4,10 @@
 
 namespace StepNN::Neural {
 
-enum class STEPNN_API BlobDataType
+enum class STEPNN_API CeilMode
 {
-	Invalid,
-	Int,
-	Float,
+	Ceil,
+	Floor,
 };
 
 }

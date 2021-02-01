@@ -4,6 +4,11 @@
 #include "StepNN/Neural/Interfaces/INeuralNet.h"
 #include "StepNN/Neural/Interfaces/BaseDatasetController.h"
 
+namespace NeoML {
+	class IMathEngine;
+	class IGpuMathEngineManager;
+}
+
 using namespace StepNN::Neural::Interfaces;
 
 namespace StepNN::Neural {
@@ -29,6 +34,9 @@ public:
 private:
 	std::unique_ptr<ILayerEngine> m_layerEngine;
 	std::unique_ptr<INeuralNet> m_net;
+
+	std::shared_ptr<NeoML::IGpuMathEngineManager> m_gpuManager;
+	std::shared_ptr<NeoML::IMathEngine> m_mathEngine;
 };
 
 }
