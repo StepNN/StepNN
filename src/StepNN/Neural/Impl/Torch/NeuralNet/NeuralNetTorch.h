@@ -14,12 +14,13 @@ public:
 	explicit NeuralNetTorch(const ILayerEngine* layerEngine);
 	~NeuralNetTorch();
 
-/// INeuralNet
-///
-
 /// INeuralConfigurator
 	void SetNeuralConfiguration(const NeuralConfiguration&);
 	void SetNeuralConfiguration(NeuralConfiguration&&);
+///
+
+/// ITrainable
+	void Train() override;
 ///
 
 private:

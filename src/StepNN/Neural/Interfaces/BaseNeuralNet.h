@@ -16,8 +16,7 @@ class BaseNeuralNet : public INeuralNet
 protected:
 	explicit BaseNeuralNet(const ILayerEngine* layerEnginePtr);
 
-	void Configure() override { throw std::runtime_error(Defs::NOT_IMPL_STR); };
-	void ProcessTrain() override { throw std::runtime_error(Defs::NOT_IMPL_STR); };
+	void Train() override { throw std::runtime_error(Defs::NOT_IMPL_STR); };
 
 protected:
 	const ILayerEngine* m_layerEnginePtr;

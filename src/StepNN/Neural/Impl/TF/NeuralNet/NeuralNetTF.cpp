@@ -12,4 +12,9 @@ NeuralNetTF::NeuralNetTF(const ILayerEngine* layerEngine)
 
 NeuralNetTF::~NeuralNetTF() = default;
 
+//.............................................................................
+
+void NeuralNetTF::Train()
+{}
+
 }

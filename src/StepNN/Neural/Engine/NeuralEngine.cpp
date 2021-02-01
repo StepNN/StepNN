@@ -68,6 +68,14 @@ const IDatasetController& NeuralEngine::GetDatasetController() const
 
 //.............................................................................
 
+ITrainable& NeuralEngine::GetTrainable()
+{
+	assert(m_impl);
+	return m_impl->GetTrainable();
+}
+
+//.............................................................................
+
 bool NeuralEngine::SwitchImpl(NeuralFrameworkType type)
 {
 	return false;

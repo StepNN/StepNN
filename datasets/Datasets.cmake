@@ -3,11 +3,11 @@ if(NOT StepNN_BUILD_DATASETS)
 endif()
 
 #todo Make as string variable
-set(DATASET_MNIST_PATH "C:/Projects/StepNN/StepNN-datasets")
+set(DATASET_MNIST_PATH "C:/Projects/StepNN/StepNN-datasets/MNIST")
 
 configure_file(${CMAKE_HELPERS_DIR}/DatasetPathes.h.in DatasetPathes.h @ONLY)
 
-AddTarget(NAME Datasets
+AddTarget(NAME StepNN_Datasets
 	TYPE
 		${STEPNN_LIB_TYPE}
 	SOURCE_DIR
@@ -18,6 +18,7 @@ AddTarget(NAME Datasets
 	SUBDIRS
 		Datasets/MNIST
 		Datasets/MNIST/Decoder
+		Datasets/MNIST/Impl
 	DEPENDENCIES
 		StepNN
 )

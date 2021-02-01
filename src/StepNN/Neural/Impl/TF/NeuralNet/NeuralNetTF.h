@@ -14,12 +14,13 @@ public:
 	explicit NeuralNetTF(const ILayerEngine* layerEngine);
 	~NeuralNetTF();
 
-/// INeuralNet
-///
-
 /// INeuralConfigurator
 	void SetNeuralConfiguration(const NeuralConfiguration&);
 	void SetNeuralConfiguration(NeuralConfiguration&&);
+///
+
+/// ITrainable
+	void Train() override;
 ///
 
 private:

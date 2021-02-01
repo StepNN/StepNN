@@ -38,16 +38,24 @@ const ILayerEngine& NeuralEngineTF::GetLayerEngine() const
 
 INeuralConfigurator& NeuralEngineTF::GetConfigurator()
 {
-	assert(m_configurator);
-	return *m_configurator;
+	assert(m_net);
+	return *m_net;
 }
 
 //.............................................................................
 
 const INeuralConfigurator& NeuralEngineTF::GetConfigurator() const
 {
-	assert(m_configurator);
-	return *m_configurator;
+	assert(m_net);
+	return *m_net;
+}
+
+//.............................................................................
+
+ITrainable& NeuralEngineTF::GetTrainable()
+{
+	assert(m_net);
+	return *m_net;
 }
 
 //.............................................................................

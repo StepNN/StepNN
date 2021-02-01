@@ -23,7 +23,7 @@ public:
 		BaseLayerNeoMLImpl<NeoML::CConvLayer, ConvLayerSettings>::SetSettings(settings);
 	}
 
-	void SetSettings(const ConvLayerSettings& typedSettings)
+	void SetSettings(const ConvLayerSettings& typedSettings) override
 	{
 		BaseLayerNeoMLImpl<NeoML::CConvLayer, ConvLayerSettings>::SetSettings(typedSettings);
 
@@ -32,12 +32,19 @@ public:
 		castedLayer->SetFilterCount		(m_typedSettings.GetOutChannels		()); // @todo check In or Out channels
 		castedLayer->SetFilterWidth		(m_typedSettings.GetKernelWidth		());
 		castedLayer->SetFilterHeight	(m_typedSettings.GetKernelHeight	());
-		castedLayer->SetDilationWidth	(m_typedSettings.GetDilationWidth	());
-		castedLayer->SetDilationHeight	(m_typedSettings.GetDilationHeight	());
-		castedLayer->SetPaddingWidth	(m_typedSettings.GetPaddingWidth	());
-		castedLayer->SetPaddingHeight	(m_typedSettings.GetPaddingHeight	());
-		castedLayer->SetStrideWidth		(m_typedSettings.GetStrideWidth		());
-		castedLayer->SetStrideHeight	(m_typedSettings.GetStrideHeight	());
+
+		if (m_typedSettings.GetDilationWidth() > 0)
+			castedLayer->SetDilationWidth(m_typedSettings.GetDilationWidth());
+		if (m_typedSettings.GetDilationHeight() > 0)
+			castedLayer->SetDilationHeight(m_typedSettings.GetDilationHeight());
+		if (m_typedSettings.GetPaddingWidth() > 0)
+			castedLayer->SetPaddingWidth(m_typedSettings.GetPaddingWidth());
+		if (m_typedSettings.GetPaddingHeight() > 0)
+			castedLayer->SetPaddingHeight(m_typedSettings.GetPaddingHeight());
+		if (m_typedSettings.GetStrideWidth() > 0)
+			castedLayer->SetStrideWidth(m_typedSettings.GetStrideWidth());
+		if (m_typedSettings.GetStrideHeight() > 0)
+			castedLayer->SetStrideHeight(m_typedSettings.GetStrideHeight());
 	}
 
 	~ConvLayerNeoML() = default;

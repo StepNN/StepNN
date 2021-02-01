@@ -23,6 +23,7 @@ public:
 	const INeuralConfigurator& GetConfigurator() const override { throw std::runtime_error(Defs::NOT_IMPL_STR); };
 	IDatasetController& GetDatasetController() override { throw std::runtime_error(Defs::NOT_IMPL_STR); };
 	const IDatasetController& GetDatasetController() const override { throw std::runtime_error(Defs::NOT_IMPL_STR); };
+	ITrainable& GetTrainable() override { throw std::runtime_error(Defs::NOT_IMPL_STR); };
 	bool SwitchImpl(NeuralFrameworkType type) override { throw std::runtime_error(Defs::NOT_IMPL_STR); };
 ///
 };

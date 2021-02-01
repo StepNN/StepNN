@@ -12,9 +12,12 @@ public:
 	LAYER_SETTINGS(OutputLayerSettings)
 
 	OutputLayerSettings() = default;
+	OutputLayerSettings(const std::string& layerId) : BaseLayerSettings(layerId) {};
 
-	bool operator==(const OutputLayerSettings& rhs) const noexcept { return true; }
+	bool operator==(const OutputLayerSettings& rhs) const noexcept { return BaseLayerSettings::operator==(rhs); }
 	bool operator!=(const OutputLayerSettings& rhs) const noexcept { return !(*this == rhs); }
+
+	bool IsEmpty() const noexcept { return false; }
 };
 
 }

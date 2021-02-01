@@ -4,11 +4,13 @@
 
 #include "StepNN/Neural/Interfaces/INeuralEngine.h"
 
+#include "StepNNLib.h"
+
 using namespace StepNN::Neural::Interfaces;
 
 namespace StepNN::Neural {
 
-class NeuralEngine : public INeuralEngine
+class STEPNN_API NeuralEngine : public INeuralEngine
 {
 public:
 	explicit NeuralEngine(NeuralFrameworkType type = NeuralFrameworkType::Unknown);
@@ -23,6 +25,8 @@ public:
 
 	IDatasetController& GetDatasetController() override;
 	const IDatasetController& GetDatasetController() const override;
+
+	ITrainable& GetTrainable() override;
 
 	bool SwitchImpl(NeuralFrameworkType type) override;
 ///

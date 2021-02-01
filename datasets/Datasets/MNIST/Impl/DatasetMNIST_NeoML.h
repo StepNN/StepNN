@@ -4,15 +4,15 @@
 
 #include "StepNN/Neural/Impl/NeoML/Dataset/DatasetNeoML.h"
 
-#include "Decoder/mnist_reader.hpp"
+#include "Datasets/MNIST/Decoder/mnist_reader.hpp"
 
 namespace StepNN::Dataset {
 
-class DatasetNeoML_MNIST : public Neural::DatasetNeoML
+class DatasetMNIST_NeoML : public Neural::DatasetNeoML
 {
 public:
-	explicit DatasetNeoML_MNIST();
-	~DatasetNeoML_MNIST();
+	explicit DatasetMNIST_NeoML();
+	~DatasetMNIST_NeoML();
 
 // BaseDataset
 	void Open(const std::string& filename) override;

@@ -15,12 +15,23 @@ public:
 	LAYER_SETTINGS(MaxPoolingLayerSettings)
 
 	MaxPoolingLayerSettings()
-	{
-		m_poolingMode = PoolingMode::Max;
-	}
+		: BasePoolingSettings(PoolingMode::Max)
+	{}
 
-	bool operator==(const MaxPoolingLayerSettings& rhs) const noexcept { return true; }
+	MaxPoolingLayerSettings(const std::string& layerId)
+		: BaseLayerSettings(layerId)
+		, BasePoolingSettings(PoolingMode::Max)
+	{};
+
+	bool operator==(const MaxPoolingLayerSettings& rhs) const noexcept
+	{
+		return true
+			&& BaseLayerSettings	::operator==(rhs)
+			&& BasePoolingSettings	::operator==(rhs);
+	}
 	bool operator!=(const MaxPoolingLayerSettings& rhs) const noexcept { return !(*this == rhs); }
+
+	bool IsEmpty() const noexcept { return BasePoolingSettings::IsEmpty(); }
 };
 
 }

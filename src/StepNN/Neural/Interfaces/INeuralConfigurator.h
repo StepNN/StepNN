@@ -1,6 +1,6 @@
 #pragma once
 
-#include "StepNN/Neural/Data/NeuralConfiguration.h"
+#include "StepNN/Neural/Data/NeuralConfiguration/NeuralConfiguration.h"
 
 #include "StepNNLib.h"
 

@@ -17,7 +17,7 @@ public:
 protected:
 	std::shared_ptr<NeoML::IMathEngine> GetMathEngine(bool required = true) const
 	{
-		auto mathEngine = m_mathEngine.lock();
+		const auto mathEngine = m_mathEngine.lock();
 		if (!mathEngine && required)
 			assert(!"INeoMLUser: mathEngine is nullptr!");
 
@@ -26,7 +26,7 @@ protected:
 
 	std::shared_ptr<NeoML::IGpuMathEngineManager> GetGpuManager(bool required = true) const
 	{
-		auto gpuManager = m_gpuManager.lock();
+		const auto gpuManager = m_gpuManager.lock();
 		if (!gpuManager && required)
 			assert(!"INeoMLUser: gpuManager is nullptr!");
 

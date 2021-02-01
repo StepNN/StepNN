@@ -45,8 +45,17 @@ void BaseLayerEngine::ConnectLayers(const std::string& fromId, const std::string
 	// @todo check layers in m_layers
 
 	// @todo connect layers
+	GetLayer(fromId)->ConnectNext(GetLayer(toId));
 
 	m_graph->AddEdge(fromId, toId);
+}
+
+//.............................................................................
+
+void BaseLayerEngine::SequentialConnection(const std::vector<std::string>& ids)
+{
+	for (size_t i = 0; i < ids.size() - 1; ++i)
+		ConnectLayers(ids[i], ids[i+1]);
 }
 
 //.............................................................................

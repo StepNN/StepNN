@@ -3,21 +3,21 @@
 
 #include "StepNN/Types/CommonDefs.h"
 
-#include "DatasetNeoML_MNIST.h"
+#include "DatasetMNIST_NeoML.h"
 
 namespace StepNN::Dataset {
 
-DatasetNeoML_MNIST::DatasetNeoML_MNIST()
+DatasetMNIST_NeoML::DatasetMNIST_NeoML()
 	: m_dataset(nullptr)
 {}
 
 //.............................................................................
 
-DatasetNeoML_MNIST::~DatasetNeoML_MNIST() = default;
+DatasetMNIST_NeoML::~DatasetMNIST_NeoML() = default;
 
 //.............................................................................
 
-void DatasetNeoML_MNIST::Open(const std::string& filename)
+void DatasetMNIST_NeoML::Open(const std::string& filename)
 {
 	m_dataset = std::make_unique<DatasetImpl>(mnist::read_dataset<std::vector, std::vector, uint8_t, uint8_t>(filename.data()));
 
@@ -29,21 +29,21 @@ void DatasetNeoML_MNIST::Open(const std::string& filename)
 
 //.............................................................................
 
-size_t DatasetNeoML_MNIST::GetTrainSize() const
+size_t DatasetMNIST_NeoML::GetTrainSize() const
 {
 	return m_dataset ? m_dataset->training_images.size() : Defs::INVALID_VALUE_SIZE_T;
 }
 
 //.............................................................................
 
-size_t DatasetNeoML_MNIST::GetTestSize() const
+size_t DatasetMNIST_NeoML::GetTestSize() const
 {
 	return m_dataset ? m_dataset->test_images.size() : Defs::INVALID_VALUE_SIZE_T;
 }
 
 //.............................................................................
 
-void DatasetNeoML_MNIST::GetTrainSamples(int iter, int batchSize, FObj::CPtr<NeoML::CDnnBlob>& blob) const
+void DatasetMNIST_NeoML::GetTrainSamples(int iter, int batchSize, FObj::CPtr<NeoML::CDnnBlob>& blob) const
 {
 	RETURN_IF(!m_dataset);
 	GetSamples(iter, batchSize, blob, true);
@@ -51,7 +51,7 @@ void DatasetNeoML_MNIST::GetTrainSamples(int iter, int batchSize, FObj::CPtr<Neo
 
 //.............................................................................
 
-void DatasetNeoML_MNIST::GetTrainLabels(int iter, int batchSize, FObj::CPtr<NeoML::CDnnBlob>& blob) const
+void DatasetMNIST_NeoML::GetTrainLabels(int iter, int batchSize, FObj::CPtr<NeoML::CDnnBlob>& blob) const
 {
 	RETURN_IF(!m_dataset);
 	GetLabels(iter, batchSize, blob, true);
@@ -59,7 +59,7 @@ void DatasetNeoML_MNIST::GetTrainLabels(int iter, int batchSize, FObj::CPtr<NeoM
 
 //.............................................................................
 
-void DatasetNeoML_MNIST::GetTestSamples(int iter, int batchSize, FObj::CPtr<NeoML::CDnnBlob>& blob) const
+void DatasetMNIST_NeoML::GetTestSamples(int iter, int batchSize, FObj::CPtr<NeoML::CDnnBlob>& blob) const
 {
 	RETURN_IF(!m_dataset);
 	GetSamples(iter, batchSize, blob, false);
@@ -67,7 +67,7 @@ void DatasetNeoML_MNIST::GetTestSamples(int iter, int batchSize, FObj::CPtr<NeoM
 
 //.............................................................................
 
-void DatasetNeoML_MNIST::GetTestLabels(int iter, int batchSize, FObj::CPtr<NeoML::CDnnBlob>& blob) const
+void DatasetMNIST_NeoML::GetTestLabels(int iter, int batchSize, FObj::CPtr<NeoML::CDnnBlob>& blob) const
 {
 	RETURN_IF(!m_dataset);
 	GetLabels(iter, batchSize, blob, false);
@@ -75,7 +75,7 @@ void DatasetNeoML_MNIST::GetTestLabels(int iter, int batchSize, FObj::CPtr<NeoML
 
 //.............................................................................
 
-void DatasetNeoML_MNIST::GetSamples(int iter, int batchSize, CPtr<NeoML::CDnnBlob>& blob, bool isTrain) const
+void DatasetMNIST_NeoML::GetSamples(int iter, int batchSize, CPtr<NeoML::CDnnBlob>& blob, bool isTrain) const
 {
 	auto* buf = blob->GetBuffer<float>(0, blob->GetDataSize());
 
@@ -101,7 +101,7 @@ void DatasetNeoML_MNIST::GetSamples(int iter, int batchSize, CPtr<NeoML::CDnnBlo
 
 //.............................................................................
 
-void DatasetNeoML_MNIST::GetLabels(int iter, int batchSize, CPtr<NeoML::CDnnBlob>& blob, bool isTrain) const
+void DatasetMNIST_NeoML::GetLabels(int iter, int batchSize, CPtr<NeoML::CDnnBlob>& blob, bool isTrain) const
 {
 	blob->Clear();
 	blob->Fill(0.0f);

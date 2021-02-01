@@ -18,19 +18,35 @@ public:
 	FObj::CPtr<NeoML::CBaseLayer>& GetLayerImpl() { return m_layerImpl; }
 
 protected:
-	BaseLayerNeoML() = default;
-	explicit BaseLayerNeoML(NeoMathEnginePtr mathEngine) : m_mathEngine(mathEngine) {}
+	BaseLayerNeoML() : m_mathEngine(nullptr) {}
+	BaseLayerNeoML(NeoMathEnginePtr mathEngine) : m_mathEngine(mathEngine) {}
 	~BaseLayerNeoML() = default;
 
 /// ILayer
 	void SetSettings(const BaseLayerSettings& settings) override { throw std::runtime_error(Defs::NOT_IMPL_STR); };
 	const BaseLayerSettings& GetBaseSettings() const override { throw std::runtime_error(Defs::NOT_IMPL_STR); };
 	const std::string& GetId() const noexcept override { assert(!Defs::NOT_IMPL_STR); return Defs::NOT_IMPL_STR; };
+
+	void ConnectPrev(LayerPtr layer) override
+	{
+		auto layerFromImpl = dynamic_cast<BaseLayerNeoML*>(layer);
+		assert(layerFromImpl);
+		m_layerImpl->Connect(*layerFromImpl->m_layerImpl);
+	}
+	void ConnectNext(LayerPtr layer) override
+	{
+		static int connectionCount = 0;
+
+		auto layerToImpl = dynamic_cast<BaseLayerNeoML*>(layer);
+		assert(layerToImpl);
+		layerToImpl->m_layerImpl->Connect(connectionCount, *m_layerImpl);
+		++connectionCount;
+	}
 ///
 
 protected:
 	FObj::CPtr<NeoML::CBaseLayer> m_layerImpl { nullptr };
-	NeoMathEnginePtr m_mathEngine { nullptr };
+	NeoMathEnginePtr m_mathEngine /*{ nullptr }*/;
 };
 
 }

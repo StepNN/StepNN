@@ -12,11 +12,15 @@ public:
 	virtual ~BaseLayerSettings() = default;
 	virtual const std::string& GetSettingsID() const { return m_defaultSettingsId; }
 
+	bool operator==(const BaseLayerSettings& rhs) const noexcept { return m_layerId == rhs.m_layerId; }
+	bool operator!=(const BaseLayerSettings& rhs) const noexcept { return !(*this == rhs); }
+
 	void SetLayerId(const std::string& id) { m_layerId = id; }
 	const std::string& GetLayerId() const noexcept { return m_layerId; }
 
 protected:
 	BaseLayerSettings() = default;
+	BaseLayerSettings(const std::string& layerId) : m_layerId(layerId) {}
 
 protected:
 	std::string m_layerId;

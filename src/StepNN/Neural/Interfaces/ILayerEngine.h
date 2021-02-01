@@ -19,6 +19,8 @@ public:
 
 	virtual void ConnectLayers(const std::string& fromId, const std::string& toId) = 0;
 
+	virtual void SequentialConnection(const std::vector<std::string>& ids) = 0;
+
 	virtual const ILayerGraph* GetLayerGraph() const noexcept = 0;
 };
 

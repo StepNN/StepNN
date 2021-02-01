@@ -6,6 +6,7 @@ namespace StepNN::Neural {
 
 enum class STEPNN_API PoolingMode
 {
+	Undefined,
 	Max,
 };
 

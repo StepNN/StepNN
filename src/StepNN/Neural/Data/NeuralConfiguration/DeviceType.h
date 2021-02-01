@@ -4,11 +4,11 @@
 
 namespace StepNN::Neural {
 
-enum class STEPNN_API BlobDataType
+enum class STEPNN_API DeviceType
 {
-	Invalid,
-	Int,
-	Float,
+	Undefined = -1,
+	CPU,
+	GPU,
 };
 
 }

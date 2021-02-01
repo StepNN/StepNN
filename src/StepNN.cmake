@@ -14,6 +14,7 @@ AddTarget(NAME StepNN
 		StepNN/Utils/Templates
 		StepNN/Neural
 		StepNN/Neural/Data
+		StepNN/Neural/Data/NeuralConfiguration
 		StepNN/Neural/Engine
 		StepNN/Neural/Impl
 		StepNN/Neural/Impl/Dummy
