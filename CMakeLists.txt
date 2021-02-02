@@ -37,9 +37,17 @@ include(StepNN)
 include(Datasets)
 include(Examples)
 
+# fmt
+set(ENV{fmt_ROOT} "C:/Projects/SDK/fmt") # Root for fmt library
+find_package(fmt REQUIRED)
+
+# spdlog
+set(ENV{spdlog_ROOT} "C:/Projects/SDK/spdlog") # Root for spdlog library
+find_package(spdlog REQUIRED)
+
 # NeoML
 if(StepNN_USE_NEOML)
-	set(ENV{NeoML_ROOT} "C:/StepTech/SDK/NeoML") # Root for NeoML library
+	set(ENV{NeoML_ROOT} "C:/Projects/SDK/NeoML") # Root for NeoML library
 	find_package(NeoML REQUIRED)
 endif()
 
