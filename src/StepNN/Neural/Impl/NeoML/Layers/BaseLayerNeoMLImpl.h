@@ -11,25 +11,29 @@ using namespace StepNN::Neural::Interfaces;
 namespace StepNN::Neural {
 
 template<typename ImplTypeT, typename SettingsTypeT>
-class BaseLayerNeoMLImpl : virtual public BaseLayerNeoML
+class BaseLayerNeoMLImpl : public BaseLayerNeoML
 {
 protected:
 	using SettingsType = SettingsTypeT;
 	using ImplType = ImplTypeT;
 
 	BaseLayerNeoMLImpl() = default;
-	explicit BaseLayerNeoMLImpl(NeoMathEnginePtr mathEngine) : BaseLayerNeoML(mathEngine) {};
-	explicit BaseLayerNeoMLImpl(const BaseLayerSettings& settings)
-	{
-		SetSettings(settings);
-	}
+	BaseLayerNeoMLImpl(NeoMathEnginePtr mathEngine) : BaseLayerNeoML(mathEngine) {};
 	~BaseLayerNeoMLImpl() = default;
 
 /// ILayer
 	void SetSettings(const BaseLayerSettings& settings) override
 	{
 		const SettingsType& typedSettings = dynamic_cast<const SettingsType&>(settings);
-		m_typedSettings = typedSettings;
+		this->SetSettings(typedSettings);
+	}
+
+	virtual void SetSettings(const SettingsType& typedSettings)
+	{
+		//if (this->m_typedSettings == typedSettings)
+		//	return;
+
+		this->m_typedSettings = typedSettings;
 
 		assert(m_mathEngine);
 		//@todo check for release ptr

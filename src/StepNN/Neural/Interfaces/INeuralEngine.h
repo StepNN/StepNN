@@ -3,6 +3,7 @@
 #include "IDatasetController.h"
 #include "ILayerEngine.h"
 #include "INeuralConfigurator.h"
+#include "ITrainable.h"
 
 #include "StepNN/Neural/Data/NeuralFrameworkType.h"
 
@@ -23,6 +24,8 @@ public:
 
 	virtual IDatasetController& GetDatasetController() = 0;
 	virtual const IDatasetController& GetDatasetController() const = 0;
+
+	virtual ITrainable& GetTrainable() = 0;
 
 	virtual bool SwitchImpl(NeuralFrameworkType type) = 0;
 };

@@ -11,6 +11,7 @@ namespace StepNN::Neural {
 
 NeuralEngineTorch::NeuralEngineTorch()
 	: m_layerEngine(std::make_unique<LayerEngineTorch>())
+	, m_net(nullptr)
 {
 }
 
@@ -38,16 +39,24 @@ const ILayerEngine& NeuralEngineTorch::GetLayerEngine() const
 
 INeuralConfigurator& NeuralEngineTorch::GetConfigurator()
 {
-	assert(m_configurator);
-	return *m_configurator;
+	assert(m_net);
+	return *m_net;
 }
 
 //.............................................................................
 
 const INeuralConfigurator& NeuralEngineTorch::GetConfigurator() const
 {
-	assert(m_configurator);
-	return *m_configurator;
+	assert(m_net);
+	return *m_net;
+}
+
+//.............................................................................
+
+ITrainable& NeuralEngineTorch::GetTrainable()
+{
+	assert(m_net);
+	return *m_net;
 }
 
 //.............................................................................

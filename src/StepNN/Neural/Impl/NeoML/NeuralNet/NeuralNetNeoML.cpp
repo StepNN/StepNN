@@ -2,7 +2,7 @@
 #include "NeoML/Dnn/Layers/SourceLayer.h"
 #include "NeoML/Dnn/Layers/LossLayer.h"
 
-#include "StepNN/Neural/Data/BlobDataType.h"
+#include "StepNN/Neural/Data/NeuralConfiguration/BlobDataType.h"
 #include "StepNN/Neural/Interfaces/DefaultLayerID.h"
 #include "StepNN/Neural/Impl/NeoML/Layers/BaseLayerNeoML.h"
 
@@ -39,14 +39,7 @@ NeuralNetNeoML::~NeuralNetNeoML() = default;
 
 //.............................................................................
 
-void NeuralNetNeoML::Configure()
-{
-
-}
-
-//.............................................................................
-
-void NeuralNetNeoML::ProcessTrain()
+void NeuralNetNeoML::Train()
 {
 	NeoMathEngineRef mathEngineRef = *GetMathEngine().get();
 
@@ -60,25 +53,29 @@ void NeuralNetNeoML::ProcessTrain()
 	auto& dataBlob = dataset->GetDataBlob();
 	auto& labelBlob = dataset->GetLabelBlob();
 
-	dataBlob = NeoML::CDnnBlob::Create2DImageBlob(mathEngineRef, GetBlobType(m_config.blobDataType), m_config.trainBatchLength, m_config.trainBatchWidth,
-		m_config.sampleHeight, m_config.sampleWidth, m_config.channelsCount);
-	labelBlob = NeoML::CDnnBlob::CreateDataBlob(mathEngineRef, GetBlobType(m_config.blobDataType), m_config.trainBatchLength, m_config.trainBatchWidth, m_config.channelsCount);
+	const auto& trainSettings = m_config.trainSettings;
+	const auto& sampleSettings = m_config.sampleSettings;
+	const auto& classificationSettings = m_config.classificationSettings;
+
+	dataBlob = NeoML::CDnnBlob::Create2DImageBlob(mathEngineRef, GetBlobType(m_config.blobDataType), trainSettings.trainBatchLength, trainSettings.trainBatchWidth,
+		sampleSettings.sampleHeight, sampleSettings.sampleWidth, sampleSettings.channelsCount);
+	labelBlob = NeoML::CDnnBlob::CreateDataBlob(mathEngineRef, GetBlobType(m_config.blobDataType), trainSettings.trainBatchLength, trainSettings.trainBatchWidth, classificationSettings.outputDimension);
 
 	CheckCast<NeoML::CSourceLayer>(dnn.GetLayer(DefaultLayerID::SOURCE_LAYER_ID.data()))->SetBlob(dataBlob);
 	CheckCast<NeoML::CSourceLayer>(dnn.GetLayer(DefaultLayerID::LABEL_LAYER_ID.data()))->SetBlob(labelBlob);
 
 	auto lossLayer = CheckCast<NeoML::CLossLayer>(dnn.GetLayer(DefaultLayerID::LOSS_LAYER_ID.data()));
 
-	int iterationPerEpoch = static_cast<int>(dataset->GetTrainSize() / m_config.trainBatchWidth);
-	assert(dataset->GetTrainSize() % m_config.trainBatchWidth == 0);
+	int iterationPerEpoch = static_cast<int>(dataset->GetTrainSize() / trainSettings.trainBatchWidth);
+	assert(dataset->GetTrainSize() % trainSettings.trainBatchWidth == 0);
 	 
-	for (int epoch = 0; epoch < m_config.epochCount; ++epoch)
+	for (int epoch = 0; epoch < trainSettings.epochCount; ++epoch)
 	{
 		float epochLoss = 0.0f;
 		for (int iter = 0; iter < iterationPerEpoch; ++iter)
 		{
-			dataset->GetTrainSamples(iter, m_config.trainBatchWidth, dataBlob);
-			dataset->GetTrainLabels(iter, m_config.trainBatchWidth, labelBlob);
+			dataset->GetTrainSamples(iter, trainSettings.trainBatchWidth, dataBlob);
+			dataset->GetTrainLabels(iter, trainSettings.trainBatchWidth, labelBlob);
 
 			dnn.RunAndLearnOnce();
 			epochLoss += lossLayer->GetLastLoss();
@@ -86,17 +83,17 @@ void NeuralNetNeoML::ProcessTrain()
 		dataset->Reshuffle();
 	}
 
-	int testIterations = static_cast<int>(dataset->GetTestSize() / m_config.testBatchWidth);
-	assert(dataset->GetTestSize() % m_config.testBatchWidth == 0);
+	int testIterations = static_cast<int>(dataset->GetTestSize() / trainSettings.testBatchWidth);
+	assert(dataset->GetTestSize() % trainSettings.testBatchWidth == 0);
 	float testDataLoss = 0.0f;
 	for (int iter = 0; iter < testIterations; ++iter)
 	{
-		dataset->GetTestSamples(iter, m_config.testBatchWidth, dataBlob);
-		dataset->GetTestLabels(iter, m_config.testBatchWidth, labelBlob);
+		dataset->GetTestSamples(iter, trainSettings.testBatchWidth, dataBlob);
+		dataset->GetTestLabels(iter, trainSettings.testBatchWidth, labelBlob);
 		dnn.RunOnce();
 		testDataLoss += lossLayer->GetLastLoss();
 	}
-	testDataLoss /= m_config.testBatchWidth;
+	testDataLoss /= trainSettings.testBatchWidth;
 }
 
 //.............................................................................

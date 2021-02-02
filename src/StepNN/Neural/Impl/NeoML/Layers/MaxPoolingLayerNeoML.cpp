@@ -29,10 +29,14 @@ public:
 
 		auto castedLayer = CheckCast<NeoML::CMaxPoolingLayer>(m_layerImpl.Ptr());
 
-		castedLayer->SetFilterWidth		(m_typedSettings.GetKernelWidth		());
-		castedLayer->SetFilterHeight	(m_typedSettings.GetKernelHeight	());
-		castedLayer->SetStrideWidth		(m_typedSettings.GetStrideWidth		());
-		castedLayer->SetStrideHeight	(m_typedSettings.GetStrideHeight	());
+		castedLayer->SetFilterWidth(m_typedSettings.GetKernelWidth());
+		castedLayer->SetFilterHeight(m_typedSettings.GetKernelHeight());
+
+		// if settings don't have a stride - don't set them (NeoML has assert for stride <= 0)
+		if (m_typedSettings.GetStrideWidth() > 0)
+			castedLayer->SetStrideWidth(m_typedSettings.GetStrideWidth());
+		if (m_typedSettings.GetStrideHeight() > 0)
+			castedLayer->SetStrideHeight(m_typedSettings.GetStrideHeight());
 	}
 
 	~MaxPoolingLayerNeoML() = default;

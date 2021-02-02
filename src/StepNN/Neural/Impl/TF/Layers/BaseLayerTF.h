@@ -1,38 +1,28 @@
 #pragma once
 
+#include <cassert>
+#include <stdexcept>
+
+#include "StepNN/Types/CommonDefs.h"
+
 #include "StepNN/Neural/Interfaces/ILayer.h"
 
 using namespace StepNN::Neural::Interfaces;
 
 namespace StepNN::Neural {
 
-template<typename SettingsTypeT>
 class BaseLayerTF : public ILayer
 {
 protected:
-	using SettingsType = SettingsTypeT;
-
-	BaseLayerTF() = default;
+	explicit BaseLayerTF() = default;
 	~BaseLayerTF() = default;
 
-	void SetSettings(const BaseLayerSettings& settings) override
-	{
-		const SettingsType& typedSettings = dynamic_cast<const SettingsType&>(settings);
-		this->SetSettings(typedSettings);
-	}
+	void SetSettings(const BaseLayerSettings& settings) override { throw std::runtime_error(Defs::NOT_IMPL_STR);  }
+	const BaseLayerSettings& GetBaseSettings() const override { throw std::runtime_error(Defs::NOT_IMPL_STR);  }
+	const std::string& GetId() const noexcept override { assert(!Defs::NOT_IMPL_STR); return Defs::NOT_IMPL_STR; }
 
-	const BaseLayerSettings& GetBaseSettings() const override
-	{
-		return m_typedSettings;
-	}
-
-	const std::string& GetId() const noexcept override
-	{
-		return m_typedSettings.GetLayerId();
-	}
-
-protected:
-	SettingsType m_typedSettings;
+	void ConnectPrev(LayerPtr) override { throw std::runtime_error(Defs::NOT_IMPL_STR); }
+	void ConnectNext(LayerPtr) override { throw std::runtime_error(Defs::NOT_IMPL_STR); }
 };
 
 }

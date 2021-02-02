@@ -1,27 +1,26 @@
 #include "StepNN/Neural/Layer/Settings/ConvLayerSettings.h"
 
-#include "BaseLayerTF.h"
+#include "BaseLayerTFImpl.h"
 
 namespace StepNN::Neural {
 
 namespace {
 
-class ConvLayerTF : public StepNN::Neural::BaseLayerTF<StepNN::Neural::ConvLayerSettings>
+using namespace StepNN::Neural;
+
+class ConvLayerTF : public BaseLayerTFImpl<ConvLayerSettings>
 {
 public:
 	ConvLayerTF() = default;
-	ConvLayerTF(const StepNN::Neural::BaseLayerSettings& settings)
+	ConvLayerTF(const BaseLayerSettings& settings)
 	{
-		StepNN::Neural::BaseLayerTF<StepNN::Neural::ConvLayerSettings>::SetSettings(settings);
+		BaseLayerTFImpl<ConvLayerSettings>::SetSettings(settings);
 	}
 
-	void SetSettings(const StepNN::Neural::ConvLayerSettings& typedSettings)
+	void SetSettings(const ConvLayerSettings& typedSettings)
 	{
-		StepNN::Neural::BaseLayerTF<StepNN::Neural::ConvLayerSettings>::SetSettings(typedSettings);
+		BaseLayerTFImpl<ConvLayerSettings>::SetSettings(typedSettings);
 	}
-
-private:
-
 };
 
 }

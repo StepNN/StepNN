@@ -19,6 +19,6 @@ constexpr const char* const NOT_IMPL_STR = "NOT_IMPL";
 
 //.............................................................................
 
-#define RETURN_IF(expr) if(##expr) return;
+#define RETURN_IF(expr) if(##expr) return
 
 }

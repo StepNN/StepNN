@@ -1,5 +1,7 @@
 #include <cassert>
 
+#include "NeoMathEngine/MemoryHandle.h"
+
 #include "StepNN/Neural/Impl/NeoML/CommonNeoML.h"
 
 #include "StepNN/Types/CommonDefs.h"
@@ -70,6 +72,14 @@ const INeuralConfigurator& NeuralEngineNeoML::GetConfigurator() const
 
 //.............................................................................
 
+ITrainable& NeuralEngineNeoML::GetTrainable()
+{
+	assert(m_net);
+	return *m_net;
+}
+
+//.............................................................................
+
 bool NeuralEngineNeoML::SwitchImpl(NeuralFrameworkType)
 {
 	assert(!Defs::NOT_IMPL_STR);
@@ -80,7 +90,9 @@ bool NeuralEngineNeoML::SwitchImpl(NeuralFrameworkType)
 
 void NeuralEngineNeoML::OnSetNeuralConfiguration(const NeuralConfiguration& config)
 {
-	assert(config.deviceType != DeviceType::Unknown);
+	assert(config.deviceType != DeviceType::Undefined);
+
+	NeoML::SetMathEngineExceptionHandler(NeoML::GetExceptionHandler());
 
 	std::shared_ptr<NeoML::IGpuMathEngineManager> gpuManager;
 	std::shared_ptr<NeoML::IMathEngine> mathEngine;
@@ -93,7 +105,7 @@ void NeuralEngineNeoML::OnSetNeuralConfiguration(const NeuralConfiguration& conf
 	else
 	{
 		gpuManager.reset(NeoML::CreateGpuMathEngineManager());
-		mathEngine.reset(m_gpuManager->CreateMathEngine(0, config.memoryLimit * GIGABYTE));
+		mathEngine.reset(m_gpuManager->CreateMathEngine(0, static_cast<size_t>(config.memoryLimit * GIGABYTE)));
 	}
 	SetGpuManager(gpuManager);
 	SetMathEngine(mathEngine);

@@ -15,6 +15,8 @@ public:
 
 	bool operator==(const EmptySettings& rhs) const noexcept { return true; }
 	bool operator!=(const EmptySettings& rhs) const noexcept { return !(*this == rhs); }
+
+	bool IsEmpty() const noexcept { return false; }
 };
 
 }

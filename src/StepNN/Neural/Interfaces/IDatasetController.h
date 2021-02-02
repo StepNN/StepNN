@@ -18,6 +18,8 @@ public:
 			user->SetDataset(dataset);
 	}
 
+	virtual std::shared_ptr<IDataset> GetDataset() const { return m_dataset; }
+
 protected:
 	std::shared_ptr<IDataset> m_dataset;
 };

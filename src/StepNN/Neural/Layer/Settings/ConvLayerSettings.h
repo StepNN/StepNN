@@ -27,9 +27,31 @@ public:
 	LAYER_SETTINGS(ConvLayerSettings)
 
 	ConvLayerSettings() = default;
+	ConvLayerSettings(const std::string& layerId) : BaseLayerSettings(layerId) {};
 
-	bool operator==(const ConvLayerSettings& rhs) const noexcept { return true; }
+	bool operator==(const ConvLayerSettings& rhs) const noexcept
+	{
+		return true
+			&& BaseLayerSettings	::operator==(rhs)
+			&& BaseChannelsSettings	::operator==(rhs)
+			&& BaseDilationSettings	::operator==(rhs)
+			&& BaseKernelSettings	::operator==(rhs)
+			&& BasePaddingSettings	::operator==(rhs)
+			&& BaseStrideSettings	::operator==(rhs)
+			;
+	}
 	bool operator!=(const ConvLayerSettings& rhs) const noexcept { return !(*this == rhs); }
+
+	bool IsEmpty() const noexcept
+	{
+		return true
+			&& BaseChannelsSettings	::IsEmpty()
+			&& BaseDilationSettings	::IsEmpty()
+			&& BaseKernelSettings	::IsEmpty()
+			&& BasePaddingSettings	::IsEmpty()
+			&& BaseStrideSettings	::IsEmpty()
+			;
+	}
 };
 
 }

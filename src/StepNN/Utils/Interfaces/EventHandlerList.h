@@ -9,6 +9,20 @@
 
 namespace StepNN {
 
+class SyncExecutePolicy
+{
+public:
+	SyncExecutePolicy() = default;
+	~SyncExecutePolicy() = default;
+	SyncExecutePolicy(const SyncExecutePolicy&) = delete;
+	SyncExecutePolicy& operator=(const SyncExecutePolicy&) = delete;
+
+	void operator()(std::function<void()> functor)
+	{
+		functor();
+	}
+};
+
 template <typename IHandler>
 class EventHandlerList : virtual public EventPublisher<IHandler>
 {
@@ -52,7 +66,7 @@ public:
 			std::unique_lock<std::recursive_mutex> lock(m_notificationGuard);
 
 			for (const auto& handler : subscribersCopy)
-				std::bind(functor, handler);
+				m_execPolicy(std::bind(functor, handler));
 		}
 	}
 
@@ -66,6 +80,7 @@ private:
 	std::vector<EventHandler*> m_subscribers;
 	std::recursive_mutex m_accessGuard;
 	std::recursive_mutex m_notificationGuard;
+	SyncExecutePolicy m_execPolicy;
 };
 
 }

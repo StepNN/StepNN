@@ -12,4 +12,9 @@ NeuralNetTorch::NeuralNetTorch(const ILayerEngine* layerEngine)
 
 NeuralNetTorch::~NeuralNetTorch() = default;
 
+//.............................................................................
+
+void NeuralNetTorch::Train()
+{}
+
 }

@@ -20,6 +20,9 @@ public:
 	virtual const BaseLayerSettings& GetBaseSettings() const = 0;
 
 	virtual const std::string& GetId() const noexcept = 0;
+
+	virtual void ConnectPrev(ILayer*) = 0;
+	virtual void ConnectNext(ILayer*) = 0;
 };
 
 }

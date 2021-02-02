@@ -1,8 +1,3 @@
-set(STEPNN_LIB_TYPE shared_lib)
-if(NOT StepNN_BUILD_SHARED)
-	set(STEPNN_LIB_TYPE static_lib)
-endif()
-
 AddTarget(NAME StepNN
 	TYPE
 		${STEPNN_LIB_TYPE}
@@ -19,6 +14,7 @@ AddTarget(NAME StepNN
 		StepNN/Utils/Templates
 		StepNN/Neural
 		StepNN/Neural/Data
+		StepNN/Neural/Data/NeuralConfiguration
 		StepNN/Neural/Engine
 		StepNN/Neural/Impl
 		StepNN/Neural/Impl/Dummy

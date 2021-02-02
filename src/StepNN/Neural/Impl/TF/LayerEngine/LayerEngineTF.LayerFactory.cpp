@@ -25,22 +25,35 @@ class LayerCreator
 public:
 	LayerUPtr Create(const T& param)
 	{
+		Initialize();
+
 		if constexpr (std::is_same_v<T, std::string>)
 		{
 			const auto creator = FindPairIteratorByFirst(std::cbegin(creators), std::cend(creators), param);
-			return creator == std::cend(creators) ? creator->second() : nullptr;
+			return creator != std::cend(creators) ? creator->second() : nullptr;
 		}
 		else
 		{
 			const auto creator = FindPairIteratorByFirst(std::cbegin(creators), std::cend(creators), param.GetSettingsID());
-			return creator == std::cend(creators) ? creator->second(param) : nullptr;
+			return creator != std::cend(creators) ? creator->second(param) : nullptr;
 		}
 	}
 
 private:
-	std::map<std::string, std::function<LayerUPtr(FuncParamType)>> creators {
-		{ StepNN::Neural::ConvLayerSettings::SETTINGS_ID, static_cast<LayerUPtr(*)(FuncParamType)>(CreateConvLayerTF) },
-	};
+	void Initialize()
+	{
+		static bool isInitialized = false;
+		RETURN_IF(isInitialized);
+
+		creators = {
+			{ StepNN::Neural::ConvLayerSettings::SETTINGS_ID, static_cast<LayerUPtr(*)(FuncParamType)>(CreateConvLayerTF) },
+		};
+
+		isInitialized = true;
+	}
+
+private:
+	std::map<std::string, std::function<LayerUPtr(FuncParamType)>> creators;
 };
 
 LayerCreator<std::string> g_idCreator;

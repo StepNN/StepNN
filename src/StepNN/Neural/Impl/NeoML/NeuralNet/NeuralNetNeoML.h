@@ -32,9 +32,8 @@ public:
 	void SetDeviceType(DeviceType type);
 ///
 
-/// INeuralNet
-	void Configure() override;
-	void ProcessTrain() override;
+/// ITrainable
+	void Train() override;
 ///
 
 private:

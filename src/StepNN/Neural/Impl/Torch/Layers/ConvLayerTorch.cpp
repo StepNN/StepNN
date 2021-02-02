@@ -1,27 +1,26 @@
 #include "StepNN/Neural/Layer/Settings/ConvLayerSettings.h"
 
-#include "BaseLayerTorch.h"
+#include "BaseLayerTorchImpl.h"
 
 namespace StepNN::Neural {
 
 namespace {
 
-class ConvLayerTorch : public StepNN::Neural::BaseLayerTorch<StepNN::Neural::ConvLayerSettings>
+using namespace StepNN::Neural;
+
+class ConvLayerTorch : public BaseLayerTorchImpl<ConvLayerSettings>
 {
 public:
 	ConvLayerTorch() = default;
-	ConvLayerTorch(const StepNN::Neural::BaseLayerSettings& settings)
+	ConvLayerTorch(const BaseLayerSettings& settings)
 	{
-		StepNN::Neural::BaseLayerTorch<StepNN::Neural::ConvLayerSettings>::SetSettings(settings);
+		BaseLayerTorchImpl<ConvLayerSettings>::SetSettings(settings);
 	}
 
-	void SetSettings(const StepNN::Neural::ConvLayerSettings& typedSettings)
+	void SetSettings(const ConvLayerSettings& typedSettings)
 	{
-		StepNN::Neural::BaseLayerTorch<StepNN::Neural::ConvLayerSettings>::SetSettings(typedSettings);
+		BaseLayerTorchImpl<ConvLayerSettings>::SetSettings(typedSettings);
 	}
-
-private:
-
 };
 
 }

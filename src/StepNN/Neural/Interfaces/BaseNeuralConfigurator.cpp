@@ -1,3 +1,4 @@
+#include <cassert>
 #include <utility>
 
 #include "BaseNeuralConfigurator.h"
@@ -6,6 +7,7 @@ namespace StepNN::Neural {
 
 void BaseNeuralConfigurator::SetNeuralConfiguration(const NeuralConfiguration& config)
 {
+	assert(!config.IsInvalid());
 	m_config = config;
 }
 
@@ -13,6 +15,7 @@ void BaseNeuralConfigurator::SetNeuralConfiguration(const NeuralConfiguration& c
 
 void BaseNeuralConfigurator::SetNeuralConfiguration(NeuralConfiguration&& config)
 {
+	assert(!config.IsInvalid());
 	m_config = std::move(config);
 }
 

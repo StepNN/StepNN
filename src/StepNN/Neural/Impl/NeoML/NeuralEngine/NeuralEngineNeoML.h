@@ -33,6 +33,7 @@ public:
 	const INeuralConfigurator& GetConfigurator() const override;
 	IDatasetController& GetDatasetController() override { return *this; }
 	const IDatasetController& GetDatasetController() const override { return *this; }
+	ITrainable& GetTrainable() override;
 	bool SwitchImpl(NeuralFrameworkType type) override;
 ///
 

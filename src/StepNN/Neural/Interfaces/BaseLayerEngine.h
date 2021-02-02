@@ -22,6 +22,7 @@ public:
 	LayerCPtr GetLayer(const std::string& id) const override;
 	const LayerUPtrs& GetLayers() const override;
 	void ConnectLayers(const std::string& fromId, const std::string& toId) override;
+	void SequentialConnection(const std::vector<std::string>& ids) override;
 	const ILayerGraph* GetLayerGraph() const noexcept override;
 ///
 
