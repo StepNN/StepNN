@@ -13,11 +13,7 @@ using namespace StepNN::Neural;
 class DenseLayerNeoML : public BaseLayerNeoMLImpl<NeoML::CFullyConnectedLayer, DenseLayerSettings>
 {
 public:
-	DenseLayerNeoML(NeoMathEnginePtr mathEngine)
-		: BaseLayerNeoMLImpl<NeoML::CFullyConnectedLayer, DenseLayerSettings>(mathEngine)
-	{}
-
-	DenseLayerNeoML(const BaseLayerSettings& settings, NeoMathEnginePtr mathEngine)
+	DenseLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings)
 		: BaseLayerNeoMLImpl<NeoML::CFullyConnectedLayer, DenseLayerSettings>(mathEngine)
 	{
 		BaseLayerNeoMLImpl<NeoML::CFullyConnectedLayer, DenseLayerSettings>::SetSettings(settings);
@@ -37,12 +33,9 @@ public:
 
 }
 
-LayerUPtr CreateDenseLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings = EmptySettings())
+LayerUPtr CreateDenseLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings)
 {
-	if (settings.GetSettingsID() == EmptySettings::SETTINGS_ID)
-		return std::make_unique<DenseLayerNeoML>(mathEngine);
-	else
-		return std::make_unique<DenseLayerNeoML>(settings, mathEngine);
+	return std::make_unique<DenseLayerNeoML>(mathEngine, settings);
 }
 
 }

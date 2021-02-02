@@ -24,21 +24,13 @@ protected:
 /// ILayer
 	void SetSettings(const BaseLayerSettings& settings) override
 	{
-		const SettingsType& typedSettings = dynamic_cast<const SettingsType&>(settings);
-		this->SetSettings(typedSettings);
-	}
-
-	virtual void SetSettings(const SettingsType& typedSettings)
-	{
-		//if (this->m_typedSettings == typedSettings)
-		//	return;
-
-		this->m_typedSettings = typedSettings;
-
-		assert(m_mathEngine);
-		//@todo check for release ptr
-		m_layerImpl = new ImplType(*m_mathEngine);
-		m_layerImpl->SetName(m_typedSettings.GetLayerId().data());
+		try
+		{
+			const SettingsType& typedSettings = dynamic_cast<const SettingsType&>(settings);
+			this->SetSettings(typedSettings);
+		}
+		catch (const std::bad_cast&)
+		{}
 	}
 
 	const BaseLayerSettings& GetBaseSettings() const override
@@ -51,6 +43,19 @@ protected:
 		return m_typedSettings.GetLayerId();
 	}
 ///
+
+	virtual void SetSettings(const SettingsType& typedSettings)
+	{
+		if (this->m_typedSettings == typedSettings)
+			return;
+
+		this->m_typedSettings = typedSettings;
+
+		assert(m_mathEngine);
+		m_layerImpl.Release();
+		m_layerImpl = new ImplType(*m_mathEngine);
+		m_layerImpl->SetName(m_typedSettings.GetLayerId().data());
+	}
 
 protected:
 	SettingsType m_typedSettings;

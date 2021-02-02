@@ -25,8 +25,12 @@ public:
 
 }
 
-LayerUPtr CreateConvLayerTF() { return std::unique_ptr<ConvLayerTF>(); }
-
-LayerUPtr CreateConvLayerTF(const BaseLayerSettings& settings) { return std::make_unique<ConvLayerTF>(settings); }
+LayerUPtr CreateConvLayerTF(const BaseLayerSettings& settings)
+{
+	if (settings.GetSettingsID() == EmptySettings::SETTINGS_ID)
+		return std::make_unique<ConvLayerTF>();
+	else
+		return std::make_unique<ConvLayerTF>(settings);
+}
 
 }

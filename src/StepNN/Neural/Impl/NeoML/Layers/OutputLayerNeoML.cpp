@@ -13,11 +13,7 @@ using namespace StepNN::Neural;
 class OutputLayerNeoML : public BaseLayerNeoMLImpl<NeoML::CSinkLayer, OutputLayerSettings>
 {
 public:
-	OutputLayerNeoML(NeoMathEnginePtr mathEngine)
-		: BaseLayerNeoMLImpl<NeoML::CSinkLayer, OutputLayerSettings>(mathEngine)
-	{}
-
-	OutputLayerNeoML(const BaseLayerSettings& settings, NeoMathEnginePtr mathEngine)
+	OutputLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings)
 		: BaseLayerNeoMLImpl<NeoML::CSinkLayer, OutputLayerSettings>(mathEngine)
 	{
 		BaseLayerNeoMLImpl<NeoML::CSinkLayer, OutputLayerSettings>::SetSettings(settings);
@@ -28,12 +24,9 @@ public:
 
 }
 
-LayerUPtr CreateOutputLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings = EmptySettings())
+LayerUPtr CreateOutputLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings)
 {
-	if (settings.GetSettingsID() == EmptySettings::SETTINGS_ID)
-		return std::make_unique<OutputLayerNeoML>(mathEngine);
-	else
-		return std::make_unique<OutputLayerNeoML>(settings, mathEngine);
+	return std::make_unique<OutputLayerNeoML>(mathEngine, settings);
 }
 
 }

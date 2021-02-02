@@ -13,9 +13,6 @@ namespace StepNN::Neural {
 
 class BaseLayerEngine : public ILayerEngine
 {
-protected:
-	BaseLayerEngine();
-
 public:
 /// ILayerEngine
 	bool AddLayer(const BaseLayerSettings& settings) override;
@@ -25,6 +22,9 @@ public:
 	void SequentialConnection(const std::vector<std::string>& ids) override;
 	const ILayerGraph* GetLayerGraph() const noexcept override;
 ///
+
+protected:
+	BaseLayerEngine();
 
 /// ILayerFactory
 	LayerUPtr CreateLayer(const std::string& layerID) const override { assert(!(Defs::NOT_IMPL_STR)); return nullptr; };

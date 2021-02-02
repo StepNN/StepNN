@@ -13,11 +13,7 @@ using namespace StepNN::Neural;
 class SoftmaxLayerNeoML : public BaseLayerNeoMLImpl<NeoML::CSoftmaxLayer, SoftmaxLayerSettings>
 {
 public:
-	SoftmaxLayerNeoML(NeoMathEnginePtr mathEngine)
-		: BaseLayerNeoMLImpl<NeoML::CSoftmaxLayer, SoftmaxLayerSettings>(mathEngine)
-	{}
-
-	SoftmaxLayerNeoML(const BaseLayerSettings& settings, NeoMathEnginePtr mathEngine)
+	SoftmaxLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings)
 		: BaseLayerNeoMLImpl<NeoML::CSoftmaxLayer, SoftmaxLayerSettings>(mathEngine)
 	{
 		BaseLayerNeoMLImpl<NeoML::CSoftmaxLayer, SoftmaxLayerSettings>::SetSettings(settings);
@@ -28,12 +24,9 @@ public:
 
 }
 
-LayerUPtr CreateSoftmaxLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings = EmptySettings())
+LayerUPtr CreateSoftmaxLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings)
 {
-	if (settings.GetSettingsID() == EmptySettings::SETTINGS_ID)
-		return std::make_unique<SoftmaxLayerNeoML>(mathEngine);
-	else
-		return std::make_unique<SoftmaxLayerNeoML>(settings, mathEngine);
+	return std::make_unique<SoftmaxLayerNeoML>(mathEngine, settings);
 }
 
 }

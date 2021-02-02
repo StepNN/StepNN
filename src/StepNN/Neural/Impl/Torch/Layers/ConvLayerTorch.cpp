@@ -25,8 +25,12 @@ public:
 
 }
 
-LayerUPtr CreateConvLayerTorch() { return std::unique_ptr<ConvLayerTorch>(); }
-
-LayerUPtr CreateConvLayerTorch(const BaseLayerSettings& settings) { return std::make_unique<ConvLayerTorch>(settings); }
+LayerUPtr CreateConvLayerTorch(const BaseLayerSettings& settings)
+{
+	if (settings.GetSettingsID() == EmptySettings::SETTINGS_ID)
+		return std::make_unique<ConvLayerTorch>();
+	else
+		return std::make_unique<ConvLayerTorch>(settings);
+}
 
 }

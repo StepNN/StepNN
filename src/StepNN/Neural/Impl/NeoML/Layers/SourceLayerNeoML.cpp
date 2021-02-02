@@ -13,11 +13,7 @@ using namespace StepNN::Neural;
 class SourceLayerNeoML : public BaseLayerNeoMLImpl<NeoML::CSourceLayer, SourceLayerSettings>
 {
 public:
-	SourceLayerNeoML(NeoMathEnginePtr mathEngine)
-		: BaseLayerNeoMLImpl<NeoML::CSourceLayer, SourceLayerSettings>(mathEngine)
-	{}
-
-	SourceLayerNeoML(const BaseLayerSettings& settings, NeoMathEnginePtr mathEngine)
+	SourceLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings)
 		: BaseLayerNeoMLImpl<NeoML::CSourceLayer, SourceLayerSettings>(mathEngine)
 	{
 		BaseLayerNeoMLImpl<NeoML::CSourceLayer, SourceLayerSettings>::SetSettings(settings);
@@ -28,12 +24,9 @@ public:
 
 }
 
-LayerUPtr CreateSourceLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings = EmptySettings())
+LayerUPtr CreateSourceLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings)
 {
-	if (settings.GetSettingsID() == EmptySettings::SETTINGS_ID)
-		return std::make_unique<SourceLayerNeoML>(mathEngine);
-	else
-		return std::make_unique<SourceLayerNeoML>(settings, mathEngine);
+	return std::make_unique<SourceLayerNeoML>(mathEngine, settings);
 }
 
 }

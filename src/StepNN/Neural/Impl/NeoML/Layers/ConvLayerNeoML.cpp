@@ -13,11 +13,7 @@ using namespace StepNN::Neural;
 class ConvLayerNeoML : public BaseLayerNeoMLImpl<NeoML::CConvLayer, ConvLayerSettings>
 {
 public:
-	ConvLayerNeoML(NeoMathEnginePtr mathEngine)
-		: BaseLayerNeoMLImpl<NeoML::CConvLayer, ConvLayerSettings>(mathEngine)
-	{}
-
-	ConvLayerNeoML(const BaseLayerSettings& settings, NeoMathEnginePtr mathEngine)
+	ConvLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings)
 		: BaseLayerNeoMLImpl<NeoML::CConvLayer, ConvLayerSettings>(mathEngine)
 	{
 		BaseLayerNeoMLImpl<NeoML::CConvLayer, ConvLayerSettings>::SetSettings(settings);
@@ -29,9 +25,9 @@ public:
 
 		auto castedLayer = CheckCast<NeoML::CConvLayer>(m_layerImpl.Ptr());
 
-		castedLayer->SetFilterCount		(m_typedSettings.GetOutChannels		()); // @todo check In or Out channels
-		castedLayer->SetFilterWidth		(m_typedSettings.GetKernelWidth		());
-		castedLayer->SetFilterHeight	(m_typedSettings.GetKernelHeight	());
+		castedLayer->SetFilterCount(m_typedSettings.GetOutChannels()); // @todo check In or Out channels
+		castedLayer->SetFilterWidth(m_typedSettings.GetKernelWidth());
+		castedLayer->SetFilterHeight(m_typedSettings.GetKernelHeight());
 
 		if (m_typedSettings.GetDilationWidth() > 0)
 			castedLayer->SetDilationWidth(m_typedSettings.GetDilationWidth());
@@ -52,12 +48,9 @@ public:
 
 }
 
-LayerUPtr CreateConvLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings = EmptySettings())
+LayerUPtr CreateConvLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings)
 {
-	if (settings.GetSettingsID() == EmptySettings::SETTINGS_ID)
-		return std::make_unique<ConvLayerNeoML>(mathEngine);
-	else
-		return std::make_unique<ConvLayerNeoML>(settings, mathEngine);
+	return std::make_unique<ConvLayerNeoML>(mathEngine, settings);
 }
 
 }

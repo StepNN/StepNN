@@ -21,7 +21,9 @@ public:
 
 	virtual const std::string& GetId() const noexcept = 0;
 
+	// layer1->ConnectPrev(layer2) -> layerImpl1.Connect(layerImpl2)
 	virtual void ConnectPrev(ILayer*) = 0;
+	// layer1->ConnectNext(layer2) -> layerImpl2.Connect(layerImpl1)
 	virtual void ConnectNext(ILayer*) = 0;
 };
 

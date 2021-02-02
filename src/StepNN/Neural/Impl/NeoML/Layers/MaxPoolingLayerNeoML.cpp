@@ -13,11 +13,7 @@ using namespace StepNN::Neural;
 class MaxPoolingLayerNeoML : public BaseLayerNeoMLImpl<NeoML::CMaxPoolingLayer, MaxPoolingLayerSettings>
 {
 public:
-	MaxPoolingLayerNeoML(NeoMathEnginePtr mathEngine)
-		: BaseLayerNeoMLImpl<NeoML::CMaxPoolingLayer, MaxPoolingLayerSettings>(mathEngine)
-	{}
-
-	MaxPoolingLayerNeoML(const BaseLayerSettings& settings, NeoMathEnginePtr mathEngine)
+	MaxPoolingLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings)
 		: BaseLayerNeoMLImpl<NeoML::CMaxPoolingLayer, MaxPoolingLayerSettings>(mathEngine)
 	{
 		BaseLayerNeoMLImpl<NeoML::CMaxPoolingLayer, MaxPoolingLayerSettings>::SetSettings(settings);
@@ -44,12 +40,9 @@ public:
 
 }
 
-LayerUPtr CreateMaxPoolingLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings = EmptySettings())
+LayerUPtr CreateMaxPoolingLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings)
 {
-	if (settings.GetSettingsID() == EmptySettings::SETTINGS_ID)
-		return std::make_unique<MaxPoolingLayerNeoML>(mathEngine);
-	else
-		return std::make_unique<MaxPoolingLayerNeoML>(settings, mathEngine);
+	return std::make_unique<MaxPoolingLayerNeoML>(mathEngine, settings);
 }
 
 }

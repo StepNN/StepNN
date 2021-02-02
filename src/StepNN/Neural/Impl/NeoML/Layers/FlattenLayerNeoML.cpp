@@ -13,11 +13,7 @@ using namespace StepNN::Neural;
 class FlattenLayerNeoML : public BaseLayerNeoMLImpl<NeoML::CTransformLayer, FlattenLayerSettings>
 {
 public:
-	FlattenLayerNeoML(NeoMathEnginePtr mathEngine)
-		: BaseLayerNeoMLImpl<NeoML::CTransformLayer, FlattenLayerSettings>(mathEngine)
-	{}
-
-	FlattenLayerNeoML(const BaseLayerSettings& settings, NeoMathEnginePtr mathEngine)
+	FlattenLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings)
 		: BaseLayerNeoMLImpl<NeoML::CTransformLayer, FlattenLayerSettings>(mathEngine)
 	{
 		BaseLayerNeoMLImpl<NeoML::CTransformLayer, FlattenLayerSettings>::SetSettings(settings);
@@ -42,12 +38,9 @@ public:
 
 }
 
-LayerUPtr CreateFlattenLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings = EmptySettings())
+LayerUPtr CreateFlattenLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings)
 {
-	if (settings.GetSettingsID() == EmptySettings::SETTINGS_ID)
-		return std::make_unique<FlattenLayerNeoML>(mathEngine);
-	else
-		return std::make_unique<FlattenLayerNeoML>(settings, mathEngine);
+	return std::make_unique<FlattenLayerNeoML>(mathEngine, settings);
 }
 
 }

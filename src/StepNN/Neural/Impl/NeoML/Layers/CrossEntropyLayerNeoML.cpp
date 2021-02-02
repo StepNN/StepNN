@@ -13,11 +13,7 @@ using namespace StepNN::Neural;
 class CrossEntropyLayerNeoML : public BaseLayerNeoMLImpl<NeoML::CCrossEntropyLossLayer, CrossEntropyLayerSettings>
 {
 public:
-	CrossEntropyLayerNeoML(NeoMathEnginePtr mathEngine)
-		: BaseLayerNeoMLImpl<NeoML::CCrossEntropyLossLayer, CrossEntropyLayerSettings>(mathEngine)
-	{}
-
-	CrossEntropyLayerNeoML(const BaseLayerSettings& settings, NeoMathEnginePtr mathEngine)
+	CrossEntropyLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings)
 		: BaseLayerNeoMLImpl<NeoML::CCrossEntropyLossLayer, CrossEntropyLayerSettings>(mathEngine)
 	{
 		BaseLayerNeoMLImpl<NeoML::CCrossEntropyLossLayer, CrossEntropyLayerSettings>::SetSettings(settings);
@@ -28,12 +24,9 @@ public:
 
 }
 
-LayerUPtr CreateCrossEntropyLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings = EmptySettings())
+LayerUPtr CreateCrossEntropyLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings)
 {
-	if (settings.GetSettingsID() == EmptySettings::SETTINGS_ID)
-		return std::make_unique<CrossEntropyLayerNeoML>(mathEngine);
-	else
-		return std::make_unique<CrossEntropyLayerNeoML>(settings, mathEngine);
+	return std::make_unique<CrossEntropyLayerNeoML>(mathEngine, settings);
 }
 
 }

@@ -21,7 +21,7 @@
 
 namespace StepNN::Neural {
 
-#define CREATE_LAYER(NAME) LayerUPtr Create##NAME(NeoMathEnginePtr, const BaseLayerSettings& settings);
+#define CREATE_LAYER(NAME) LayerUPtr Create##NAME(NeoMathEnginePtr, const BaseLayerSettings&);
 
 CREATE_LAYER(BatchNormalizationLayerNeoML)
 CREATE_LAYER(ConvLayerNeoML)

@@ -17,7 +17,6 @@ bool BaseLayerEngine::AddLayer(const BaseLayerSettings& settings)
 		m_graph = std::make_unique<LayerGraph>();
 
 	m_graph->AddNode(settings);
-
 	m_layers.emplace_back(CreateLayer(settings));
 
 	return true;
@@ -42,9 +41,8 @@ const LayerUPtrs& BaseLayerEngine::GetLayers() const
 
 void BaseLayerEngine::ConnectLayers(const std::string& fromId, const std::string& toId)
 {
-	// @todo check layers in m_layers
+	assert(GetLayer(fromId) && GetLayer(toId));
 
-	// @todo connect layers
 	GetLayer(fromId)->ConnectNext(GetLayer(toId));
 
 	m_graph->AddEdge(fromId, toId);

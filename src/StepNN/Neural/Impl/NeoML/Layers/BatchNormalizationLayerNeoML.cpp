@@ -13,11 +13,7 @@ using namespace StepNN::Neural;
 class BatchNormalizationLayerNeoML : public BaseLayerNeoMLImpl<NeoML::CBatchNormalizationLayer, BatchNormalizationLayerSettings>
 {
 public:
-	BatchNormalizationLayerNeoML(NeoMathEnginePtr mathEngine)
-		: BaseLayerNeoMLImpl<NeoML::CBatchNormalizationLayer, BatchNormalizationLayerSettings>(mathEngine)
-	{}
-
-	BatchNormalizationLayerNeoML(const BaseLayerSettings& settings, NeoMathEnginePtr mathEngine)
+	BatchNormalizationLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings)
 		: BaseLayerNeoMLImpl<NeoML::CBatchNormalizationLayer, BatchNormalizationLayerSettings>(mathEngine)
 	{
 		BaseLayerNeoMLImpl<NeoML::CBatchNormalizationLayer, BatchNormalizationLayerSettings>::SetSettings(settings);
@@ -28,12 +24,9 @@ public:
 
 }
 
-LayerUPtr CreateBatchNormalizationLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings = EmptySettings())
+LayerUPtr CreateBatchNormalizationLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings)
 {
-	if(settings.GetSettingsID() == EmptySettings::SETTINGS_ID)
-		return std::make_unique<BatchNormalizationLayerNeoML>(mathEngine);
-	else
-		return std::make_unique<BatchNormalizationLayerNeoML>(settings, mathEngine);
+	return std::make_unique<BatchNormalizationLayerNeoML>(mathEngine, settings);
 }
 
 }
