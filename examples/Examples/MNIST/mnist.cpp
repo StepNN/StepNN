@@ -37,7 +37,7 @@ NeuralConfiguration GetNeuralConfiguration()
 
 	config.classificationSettings.outputDimension = 10;
 
-	config.memoryLimit = 8;
+	config.memoryLimit = 0;
 	config.deviceType = DeviceType::CPU;
 	config.blobDataType = BlobDataType::Float;
 
@@ -116,7 +116,8 @@ void ConfigureNet(ILayerEngine& layerEngine)
 	layerEngine.AddLayer(SourceLayerSettings(DefaultLayerID::LABEL_LAYER_ID));
 	layerEngine.AddLayer(CrossEntropyLayerSettings(DefaultLayerID::LOSS_LAYER_ID));
 
-	layerEngine.SequentialConnection({ DefaultLayerID::SOURCE_LAYER_ID
+	layerEngine.SequentialConnection({
+		DefaultLayerID::SOURCE_LAYER_ID
 		, "Conv1"
 		, "Relu1"
 		, "Conv2"
@@ -137,10 +138,49 @@ void ConfigureNet(ILayerEngine& layerEngine)
 		, "Dense1"
 		, "Relu6"
 		, "Dense2"
+		, DefaultLayerID::LOSS_LAYER_ID
 	});
 
-	layerEngine.ConnectLayers("Dense2", DefaultLayerID::LOSS_LAYER_ID);
-	layerEngine.ConnectLayers(DefaultLayerID::LABEL_LAYER_ID, DefaultLayerID::LOSS_LAYER_ID);
+	layerEngine.ConnectLayers(DefaultLayerID::LOSS_LAYER_ID, DefaultLayerID::LABEL_LAYER_ID);
+}
+
+/*
+* Example from NeoML github:
+* https://github.com/neoml-lib/neoml/blob/master/NeoML/docs/en/Tutorial/SimpleNet.md
+*/
+void ConfigureNeoMLExampleNet(ILayerEngine& layerEngine)
+{
+	{
+		auto dense = DenseLayerSettings("Dense1");
+		dense.SetDenseSize(1024);
+		layerEngine.AddLayer(dense);
+	}
+	{
+		auto dense = DenseLayerSettings("Dense2");
+		dense.SetDenseSize(512);
+		layerEngine.AddLayer(dense);
+	}
+	{
+		auto dense = DenseLayerSettings("Dense3");
+		dense.SetDenseSize(10);
+		layerEngine.AddLayer(dense);
+	}
+	layerEngine.AddLayer(ReLULayerSettings("Relu1"));
+	layerEngine.AddLayer(ReLULayerSettings("Relu2"));
+	layerEngine.AddLayer(SourceLayerSettings(DefaultLayerID::SOURCE_LAYER_ID));
+	layerEngine.AddLayer(SourceLayerSettings(DefaultLayerID::LABEL_LAYER_ID));
+	layerEngine.AddLayer(CrossEntropyLayerSettings(DefaultLayerID::LOSS_LAYER_ID));
+
+	layerEngine.SequentialConnection({
+		DefaultLayerID::SOURCE_LAYER_ID
+		, "Dense1"
+		, "Relu1"
+		, "Dense2"
+		, "Relu2"
+		, "Dense3"
+		, DefaultLayerID::LOSS_LAYER_ID
+	});
+	layerEngine.ConnectLayers(DefaultLayerID::LOSS_LAYER_ID, DefaultLayerID::LABEL_LAYER_ID);
 }
 
 #ifdef STEPNN_USE_NEOML
@@ -155,7 +195,8 @@ void ExampleNeoML()
 	neuralEngine->GetConfigurator().SetNeuralConfiguration(GetNeuralConfiguration());
 
 	auto& layerEngine = neuralEngine->GetLayerEngine();
-	ConfigureNet(layerEngine);
+	//ConfigureNet(layerEngine);
+	ConfigureNeoMLExampleNet(layerEngine);
 
 	neuralEngine->GetTrainable().Train();
 }
@@ -165,11 +206,12 @@ void ConfigureLogger()
 {
 	Logging::LoggingSettings logSettings;
 	Logging::LoggingSettings::LogInfos logInfos = {
-		{ Logging::LOGGING_CONSOLE_STR		, Logging::LoggingOutputMode::Console	, L_INFO	},
+		{ Logging::LOGGING_CONSOLE_STR, Logging::LoggingOutputMode::Console, L_INFO },
 	};
 	logSettings.SetLogInfos(std::move(logInfos));
 	logSettings.SetSyncMode(Logging::LoggingSyncMode::Async);
 	logSettings.SetLogDirectory("C:/Projects/StepNN/StepNN/out/StepNN_Logs");
+	logSettings.SetBacktraceSize(30);
 
 	LOGGER.SetLoggingSettings(std::move(logSettings));
 }

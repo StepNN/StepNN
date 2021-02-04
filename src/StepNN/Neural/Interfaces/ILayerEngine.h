@@ -17,7 +17,7 @@ public:
 	virtual LayerCPtr GetLayer(const std::string& id) const = 0;
 	virtual const StepNN::Neural::LayerUPtrs& GetLayers() const = 0;
 
-	virtual void ConnectLayers(const std::string& fromId, const std::string& toId) = 0;
+	virtual void ConnectLayers(const std::string& id, const std::string& prevId) = 0;
 
 	virtual void SequentialConnection(const std::vector<std::string>& ids) = 0;
 

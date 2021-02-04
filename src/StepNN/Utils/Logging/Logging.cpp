@@ -42,7 +42,8 @@ void Logger::SetLoggingSettings(LoggingSettings&& settings)
 	{
 		const auto& [name, outputMode, level] = logInfo;
 
-		//@todo Looking as workaround
+		// LOGGING_FILE_TRACE_STR used only for trace logger
+		assert(name != LOGGING_FILE_TRACE_STR);
 		if (name == LOGGING_FILE_TRACE_STR)
 			continue;
 

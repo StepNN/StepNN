@@ -27,19 +27,12 @@ protected:
 	const BaseLayerSettings& GetBaseSettings() const override { throw std::runtime_error(Defs::NOT_IMPL_STR); };
 	const std::string& GetId() const noexcept override { assert(!Defs::NOT_IMPL_STR); return Defs::NOT_IMPL_STR; };
 
-	void ConnectPrev(LayerPtr layer) override
-	{
-		auto layerFromImpl = dynamic_cast<BaseLayerNeoML*>(layer);
-		assert(layerFromImpl);
-		m_layerImpl->Connect(*layerFromImpl->m_layerImpl);
-	}
-	void ConnectNext(LayerPtr layer) override
+	void Connect(LayerPtr layer) override
 	{
 		static int connectionCount = 0;
-
-		auto layerToImpl = dynamic_cast<BaseLayerNeoML*>(layer);
-		assert(layerToImpl);
-		layerToImpl->m_layerImpl->Connect(connectionCount, *m_layerImpl);
+		auto layerFromImpl = dynamic_cast<BaseLayerNeoML*>(layer);
+		assert(layerFromImpl);
+		m_layerImpl->Connect(connectionCount, *layerFromImpl->m_layerImpl);
 		++connectionCount;
 	}
 ///

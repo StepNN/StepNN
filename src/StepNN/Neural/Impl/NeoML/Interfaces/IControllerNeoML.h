@@ -1,5 +1,7 @@
 #pragma once
 
+#include "StepNN/Utils/Logging/Logging.h"
+
 #include "StepNN/Utils/Interfaces/IUserController.h"
 
 #include "IUserNeoML.h"
@@ -22,7 +24,7 @@ public:
 	{
 		m_gpuManager = gpuManager;
 		for (auto& user : m_users)
-			user->SetGpuManager(gpuManager);
+			user->SetGpuManager(m_gpuManager);
 	}
 
 protected:

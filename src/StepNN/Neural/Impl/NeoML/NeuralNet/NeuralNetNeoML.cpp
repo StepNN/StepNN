@@ -55,8 +55,8 @@ void NeuralNetNeoML::Train()
 	auto* dataset = GetDatasetImpl();
 	assert(dataset);
 
-	auto& dataBlob = dataset->GetDataBlob();
-	auto& labelBlob = dataset->GetLabelBlob();
+	auto dataBlob = dataset->GetDataBlob();
+	auto labelBlob = dataset->GetLabelBlob();
 
 	const auto& trainSettings = m_config.trainSettings;
 	const auto& sampleSettings = m_config.sampleSettings;
@@ -75,10 +75,10 @@ void NeuralNetNeoML::Train()
 	assert(dataset->GetTrainSize() % trainSettings.trainBatchWidth == 0);
 
 	LOG(L_INFO, "NeoML NeuralNet: Start training");
-	float epochLoss = 0.0f;
+	float epochLoss;
 	for (int epoch = 0; epoch < trainSettings.epochCount; ++epoch)
 	{
-		
+		epochLoss = 0.0f;
 		for (int iter = 0; iter < iterationPerEpoch; ++iter)
 		{
 			dataset->GetTrainSamples(iter, trainSettings.trainBatchWidth, dataBlob);
@@ -88,10 +88,10 @@ void NeuralNetNeoML::Train()
 			epochLoss += lossLayer->GetLastLoss();
 			
 		}
-		LOG(L_INFO, "NeoML: Epoch loss: {0}", epochLoss);
+		LOG(L_INFO, "NeoML: Epoch {}/{} loss: {}", epoch+1, trainSettings.epochCount, epochLoss / iterationPerEpoch);
 		dataset->Reshuffle();
 	}
-	LOG(L_INFO, "NeoML NeuralNet: End training. Loss: {0}", epochLoss);
+	LOG(L_INFO, "NeoML NeuralNet: End training. Loss: {0}", epochLoss / iterationPerEpoch);
 
 	LOG(L_INFO, "NeoML NeuralNet: Begin evaluate testing data");
 	int testIterations = static_cast<int>(dataset->GetTestSize() / trainSettings.testBatchWidth);

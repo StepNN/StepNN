@@ -39,13 +39,13 @@ const LayerUPtrs& BaseLayerEngine::GetLayers() const
 
 //.............................................................................
 
-void BaseLayerEngine::ConnectLayers(const std::string& fromId, const std::string& toId)
+void BaseLayerEngine::ConnectLayers(const std::string& id, const std::string& prevId)
 {
-	assert(GetLayer(fromId) && GetLayer(toId));
+	assert(GetLayer(id) && GetLayer(prevId));
 
-	GetLayer(fromId)->ConnectNext(GetLayer(toId));
+	GetLayer(id)->Connect(GetLayer(prevId));
 
-	m_graph->AddEdge(fromId, toId);
+	m_graph->AddEdge(id, prevId);
 }
 
 //.............................................................................
@@ -53,7 +53,7 @@ void BaseLayerEngine::ConnectLayers(const std::string& fromId, const std::string
 void BaseLayerEngine::SequentialConnection(const std::vector<std::string>& ids)
 {
 	for (size_t i = 0; i < ids.size() - 1; ++i)
-		ConnectLayers(ids[i], ids[i+1]);
+		ConnectLayers(ids[i+1], ids[i]);
 }
 
 //.............................................................................

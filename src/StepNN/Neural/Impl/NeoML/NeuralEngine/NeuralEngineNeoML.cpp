@@ -100,7 +100,7 @@ void NeuralEngineNeoML::OnSetNeuralConfiguration(const NeuralConfiguration& conf
 	if (config.deviceType == DeviceType::CPU)
 	{
 		gpuManager = nullptr;
-		mathEngine.reset(&NeoML::GetMultiThreadCpuMathEngine());
+		mathEngine.reset(NeoML::CreateCpuMathEngine(0, static_cast<size_t>(config.memoryLimit * GIGABYTE)));
 	}
 	else
 	{

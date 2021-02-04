@@ -20,7 +20,6 @@ void ConfigureLogger()
 		{ Logging::LOGGING_FILE_INFO_STR	, Logging::LoggingOutputMode::File		, L_INFO	},
 		{ Logging::LOGGING_FILE_WARN_STR	, Logging::LoggingOutputMode::File		, L_WARN	},
 		{ Logging::LOGGING_FILE_ERROR_STR	, Logging::LoggingOutputMode::File		, L_ERROR	},
-		{ Logging::LOGGING_FILE_TRACE_STR	, Logging::LoggingOutputMode::File		, L_TRACE	},
 	};
 	logSettings.SetLogInfos(std::move(logInfos));
 	logSettings.SetSyncMode(Logging::LoggingSyncMode::Async);
