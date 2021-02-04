@@ -22,7 +22,7 @@ public:
 		if (m_isInitialized)
 		{
 			m_logger->log(level, str, std::forward<Args>(args)...);
-			//m_traceLogger->log(level, str, std::forward<Args>(args)...);
+			m_traceLogger->log(level, str, std::forward<Args>(args)...);
 		}
 	}
 

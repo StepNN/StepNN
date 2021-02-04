@@ -24,8 +24,8 @@ Logger& Logger::Instance()
 
 Logger::~Logger()
 {
-	m_logger->dump_backtrace();
-	//m_traceLogger->dump_backtrace();
+	if(m_traceLogger)
+		m_traceLogger->dump_backtrace();
 }
 
 //.............................................................................
@@ -41,8 +41,10 @@ void Logger::SetLoggingSettings(LoggingSettings&& settings)
 	for (const auto& logInfo : settings.GetLogInfos())
 	{
 		const auto& [name, outputMode, level] = logInfo;
-		//if (name == LOGGING_FILE_TRACE_STR)
-		//	continue;
+
+		//@todo Looking as workaround
+		if (name == LOGGING_FILE_TRACE_STR)
+			continue;
 
 		switch (outputMode)
 		{
@@ -66,9 +68,8 @@ void Logger::SetLoggingSettings(LoggingSettings&& settings)
 
 	if (Defs::IsValid(settings.GetBacktraceSize()))
 	{
-		m_logger->enable_backtrace(settings.GetBacktraceSize());
-		//m_traceLogger = std::make_shared<spdlog::logger>("StepNN_trace_logger", CreateSinkFile(syncMode, L_TRACE, GetLogFilename(logDir, L_TRACE), true));
-		//m_traceLogger->enable_backtrace(settings.GetBacktraceSize());
+		m_traceLogger = std::make_shared<spdlog::logger>("StepNN_trace_logger", CreateSinkFile(syncMode, L_TRACE, GetLogFilename(logDir, L_TRACE), true));
+		m_traceLogger->enable_backtrace(settings.GetBacktraceSize());
 	}
 
 	m_isInitialized = true;
@@ -92,6 +93,7 @@ void Logger::Reset()
 	spdlog::shutdown();
 	m_sinks.clear();
 	m_logger.reset();
+	m_traceLogger.reset();
 
 	m_isInitialized = false;
 }

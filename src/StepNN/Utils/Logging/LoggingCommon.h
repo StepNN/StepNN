@@ -32,6 +32,11 @@ namespace StepNN::Logging {
 
 using LoggerSP = std::shared_ptr<spdlog::logger>;
 
+
+/*
+* Default names for creating logging sinks
+* LOGGING_FILE_TRACE_STR is used for dumping backtrace - do not use it
+*/
 constexpr const char* const LOGGING_CONSOLE_STR		= "logging_console";
 constexpr const char* const LOGGING_OSS_STR			= "logging_oss";
 constexpr const char* const LOGGING_FILE_INFO_STR	= "logging_file_info";
