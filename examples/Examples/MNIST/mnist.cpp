@@ -2,6 +2,8 @@
 
 #include "Datasets/MNIST/DatasetMNIST.h"
 
+#include "StepNN/Utils/Logging/Logging.h"
+
 #include "StepNN/Neural/Engine/NeuralEngine.h"
 
 #include "StepNN/Neural/Layer/Settings/BatchNormalizationLayerSettings.h"
@@ -159,8 +161,23 @@ void ExampleNeoML()
 }
 #endif
 
+void ConfigureLogger()
+{
+	Logging::LoggingSettings logSettings;
+	Logging::LoggingSettings::LogInfos logInfos = {
+		{ Logging::LOGGING_CONSOLE_STR		, Logging::LoggingOutputMode::Console	, L_INFO	},
+	};
+	logSettings.SetLogInfos(std::move(logInfos));
+	logSettings.SetSyncMode(Logging::LoggingSyncMode::Async);
+	logSettings.SetLogDirectory("C:/Projects/StepNN/StepNN/out/StepNN_Logs");
+
+	LOGGER.SetLoggingSettings(std::move(logSettings));
+}
+
 int main(int argc, char* argv[])
 {
+	ConfigureLogger();
+
 #ifdef STEPNN_USE_NEOML
 	ExampleNeoML();
 #endif
