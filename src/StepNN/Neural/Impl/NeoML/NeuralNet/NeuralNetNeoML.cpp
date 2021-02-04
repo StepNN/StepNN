@@ -1,9 +1,11 @@
-#include "StepNN/Neural/Impl/NeoML/CommonNeoML.h"
 #include "NeoML/Dnn/Layers/SourceLayer.h"
 #include "NeoML/Dnn/Layers/LossLayer.h"
 
+#include "StepNN/Utils/Logging/Logging.h"
+
 #include "StepNN/Neural/Data/NeuralConfiguration/BlobDataType.h"
 #include "StepNN/Neural/Interfaces/DefaultLayerID.h"
+#include "StepNN/Neural/Impl/NeoML/CommonNeoML.h"
 #include "StepNN/Neural/Impl/NeoML/Layers/BaseLayerNeoML.h"
 
 #include "NeuralNetNeoML.h"
@@ -45,7 +47,10 @@ void NeuralNetNeoML::Train()
 
 	NeoML::CRandom random(0x123);
 	NeoML::CDnn dnn(random, mathEngineRef);
+	LOG(L_INFO, "NeoML NeuralNet: dnn created");
+
 	Configure(dnn);
+	LOG(L_INFO, "NeoML NeuralNet: dnn configured");
 
 	auto* dataset = GetDatasetImpl();
 	assert(dataset);
@@ -68,10 +73,12 @@ void NeuralNetNeoML::Train()
 
 	int iterationPerEpoch = static_cast<int>(dataset->GetTrainSize() / trainSettings.trainBatchWidth);
 	assert(dataset->GetTrainSize() % trainSettings.trainBatchWidth == 0);
-	 
+
+	LOG(L_INFO, "NeoML NeuralNet: Start training");
+	float epochLoss = 0.0f;
 	for (int epoch = 0; epoch < trainSettings.epochCount; ++epoch)
 	{
-		float epochLoss = 0.0f;
+		
 		for (int iter = 0; iter < iterationPerEpoch; ++iter)
 		{
 			dataset->GetTrainSamples(iter, trainSettings.trainBatchWidth, dataBlob);
@@ -79,10 +86,14 @@ void NeuralNetNeoML::Train()
 
 			dnn.RunAndLearnOnce();
 			epochLoss += lossLayer->GetLastLoss();
+			
 		}
+		LOG(L_INFO, "NeoML: Epoch loss: {0}", epochLoss);
 		dataset->Reshuffle();
 	}
+	LOG(L_INFO, "NeoML NeuralNet: End training. Loss: {0}", epochLoss);
 
+	LOG(L_INFO, "NeoML NeuralNet: Begin evaluate testing data");
 	int testIterations = static_cast<int>(dataset->GetTestSize() / trainSettings.testBatchWidth);
 	assert(dataset->GetTestSize() % trainSettings.testBatchWidth == 0);
 	float testDataLoss = 0.0f;
@@ -94,6 +105,7 @@ void NeuralNetNeoML::Train()
 		testDataLoss += lossLayer->GetLastLoss();
 	}
 	testDataLoss /= trainSettings.testBatchWidth;
+	LOG(L_INFO, "NeoML NeuralNet: End evaluate testing data. Loss: {0}", testDataLoss);
 }
 
 //.............................................................................

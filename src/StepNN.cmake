@@ -11,7 +11,8 @@ AddTarget(NAME StepNN
 		StepNN/Utils
 		StepNN/Utils/Algoritms
 		StepNN/Utils/Containers
-		StepNN/Utils/Templates
+		StepNN/Utils/Interfaces
+		StepNN/Utils/Logging
 		StepNN/Neural
 		StepNN/Neural/Data
 		StepNN/Neural/Data/NeuralConfiguration
