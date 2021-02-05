@@ -14,15 +14,18 @@ option(StepNN_BUILD_EXAMPLES "Build StepNN examples module" true)
 option(StepNN_INSTALL "Install StepNN" ON)
 
 option(StepNN_USE_NEOML "Use ABBYY NeoML" ON)
+option(StepNN_USE_TORCH "Use Torch" ON)
 
 set(REPO_ROOT ${CMAKE_CURRENT_SOURCE_DIR})
 set(CMAKE_ROOT ${REPO_ROOT}/cmake)
 set(CMAKE_HELPERS_DIR ${CMAKE_ROOT}/helpers)
+set(CMAKE_SDK_DIR ${CMAKE_ROOT}/sdk)
 set(SRC_ROOT ${REPO_ROOT}/src)
 set(DATASETS_ROOT ${REPO_ROOT}/datasets)
 set(EXAMPLES_ROOT ${REPO_ROOT}/examples)
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_ROOT})
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_SDK_DIR})
 list(APPEND CMAKE_MODULE_PATH ${SRC_ROOT})
 list(APPEND CMAKE_MODULE_PATH ${DATASETS_ROOT})
 list(APPEND CMAKE_MODULE_PATH ${EXAMPLES_ROOT})
@@ -32,24 +35,15 @@ if(NOT StepNN_BUILD_SHARED)
 	set(STEPNN_LIB_TYPE static_lib)
 endif()
 
+include(CheckIncludeFiles)
+
 include(Target)
 include(StepNN)
 include(Datasets)
 include(Examples)
 
-# fmt
-set(ENV{fmt_ROOT} "C:/Projects/SDK/fmt") # Root for fmt library
-find_package(fmt REQUIRED)
-
-# spdlog
-set(ENV{spdlog_ROOT} "C:/Projects/SDK/spdlog") # Root for spdlog library
-find_package(spdlog REQUIRED)
-
-# NeoML
-if(StepNN_USE_NEOML)
-	set(ENV{NeoML_ROOT} "C:/Projects/SDK/NeoML") # Root for NeoML library
-	find_package(NeoML REQUIRED)
-endif()
+# thirdparty libraries
+include(sdk)
 
 # Install
 include(Install)
