@@ -25,7 +25,7 @@ protected:
 /// ILayer
 	void SetSettings(const BaseLayerSettings& settings) override { throw std::runtime_error(Defs::NOT_IMPL_STR); };
 	const BaseLayerSettings& GetBaseSettings() const override { throw std::runtime_error(Defs::NOT_IMPL_STR); };
-	const std::string& GetId() const noexcept override { assert(!Defs::NOT_IMPL_STR); return Defs::NOT_IMPL_STR; };
+	const std::string& GetId() const override { throw std::runtime_error(Defs::NOT_IMPL_STR); };
 
 	void Connect(LayerPtr layer) override
 	{

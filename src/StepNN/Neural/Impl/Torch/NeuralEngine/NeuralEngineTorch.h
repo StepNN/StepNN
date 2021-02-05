@@ -4,6 +4,8 @@
 #include "StepNN/Neural/Interfaces/INeuralNet.h"
 #include "StepNN/Neural/Interfaces/IDatasetController.h"
 
+#include "StepNN/Neural/Impl/Torch/CommonTorch.h"
+
 using namespace StepNN::Neural::Interfaces;
 
 namespace StepNN::Neural {

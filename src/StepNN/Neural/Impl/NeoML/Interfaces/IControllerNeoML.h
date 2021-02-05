@@ -1,7 +1,5 @@
 #pragma once
 
-#include "StepNN/Utils/Logging/Logging.h"
-
 #include "StepNN/Utils/Interfaces/IUserController.h"
 
 #include "IUserNeoML.h"

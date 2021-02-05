@@ -19,7 +19,7 @@ public:
 	virtual void SetSettings(const BaseLayerSettings& settings) = 0;
 	virtual const BaseLayerSettings& GetBaseSettings() const = 0;
 
-	virtual const std::string& GetId() const noexcept = 0;
+	virtual const std::string& GetId() const = 0;
 
 	/*
 	* layer1->Connect(layer2) is connection like ... ->layer2->layer1-> ...

@@ -38,7 +38,7 @@ protected:
 		return m_typedSettings;
 	}
 
-	const std::string& GetId() const noexcept override
+	const std::string& GetId() const override
 	{
 		return m_typedSettings.GetLayerId();
 	}

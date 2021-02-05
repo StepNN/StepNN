@@ -32,6 +32,7 @@ AddTarget(NAME StepNN
 		StepNN/Neural/Impl/TF/NeuralEngine
 		StepNN/Neural/Impl/TF/NeuralNet
 		StepNN/Neural/Impl/Torch
+		StepNN/Neural/Impl/Torch/Interfaces
 		StepNN/Neural/Impl/Torch/LayerEngine
 		StepNN/Neural/Impl/Torch/Layers
 		StepNN/Neural/Impl/Torch/NeuralEngine

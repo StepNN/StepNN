@@ -19,7 +19,7 @@ protected:
 	{
 		const auto mathEngine = m_mathEngine.lock();
 		if (!mathEngine && required)
-			assert(!"INeoMLUser: mathEngine is nullptr!");
+			assert(!"IUserNeoML: mathEngine is nullptr!");
 
 		return mathEngine;
 	}
@@ -28,7 +28,7 @@ protected:
 	{
 		const auto gpuManager = m_gpuManager.lock();
 		if (!gpuManager && required)
-			assert(!"INeoMLUser: gpuManager is nullptr!");
+			assert(!"IUserNeoML: gpuManager is nullptr!");
 
 		return gpuManager;
 	}
