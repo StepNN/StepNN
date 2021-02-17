@@ -8,11 +8,12 @@ using namespace StepNN::Neural::Interfaces;
 
 namespace StepNN::Neural {
 
-template<typename SettingsTypeT>
+template<typename SettingsTypeT, typename ImplTypeT = torch::nn::AnyModule>
 class BaseLayerTorchImpl : virtual public BaseLayerTorch
 {
 protected:
 	using SettingsType = SettingsTypeT;
+	using ImplType = ImplTypeT;
 
 	BaseLayerTorchImpl() = default;
 	~BaseLayerTorchImpl() = default;
@@ -38,6 +39,25 @@ protected:
 	{
 		return m_typedSettings.GetLayerId();
 	}
+
+	// Don't need LayerPtr in Connect,
+	// layer implementation will be push_backed to common TorchSequential from IControllerTorchSequential (LayerEngineTorch)
+	void Connect(LayerPtr) override
+	{
+		auto commonSequential = GetTorchSequential();
+		if (!commonSequential)
+		{
+			assert(!"Invalid commonSequential");
+			return;
+		}
+
+		if (!m_layerImpl)
+		{
+			assert(!"Invalid m_layerImpl");
+			return;
+		}
+		commonSequential->get()->push_back(*m_layerImpl);
+	}
 ///
 
 	virtual void SetSettings(const SettingsType& typedSettings)
@@ -50,6 +70,7 @@ protected:
 
 protected:
 	SettingsType m_typedSettings;
+	std::shared_ptr<ImplType> m_layerImpl { nullptr };
 };
 
 }

@@ -5,23 +5,26 @@
 #include "StepNN/Neural/Data/PaddingMode.h"
 
 #include "BaseLayerSettings.h"
-#include "BaseChannelsSettings.h"
-#include "BaseDilationSettings.h"
-#include "BaseKernelSettings.h"
-#include "BasePaddingSettings.h"
-#include "BaseStrideSettings.h"
+#include "Base/BiasSettings.h"
+#include "Base/ChannelsSettings.h"
+#include "Base/DilationSettings.h"
+#include "Base/KernelSettings.h"
+#include "Base/PaddingSettings.h"
+#include "Base/StrideSettings.h"
 
 #include "StepNNLib.h"
 
 namespace StepNN::Neural {
 
+template<int Size>
 class STEPNN_API ConvLayerSettings
 	: public BaseLayerSettings
-	, public BaseChannelsSettings
-	, public BaseDilationSettings
-	, public BaseKernelSettings
-	, public BasePaddingSettings
-	, public BaseStrideSettings
+	, public BiasSettings
+	, public ChannelsSettings
+	, public DilationSettings<Size>
+	, public KernelSettings<Size>
+	, public PaddingSettings<Size>
+	, public StrideSettings<Size>
 {
 public:
 	LAYER_SETTINGS(ConvLayerSettings)
@@ -32,26 +35,31 @@ public:
 	bool operator==(const ConvLayerSettings& rhs) const noexcept
 	{
 		return true
-			&& BaseLayerSettings	::operator==(rhs)
-			&& BaseChannelsSettings	::operator==(rhs)
-			&& BaseDilationSettings	::operator==(rhs)
-			&& BaseKernelSettings	::operator==(rhs)
-			&& BasePaddingSettings	::operator==(rhs)
-			&& BaseStrideSettings	::operator==(rhs)
+			&& BaseLayerSettings		::operator==(rhs)
+			&& BiasSettings				::operator==(rhs)
+			&& ChannelsSettings			::operator==(rhs)
+			&& DilationSettings<Size>	::operator==(rhs)
+			&& KernelSettings<Size>		::operator==(rhs)
+			&& PaddingSettings<Size>	::operator==(rhs)
+			&& StrideSettings<Size>		::operator==(rhs)
 			;
 	}
 	bool operator!=(const ConvLayerSettings& rhs) const noexcept { return !(*this == rhs); }
 
 	bool IsEmpty() const noexcept
 	{
-		return true
-			&& BaseChannelsSettings	::IsEmpty()
-			&& BaseDilationSettings	::IsEmpty()
-			&& BaseKernelSettings	::IsEmpty()
-			&& BasePaddingSettings	::IsEmpty()
-			&& BaseStrideSettings	::IsEmpty()
-			;
+		return !(true
+			&& ChannelsSettings			::HasChannels()
+			&& KernelSettings<Size>		::HasKernel()
+			//&& DilationSettings<Size>	::IsEmpty()
+			//&& PaddingSettings<Size>	::IsEmpty()
+			//&& StrideSettings<Size>	::IsEmpty()
+			);
 	}
 };
+
+using Conv1DLayerSettings = ConvLayerSettings<1>;
+using Conv2DLayerSettings = ConvLayerSettings<2>;
+using Conv3DLayerSettings = ConvLayerSettings<3>;
 
 }

@@ -3,6 +3,7 @@
 #include "BlobDataType.h"
 #include "ClassificationSettings.h"
 #include "DeviceType.h"
+#include "OptimizerSettings.h"
 #include "SampleSettings.h"
 #include "TrainSettings.h"
 
@@ -17,11 +18,13 @@ struct STEPNN_API NeuralConfiguration
 	Z<int, 0> memoryLimit;
 
 	ClassificationSettings classificationSettings;
+	OptimizerSettings optimizerSettings;
 	SampleSettings sampleSettings;
 	TrainSettings trainSettings;
 
 	bool IsInvalid() const noexcept
 	{
+		// @todo IsInvalid implementation of each settings
 		return false
 			|| deviceType == DeviceType::Undefined
 			|| blobDataType == BlobDataType::Undefined

@@ -27,8 +27,8 @@ protected:
 	BaseLayerEngine();
 
 /// ILayerFactory
-	LayerUPtr CreateLayer(const std::string& layerID) const override { assert(!(Defs::NOT_IMPL_STR)); return nullptr; };
-	LayerUPtr CreateLayer(const BaseLayerSettings& settings) const override { assert(!(Defs::NOT_IMPL_STR)); return nullptr; };
+	LayerUPtr CreateLayer(const std::string& layerID) override { assert(!(Defs::NOT_IMPL_STR)); return nullptr; };
+	LayerUPtr CreateLayer(const BaseLayerSettings& settings) override { assert(!(Defs::NOT_IMPL_STR)); return nullptr; };
 ///
 
 protected:

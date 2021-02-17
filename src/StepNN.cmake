@@ -40,4 +40,5 @@ AddTarget(NAME StepNN
 		StepNN/Neural/Interfaces
 		StepNN/Neural/Layer
 		StepNN/Neural/Layer/Settings
+		StepNN/Neural/Layer/Settings/Base
 )

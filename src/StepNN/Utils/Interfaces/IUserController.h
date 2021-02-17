@@ -12,7 +12,11 @@ public:
 
 	virtual ~IUserController() = default;
 
-	virtual void AddUser(Ptr user) { m_users.push_back(user); }
+	virtual void AddUser(Ptr user)
+	{
+		assert(user);
+		m_users.push_back(user);
+	}
 
 protected:
 	std::vector<Ptr> m_users;

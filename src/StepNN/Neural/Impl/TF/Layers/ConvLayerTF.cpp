@@ -8,18 +8,19 @@ namespace {
 
 using namespace StepNN::Neural;
 
-class ConvLayerTF : public BaseLayerTFImpl<ConvLayerSettings>
+template<size_t Size>
+class ConvLayerTF : public BaseLayerTFImpl<ConvLayerSettings<Size>>
 {
 public:
 	ConvLayerTF() = default;
 	ConvLayerTF(const BaseLayerSettings& settings)
 	{
-		BaseLayerTFImpl<ConvLayerSettings>::SetSettings(settings);
+		BaseLayerTFImpl<ConvLayerSettings<Size>>::SetSettings(settings);
 	}
 
-	void SetSettings(const ConvLayerSettings& typedSettings)
+	void SetSettings(const ConvLayerSettings<Size>& typedSettings)
 	{
-		BaseLayerTFImpl<ConvLayerSettings>::SetSettings(typedSettings);
+		BaseLayerTFImpl<ConvLayerSettings<Size>>::SetSettings(typedSettings);
 	}
 };
 
@@ -27,10 +28,12 @@ public:
 
 LayerUPtr CreateConvLayerTF(const BaseLayerSettings& settings)
 {
-	if (settings.GetSettingsID() == EmptySettings::SETTINGS_ID)
-		return std::make_unique<ConvLayerTF>();
-	else
-		return std::make_unique<ConvLayerTF>(settings);
+	return nullptr;
+
+	//if (settings.GetSettingsID() == EmptySettings::SETTINGS_ID)
+	//	return std::make_unique<ConvLayerTF>();
+	//else
+	//	return std::make_unique<ConvLayerTF>(settings);
 }
 
 }

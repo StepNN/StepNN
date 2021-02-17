@@ -11,7 +11,7 @@ namespace StepNN::Neural {
 
 #define CREATE_LAYER(NAME) LayerUPtr Create##NAME(const BaseLayerSettings& settings);
 
-CREATE_LAYER(ConvLayerTF)
+CREATE_LAYER(Conv2DLayerTF)
 
 namespace {
 
@@ -43,7 +43,7 @@ private:
 		RETURN_IF(isInitialized);
 
 		creators = {
-			{ StepNN::Neural::ConvLayerSettings::SETTINGS_ID, static_cast<LayerUPtr(*)(BaseSettingsCRef)>(CreateConvLayerTF) },
+			//{ StepNN::Neural::ConvLayerSettings::SETTINGS_ID, static_cast<LayerUPtr(*)(BaseSettingsCRef)>(CreateConvLayerTF) },
 		};
 
 		isInitialized = true;
@@ -60,14 +60,14 @@ LayerCreator<BaseLayerSettings> g_settingsCreator;
 
 //.............................................................................
 
-LayerUPtr LayerEngineTF::CreateLayer(const std::string& layerID) const
+LayerUPtr LayerEngineTF::CreateLayer(const std::string& layerID)
 {
 	return g_idCreator.Create(layerID);
 }
 
 //.............................................................................
 
-LayerUPtr LayerEngineTF::CreateLayer(const BaseLayerSettings& settings) const
+LayerUPtr LayerEngineTF::CreateLayer(const BaseLayerSettings& settings)
 {
 	return g_settingsCreator.Create(settings);
 }

@@ -46,7 +46,7 @@ NeuralConfiguration GetNeuralConfiguration()
 
 void ConfigureNet(ILayerEngine& layerEngine)
 {
-	{
+	/*{
 		auto conv = ConvLayerSettings("Conv1");
 		conv.SetKernel(3, 3);
 		conv.SetOutChannels(64);
@@ -141,7 +141,7 @@ void ConfigureNet(ILayerEngine& layerEngine)
 		, DefaultLayerID::LOSS_LAYER_ID
 	});
 
-	layerEngine.ConnectLayers(DefaultLayerID::LOSS_LAYER_ID, DefaultLayerID::LABEL_LAYER_ID);
+	layerEngine.ConnectLayers(DefaultLayerID::LOSS_LAYER_ID, DefaultLayerID::LABEL_LAYER_ID);*/
 }
 
 /*
@@ -150,7 +150,7 @@ void ConfigureNet(ILayerEngine& layerEngine)
 */
 void ConfigureNeoMLExampleNet(ILayerEngine& layerEngine)
 {
-	{
+	/*{
 		auto dense = DenseLayerSettings("Dense1");
 		dense.SetDenseSize(1024);
 		layerEngine.AddLayer(dense);
@@ -180,7 +180,7 @@ void ConfigureNeoMLExampleNet(ILayerEngine& layerEngine)
 		, "Dense3"
 		, DefaultLayerID::LOSS_LAYER_ID
 	});
-	layerEngine.ConnectLayers(DefaultLayerID::LOSS_LAYER_ID, DefaultLayerID::LABEL_LAYER_ID);
+	layerEngine.ConnectLayers(DefaultLayerID::LOSS_LAYER_ID, DefaultLayerID::LABEL_LAYER_ID);*/
 }
 
 #ifdef STEPNN_USE_NEOML

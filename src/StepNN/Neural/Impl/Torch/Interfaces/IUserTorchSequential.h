@@ -6,12 +6,12 @@
 
 namespace StepNN::Neural {
 
-class IUserTorch
+class IUserTorchSequential
 {
 public:
-	virtual ~IUserTorch() = default;
+	virtual ~IUserTorchSequential() = default;
 
-	virtual void SetSequential(const std::weak_ptr<TorchSequential>& torchSequential) { m_torchSequential = torchSequential; }
+	virtual void SetTorchSequential(const std::weak_ptr<TorchSequential>& torchSequential) { m_torchSequential = torchSequential; }
 
 protected:
 	std::shared_ptr<TorchSequential> GetTorchSequential(bool required = true) const

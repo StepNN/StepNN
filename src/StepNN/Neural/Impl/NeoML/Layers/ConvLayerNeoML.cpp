@@ -4,43 +4,55 @@
 
 #include "BaseLayerNeoMLImpl.h"
 
+#define SET_SETTINGS(settings)																\
+if constexpr (Size == 2)																	\
+	BaseLayerNeoMLImpl<NeoML::CConvLayer, ConvLayerSettings<Size>>::SetSettings(##settings);\
+else																						\
+	static_assert(false, "Incorrect size")
+
 namespace StepNN::Neural {
 
 namespace {
 
 using namespace StepNN::Neural;
 
-class ConvLayerNeoML : public BaseLayerNeoMLImpl<NeoML::CConvLayer, ConvLayerSettings>
+template<size_t Size>
+class ConvLayerNeoML : public BaseLayerNeoMLImpl<NeoML::CConvLayer, ConvLayerSettings<Size>>
 {
 public:
 	ConvLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings)
-		: BaseLayerNeoMLImpl<NeoML::CConvLayer, ConvLayerSettings>(mathEngine)
+		: BaseLayerNeoMLImpl<NeoML::CConvLayer, ConvLayerSettings<Size>>(mathEngine)
 	{
-		BaseLayerNeoMLImpl<NeoML::CConvLayer, ConvLayerSettings>::SetSettings(settings);
+		SET_SETTINGS(settings);
 	}
 
-	void SetSettings(const ConvLayerSettings& typedSettings) override
+	void SetSettings(const ConvLayerSettings<Size>& typedSettings) override
 	{
-		BaseLayerNeoMLImpl<NeoML::CConvLayer, ConvLayerSettings>::SetSettings(typedSettings);
+		SET_SETTINGS(typedSettings);
 
 		auto castedLayer = CheckCast<NeoML::CConvLayer>(m_layerImpl.Ptr());
 
 		castedLayer->SetFilterCount(m_typedSettings.GetOutChannels()); // @todo check In or Out channels
-		castedLayer->SetFilterWidth(m_typedSettings.GetKernelWidth());
-		castedLayer->SetFilterHeight(m_typedSettings.GetKernelHeight());
+		castedLayer->SetFilterWidth(m_typedSettings.GetKernel(0));
+		castedLayer->SetFilterHeight(m_typedSettings.GetKernel(1));
 
-		if (m_typedSettings.GetDilationWidth() > 0)
-			castedLayer->SetDilationWidth(m_typedSettings.GetDilationWidth());
-		if (m_typedSettings.GetDilationHeight() > 0)
-			castedLayer->SetDilationHeight(m_typedSettings.GetDilationHeight());
-		if (m_typedSettings.GetPaddingWidth() > 0)
-			castedLayer->SetPaddingWidth(m_typedSettings.GetPaddingWidth());
-		if (m_typedSettings.GetPaddingHeight() > 0)
-			castedLayer->SetPaddingHeight(m_typedSettings.GetPaddingHeight());
-		if (m_typedSettings.GetStrideWidth() > 0)
-			castedLayer->SetStrideWidth(m_typedSettings.GetStrideWidth());
-		if (m_typedSettings.GetStrideHeight() > 0)
-			castedLayer->SetStrideHeight(m_typedSettings.GetStrideHeight());
+		if (m_typedSettings.HasDilation())
+		{
+			castedLayer->SetDilationWidth(m_typedSettings.GetDilation(0));
+			castedLayer->SetDilationHeight(m_typedSettings.GetDilation(1));
+		}
+
+		if (m_typedSettings.HasPadding())
+		{
+			castedLayer->SetPaddingWidth(m_typedSettings.GetPadding(0));
+			castedLayer->SetPaddingHeight(m_typedSettings.GetPadding(1));
+		}
+
+		if (m_typedSettings.HasStride())
+		{
+			castedLayer->SetStrideWidth(m_typedSettings.GetStride(0));
+			castedLayer->SetStrideHeight(m_typedSettings.GetStride(1));
+		}
 	}
 
 	~ConvLayerNeoML() = default;
@@ -48,9 +60,8 @@ public:
 
 }
 
-LayerUPtr CreateConvLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings)
-{
-	return std::make_unique<ConvLayerNeoML>(mathEngine, settings);
-}
+LayerUPtr CreateConv1DLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings) { assert(!Defs::NOT_IMPL_STR); return nullptr; }
+LayerUPtr CreateConv2DLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings) { return std::make_unique<ConvLayerNeoML<2>>(mathEngine, settings); }
+LayerUPtr CreateConv3DLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings) { assert(!Defs::NOT_IMPL_STR); return nullptr; }
 
 }

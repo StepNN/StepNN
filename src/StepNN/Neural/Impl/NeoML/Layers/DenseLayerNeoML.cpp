@@ -25,7 +25,7 @@ public:
 
 		auto castedLayer = CheckCast<NeoML::CFullyConnectedLayer>(m_layerImpl.Ptr());
 
-		castedLayer->SetNumberOfElements(m_typedSettings.GetDenseSize());
+		castedLayer->SetNumberOfElements(m_typedSettings.GetOutChannels());
 	}
 
 	~DenseLayerNeoML() = default;

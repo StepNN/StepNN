@@ -1,3 +1,2 @@
+# require for libtorch -> caffe2
 set(CUDNN_ROOT "C:/Projects/SDK/cuDNN")
-set(CUDNN_INCLUDE_PATH "${CUDNN_ROOT}/include")
-set(CUDNN_LIBRARY_PATH "${CUDNN_ROOT}/lib")

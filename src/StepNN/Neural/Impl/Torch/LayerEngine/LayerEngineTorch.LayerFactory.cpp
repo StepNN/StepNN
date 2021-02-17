@@ -2,8 +2,20 @@
 
 #include "StepNN/Utils/Algorithms/FindPair.h"
 
-#include "StepNN/Neural/Layer/Settings/EmptySettings.h"
+#include "StepNN/Neural/Layer/Settings/BatchNormalizationLayerSettings.h"
 #include "StepNN/Neural/Layer/Settings/ConvLayerSettings.h"
+#include "StepNN/Neural/Layer/Settings/CrossEntropyLayerSettings.h"
+#include "StepNN/Neural/Layer/Settings/DenseLayerSettings.h"
+#include "StepNN/Neural/Layer/Settings/FlattenLayerSettings.h"
+#include "StepNN/Neural/Layer/Settings/MaxPoolingLayerSettings.h"
+#include "StepNN/Neural/Layer/Settings/OutputLayerSettings.h"
+#include "StepNN/Neural/Layer/Settings/ReLULayerSettings.h"
+#include "StepNN/Neural/Layer/Settings/SoftmaxLayerSettings.h"
+#include "StepNN/Neural/Layer/Settings/SourceLayerSettings.h"
+
+#include "StepNN/Neural/Layer/Settings/EmptySettings.h"
+
+#include "StepNN/Neural/Impl/Torch/Layers/BaseLayerTorch.h"
 
 #include "LayerEngineTorch.h"
 
@@ -11,7 +23,20 @@ namespace StepNN::Neural {
 
 #define CREATE_LAYER(NAME) LayerUPtr Create##NAME(const BaseLayerSettings& settings);
 
-CREATE_LAYER(ConvLayerTorch)
+CREATE_LAYER(BatchNormalizationLayerTorch)
+CREATE_LAYER(Conv1DLayerTorch)
+CREATE_LAYER(Conv2DLayerTorch)
+CREATE_LAYER(Conv3DLayerTorch)
+CREATE_LAYER(CrossEntropyLayerTorch)
+CREATE_LAYER(DenseLayerTorch)
+CREATE_LAYER(FlattenLayerTorch)
+CREATE_LAYER(MaxPooling1DLayerTorch)
+CREATE_LAYER(MaxPooling2DLayerTorch)
+CREATE_LAYER(MaxPooling3DLayerTorch)
+CREATE_LAYER(OutputLayerTorch)
+CREATE_LAYER(ReLULayerTorch)
+CREATE_LAYER(SoftmaxLayerTorch)
+CREATE_LAYER(SourceLayerTorch)
 
 namespace {
 
@@ -45,7 +70,20 @@ private:
 		RETURN_IF(isInitialized);
 
 		creators = {
-			{ ConvLayerSettings::SETTINGS_ID, static_cast<LayerUPtr(*)(BaseSettingsCRef)>(CreateConvLayerTorch) },
+			{ BatchNormalizationLayerSettings	::SETTINGS_ID, static_cast<LayerUPtr(*)(BaseSettingsCRef)>(CreateBatchNormalizationLayerTorch	) },
+			{ Conv1DLayerSettings				::SETTINGS_ID, static_cast<LayerUPtr(*)(BaseSettingsCRef)>(CreateConv1DLayerTorch				) },
+			{ Conv2DLayerSettings				::SETTINGS_ID, static_cast<LayerUPtr(*)(BaseSettingsCRef)>(CreateConv2DLayerTorch				) },
+			{ Conv3DLayerSettings				::SETTINGS_ID, static_cast<LayerUPtr(*)(BaseSettingsCRef)>(CreateConv3DLayerTorch				) },
+			{ CrossEntropyLayerSettings			::SETTINGS_ID, static_cast<LayerUPtr(*)(BaseSettingsCRef)>(CreateCrossEntropyLayerTorch			) },
+			{ DenseLayerSettings				::SETTINGS_ID, static_cast<LayerUPtr(*)(BaseSettingsCRef)>(CreateDenseLayerTorch				) },
+			{ FlattenLayerSettings				::SETTINGS_ID, static_cast<LayerUPtr(*)(BaseSettingsCRef)>(CreateFlattenLayerTorch				) },
+			{ MaxPooling1DLayerSettings			::SETTINGS_ID, static_cast<LayerUPtr(*)(BaseSettingsCRef)>(CreateMaxPooling1DLayerTorch			) },
+			{ MaxPooling2DLayerSettings			::SETTINGS_ID, static_cast<LayerUPtr(*)(BaseSettingsCRef)>(CreateMaxPooling2DLayerTorch			) },
+			{ MaxPooling3DLayerSettings			::SETTINGS_ID, static_cast<LayerUPtr(*)(BaseSettingsCRef)>(CreateMaxPooling3DLayerTorch			) },
+			{ OutputLayerSettings				::SETTINGS_ID, static_cast<LayerUPtr(*)(BaseSettingsCRef)>(CreateOutputLayerTorch				) },
+			{ ReLULayerSettings					::SETTINGS_ID, static_cast<LayerUPtr(*)(BaseSettingsCRef)>(CreateReLULayerTorch					) },
+			{ SoftmaxLayerSettings				::SETTINGS_ID, static_cast<LayerUPtr(*)(BaseSettingsCRef)>(CreateSoftmaxLayerTorch				) },
+			{ SourceLayerSettings				::SETTINGS_ID, static_cast<LayerUPtr(*)(BaseSettingsCRef)>(CreateSourceLayerTorch				) },
 		};
 
 		isInitialized = true;
@@ -62,16 +100,20 @@ LayerCreator<BaseLayerSettings> g_settingsCreator;
 
 //.............................................................................
 
-LayerUPtr LayerEngineTorch::CreateLayer(const std::string& layerID) const
+LayerUPtr LayerEngineTorch::CreateLayer(const std::string& layerID)
 {
-	return g_idCreator.Create(layerID);
+	auto layer = g_idCreator.Create(layerID);
+	IUserController<IUserTorchSequential>::AddUser(dynamic_cast<BaseLayerTorch*>(layer.get()));
+	return layer;
 }
 
 //.............................................................................
 
-LayerUPtr LayerEngineTorch::CreateLayer(const BaseLayerSettings& settings) const
+LayerUPtr LayerEngineTorch::CreateLayer(const BaseLayerSettings& settings)
 {
-	return nullptr;
+	auto layer = g_settingsCreator.Create(settings);
+	IUserController<IUserTorchSequential>::AddUser(dynamic_cast<BaseLayerTorch*>(layer.get()));
+	return layer;
 }
 
 }

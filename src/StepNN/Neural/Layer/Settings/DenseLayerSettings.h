@@ -4,12 +4,17 @@
 #include "StepNN/Utils/Interfaces/AutoZero.h"
 
 #include "BaseLayerSettings.h"
+#include "Base/BiasSettings.h"
+#include "Base/ChannelsSettings.h"
 
 #include "StepNNLib.h"
 
 namespace StepNN::Neural {
 
-class STEPNN_API DenseLayerSettings : public BaseLayerSettings
+class STEPNN_API DenseLayerSettings
+	: public BaseLayerSettings
+	, public BiasSettings
+	, public ChannelsSettings
 {
 public:
 	LAYER_SETTINGS(DenseLayerSettings)
@@ -20,18 +25,12 @@ public:
 	bool operator==(const DenseLayerSettings& rhs) const noexcept
 	{
 		return true
-			&& m_denseSize == rhs.m_denseSize
-			&& BaseLayerSettings::operator==(rhs);
+			&& BaseLayerSettings	::operator==(rhs)
+			&& BiasSettings			::operator==(rhs)
+			&& ChannelsSettings		::operator==(rhs)
+			;
 	}
 	bool operator!=(const DenseLayerSettings& rhs) const noexcept { return !(*this == rhs); }
-
-	void SetDenseSize(int value) { m_denseSize = value; }
-	int GetDenseSize() const noexcept { return m_denseSize; }
-
-	bool IsEmpty() const noexcept { return m_denseSize.isDefault(); }
-
-private:
-	Z<int, Defs::INVALID_VALUE_INT> m_denseSize;
 };
 
 }

@@ -2,23 +2,24 @@
 
 #include "StepNN/Utils/Interfaces/IUserController.h"
 
-#include "IUserTorch.h"
+#include "IUserTorchSequential.h"
 
 namespace StepNN::Neural {
 
-class IControllerTorch : virtual public IUserController<IUserTorch>
+class IControllerTorchSequential : virtual public IUserController<IUserTorchSequential>
 {
 public:
-	virtual ~IControllerTorch() = default;
+	virtual ~IControllerTorchSequential() = default;
 
 	void SetTorchSequential(const std::shared_ptr<TorchSequential>& torchSequential)
 	{
 		m_torchSequential = torchSequential;
 		for (auto& user : m_users)
-			user->SetMathEngine(torchSequential);
+			user->SetTorchSequential(torchSequential);
 	}
 
 protected:
+	// Common sequential of torch neural net
 	std::shared_ptr<TorchSequential> m_torchSequential;
 };
 

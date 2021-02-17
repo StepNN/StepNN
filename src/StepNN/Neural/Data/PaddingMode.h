@@ -8,6 +8,9 @@ enum class STEPNN_API PaddingMode
 {
 	Undefined,
 	Zeros,
+	Reflect,
+	Replicate,
+	Circular,
 };
 
 }

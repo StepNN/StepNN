@@ -4,35 +4,42 @@
 
 #include "BaseLayerNeoMLImpl.h"
 
+#define SET_SETTINGS(settings)																			\
+if constexpr (Size == 2)																				\
+	BaseLayerNeoMLImpl<NeoML::CMaxPoolingLayer, MaxPoolingLayerSettings<Size>>::SetSettings(##settings);\
+else																									\
+	static_assert(false, "Incorrect size")
+
 namespace StepNN::Neural {
 
 namespace {
 
 using namespace StepNN::Neural;
 
-class MaxPoolingLayerNeoML : public BaseLayerNeoMLImpl<NeoML::CMaxPoolingLayer, MaxPoolingLayerSettings>
+template<size_t Size>
+class MaxPoolingLayerNeoML : public BaseLayerNeoMLImpl<NeoML::CMaxPoolingLayer, MaxPoolingLayerSettings<Size>>
 {
 public:
 	MaxPoolingLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings)
-		: BaseLayerNeoMLImpl<NeoML::CMaxPoolingLayer, MaxPoolingLayerSettings>(mathEngine)
+		: BaseLayerNeoMLImpl<NeoML::CMaxPoolingLayer, MaxPoolingLayerSettings<Size>>(mathEngine)
 	{
-		BaseLayerNeoMLImpl<NeoML::CMaxPoolingLayer, MaxPoolingLayerSettings>::SetSettings(settings);
+		SET_SETTINGS(settings);
 	}
 
-	void SetSettings(const MaxPoolingLayerSettings& typedSettings)
+	void SetSettings(const MaxPoolingLayerSettings<Size>& typedSettings)
 	{
-		BaseLayerNeoMLImpl<NeoML::CMaxPoolingLayer, MaxPoolingLayerSettings>::SetSettings(typedSettings);
+		SET_SETTINGS(typedSettings);
 
 		auto castedLayer = CheckCast<NeoML::CMaxPoolingLayer>(m_layerImpl.Ptr());
 
-		castedLayer->SetFilterWidth(m_typedSettings.GetKernelWidth());
-		castedLayer->SetFilterHeight(m_typedSettings.GetKernelHeight());
+		castedLayer->SetFilterWidth(m_typedSettings.GetKernel(0));
+		castedLayer->SetFilterHeight(m_typedSettings.GetKernel(1));
 
-		// if settings don't have a stride - don't set them (NeoML has assert for stride <= 0)
-		if (m_typedSettings.GetStrideWidth() > 0)
-			castedLayer->SetStrideWidth(m_typedSettings.GetStrideWidth());
-		if (m_typedSettings.GetStrideHeight() > 0)
-			castedLayer->SetStrideHeight(m_typedSettings.GetStrideHeight());
+		if (m_typedSettings.HasStride())
+		{
+			castedLayer->SetStrideWidth(m_typedSettings.GetStride(0));
+			castedLayer->SetStrideHeight(m_typedSettings.GetStride(1));
+		}
 	}
 
 	~MaxPoolingLayerNeoML() = default;
@@ -40,9 +47,8 @@ public:
 
 }
 
-LayerUPtr CreateMaxPoolingLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings)
-{
-	return std::make_unique<MaxPoolingLayerNeoML>(mathEngine, settings);
-}
+LayerUPtr CreateMaxPooling1DLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings) { assert(!Defs::NOT_IMPL_STR); return nullptr; }
+LayerUPtr CreateMaxPooling2DLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings) { return std::make_unique<MaxPoolingLayerNeoML<2>>(mathEngine, settings); }
+LayerUPtr CreateMaxPooling3DLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings) { assert(!Defs::NOT_IMPL_STR); return nullptr; }
 
 }
