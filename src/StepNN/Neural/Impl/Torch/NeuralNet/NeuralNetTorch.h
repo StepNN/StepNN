@@ -2,13 +2,18 @@
 
 #include <memory>
 
+#include "StepNN/Neural/Interfaces/IDatasetUserImpl.h"
 #include "StepNN/Neural/Interfaces/BaseNeuralNet.h"
+
+#include "StepNN/Neural/Impl/Torch/Dataset/DatasetTorch.h"
 
 using namespace StepNN::Neural::Interfaces;
 
 namespace StepNN::Neural {
 
-class NeuralNetTorch : virtual public BaseNeuralNet
+class NeuralNetTorch
+	: virtual public BaseNeuralNet
+	, virtual public IDatasetUserImpl<DatasetTorch>
 {
 public:
 	explicit NeuralNetTorch(const ILayerEngine* layerEngine);
@@ -25,6 +30,10 @@ public:
 
 private:
 	void OnSetNeuralConfiguration();
+
+private:
+	class Impl;
+	std::unique_ptr<Impl> m_impl;
 };
 
 }

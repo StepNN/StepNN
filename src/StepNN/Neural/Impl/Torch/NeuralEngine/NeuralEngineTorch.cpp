@@ -13,6 +13,7 @@ NeuralEngineTorch::NeuralEngineTorch()
 	: m_layerEngine(std::make_unique<LayerEngineTorch>())
 	, m_net(nullptr)
 {
+	IUserController<IDatasetUser>::AddUser(m_net.get());
 }
 
 //.............................................................................
