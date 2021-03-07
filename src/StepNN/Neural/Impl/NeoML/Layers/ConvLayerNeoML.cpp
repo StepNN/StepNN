@@ -60,8 +60,8 @@ public:
 
 }
 
-LayerUPtr CreateConv1DLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings) { assert(!Defs::NOT_IMPL_STR); return nullptr; }
-LayerUPtr CreateConv2DLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings) { return std::make_unique<ConvLayerNeoML<2>>(mathEngine, settings); }
-LayerUPtr CreateConv3DLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings) { assert(!Defs::NOT_IMPL_STR); return nullptr; }
+std::shared_ptr<ILayer> CreateConv1DLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings) { assert(!Defs::NOT_IMPL_STR); return nullptr; }
+std::shared_ptr<ILayer> CreateConv2DLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings) { return std::make_shared<ConvLayerNeoML<2>>(mathEngine, settings); }
+std::shared_ptr<ILayer> CreateConv3DLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings) { assert(!Defs::NOT_IMPL_STR); return nullptr; }
 
 }

@@ -18,9 +18,17 @@ public:
 			user->SetTorchSequential(torchSequential);
 	}
 
+	void SetLossCriterion(const std::shared_ptr<TorchModule>& lossCriterion)
+	{
+		m_lossCriterion = lossCriterion;
+		for (auto& user : m_users)
+			user->SetLossCriterion(lossCriterion);
+	}
+
 protected:
 	// Common sequential of torch neural net
 	std::shared_ptr<TorchSequential> m_torchSequential;
+	std::shared_ptr<TorchModule> m_lossCriterion;
 };
 
 }

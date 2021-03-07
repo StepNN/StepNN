@@ -33,9 +33,9 @@ public:
 
 }
 
-LayerUPtr CreateDenseLayerTorch(const BaseLayerSettings& settings)
+std::shared_ptr<ILayer> CreateDenseLayerTorch(const BaseLayerSettings& settings)
 {
-	return std::make_unique<DenseLayerTorch>(settings);
+	return std::make_shared<DenseLayerTorch>(settings);
 }
 
 }

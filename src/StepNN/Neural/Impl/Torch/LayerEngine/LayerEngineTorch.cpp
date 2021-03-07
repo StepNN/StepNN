@@ -2,8 +2,11 @@
 
 namespace StepNN::Neural {
 
-LayerEngineTorch::LayerEngineTorch()
-{}
+void LayerEngineTorch::AddLossLayer(const BaseLayerSettings& settings)
+{
+	BaseLayerEngine::AddLossLayer(settings);
+	SetLossCriterion(m_lossCriterion);
+}
 
 //.............................................................................
 

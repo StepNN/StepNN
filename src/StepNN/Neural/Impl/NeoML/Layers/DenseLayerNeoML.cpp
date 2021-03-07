@@ -33,9 +33,9 @@ public:
 
 }
 
-LayerUPtr CreateDenseLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings)
+std::shared_ptr<ILayer> CreateDenseLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings)
 {
-	return std::make_unique<DenseLayerNeoML>(mathEngine, settings);
+	return std::make_shared<DenseLayerNeoML>(mathEngine, settings);
 }
 
 }

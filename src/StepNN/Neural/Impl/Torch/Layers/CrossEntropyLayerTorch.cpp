@@ -58,9 +58,9 @@ public:
 
 }
 
-LayerUPtr CreateCrossEntropyLayerTorch(const BaseLayerSettings& settings)
+std::shared_ptr<ILayer> CreateCrossEntropyLayerTorch(const BaseLayerSettings& settings)
 {
-	return std::make_unique<CrossEntropyLayerTorch>(settings);
+	return std::make_shared<CrossEntropyLayerTorch>(settings);
 }
 
 }

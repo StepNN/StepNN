@@ -17,6 +17,7 @@ protected:
 	explicit BaseNeuralNet(const ILayerEngine* layerEnginePtr);
 
 	void Train() override { throw std::runtime_error(Defs::NOT_IMPL_STR); };
+	void Evaluate() override { throw std::runtime_error(Defs::NOT_IMPL_STR); };
 
 protected:
 	const ILayerEngine* m_layerEnginePtr;

@@ -20,6 +20,13 @@ void NeuralNetTorch::SetNeuralConfiguration(NeuralConfiguration&& config)
 
 void NeuralNetTorch::OnSetNeuralConfiguration()
 {
+	m_device = m_config.deviceType == DeviceType::GPU && torch::cuda::is_available() ? torch::kCUDA : torch::kCPU;
+
+	//@todo create optimizer
+	m_optimizer = nullptr;
+
+	//@todo create loss criterion
+	m_lossCriterion = [](torch::Tensor, torch::Tensor) { return torch::Tensor(); };
 }
 
 }

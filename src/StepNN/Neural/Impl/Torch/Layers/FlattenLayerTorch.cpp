@@ -34,9 +34,9 @@ public:
 
 }
 
-LayerUPtr CreateFlattenLayerTorch(const BaseLayerSettings& settings)
+std::shared_ptr<ILayer> CreateFlattenLayerTorch(const BaseLayerSettings& settings)
 {
-	return std::make_unique<FlattenLayerTorch>(settings);
+	return std::make_shared<FlattenLayerTorch>(settings);
 }
 
 }

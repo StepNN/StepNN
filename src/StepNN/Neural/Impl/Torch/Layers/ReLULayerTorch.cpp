@@ -28,9 +28,9 @@ public:
 
 }
 
-LayerUPtr CreateReLULayerTorch(const BaseLayerSettings& settings)
+std::shared_ptr<ILayer> CreateReLULayerTorch(const BaseLayerSettings& settings)
 {
-	return std::make_unique<ReLULayerTorch>(settings);
+	return std::make_shared<ReLULayerTorch>(settings);
 }
 
 }

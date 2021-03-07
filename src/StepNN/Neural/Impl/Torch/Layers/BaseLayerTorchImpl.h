@@ -8,6 +8,7 @@ using namespace StepNN::Neural::Interfaces;
 
 namespace StepNN::Neural {
 
+//@todo - enable_if for ImplTypeT that it's based on torch::nn::Module
 template<typename SettingsTypeT, typename ImplTypeT = torch::nn::AnyModule>
 class BaseLayerTorchImpl : virtual public BaseLayerTorch
 {
@@ -67,6 +68,11 @@ protected:
 
 		this->m_typedSettings = typedSettings;
 	}
+
+private:
+/// BaseLayerTorch
+	virtual std::shared_ptr<TorchModule> GetImpl() const { return m_layerImpl; }
+///
 
 protected:
 	SettingsType m_typedSettings;

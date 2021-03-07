@@ -1,5 +1,9 @@
 #pragma once
 
+#ifdef LOG
+#undef LOG
+#endif
+
 #define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_INFO
 
 #include "spdlog/spdlog.h"

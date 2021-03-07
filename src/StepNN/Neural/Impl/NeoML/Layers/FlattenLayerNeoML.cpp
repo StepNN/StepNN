@@ -38,9 +38,9 @@ public:
 
 }
 
-LayerUPtr CreateFlattenLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings)
+std::shared_ptr<ILayer> CreateFlattenLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings)
 {
-	return std::make_unique<FlattenLayerNeoML>(mathEngine, settings);
+	return std::make_shared<FlattenLayerNeoML>(mathEngine, settings);
 }
 
 }

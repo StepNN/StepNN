@@ -21,7 +21,7 @@
 
 namespace StepNN::Neural {
 
-#define CREATE_LAYER(NAME) LayerUPtr Create##NAME(NeoMathEnginePtr, const BaseLayerSettings&);
+#define CREATE_LAYER(NAME) std::shared_ptr<Interfaces::ILayer> Create##NAME(NeoMathEnginePtr, const BaseLayerSettings&);
 
 CREATE_LAYER(BatchNormalizationLayerNeoML)
 CREATE_LAYER(Conv1DLayerNeoML)
@@ -41,13 +41,14 @@ CREATE_LAYER(SourceLayerNeoML)
 namespace {
 
 using namespace StepNN::Neural;
+using namespace StepNN::Neural::Interfaces;
 
 template<typename T>
 class LayerCreator
 {
 	using BaseSettingsCRef = const BaseLayerSettings&;
 public:
-	LayerUPtr Create(const T& param, NeoMathEnginePtr mathEngine)
+	std::shared_ptr<ILayer> Create(const T& param, NeoMathEnginePtr mathEngine)
 	{
 		Initialize();
 
@@ -70,26 +71,26 @@ private:
 		RETURN_IF(isInitialized);
 
 		creators = {
-			{ BatchNormalizationLayerSettings	::SETTINGS_ID, static_cast<LayerUPtr(*)(NeoMathEnginePtr, BaseSettingsCRef)>(CreateBatchNormalizationLayerNeoML	) },
-			{ Conv1DLayerSettings				::SETTINGS_ID, static_cast<LayerUPtr(*)(NeoMathEnginePtr, BaseSettingsCRef)>(CreateConv1DLayerNeoML				) },
-			{ Conv2DLayerSettings				::SETTINGS_ID, static_cast<LayerUPtr(*)(NeoMathEnginePtr, BaseSettingsCRef)>(CreateConv2DLayerNeoML				) },
-			{ Conv3DLayerSettings				::SETTINGS_ID, static_cast<LayerUPtr(*)(NeoMathEnginePtr, BaseSettingsCRef)>(CreateConv3DLayerNeoML				) },
-			{ CrossEntropyLayerSettings			::SETTINGS_ID, static_cast<LayerUPtr(*)(NeoMathEnginePtr, BaseSettingsCRef)>(CreateCrossEntropyLayerNeoML		) },
-			{ DenseLayerSettings				::SETTINGS_ID, static_cast<LayerUPtr(*)(NeoMathEnginePtr, BaseSettingsCRef)>(CreateDenseLayerNeoML				) },
-			{ FlattenLayerSettings				::SETTINGS_ID, static_cast<LayerUPtr(*)(NeoMathEnginePtr, BaseSettingsCRef)>(CreateFlattenLayerNeoML			) },
-			{ MaxPooling1DLayerSettings			::SETTINGS_ID, static_cast<LayerUPtr(*)(NeoMathEnginePtr, BaseSettingsCRef)>(CreateMaxPooling1DLayerNeoML		) },
-			{ MaxPooling2DLayerSettings			::SETTINGS_ID, static_cast<LayerUPtr(*)(NeoMathEnginePtr, BaseSettingsCRef)>(CreateMaxPooling2DLayerNeoML		) },
-			{ MaxPooling3DLayerSettings			::SETTINGS_ID, static_cast<LayerUPtr(*)(NeoMathEnginePtr, BaseSettingsCRef)>(CreateMaxPooling3DLayerNeoML		) },
-			{ OutputLayerSettings				::SETTINGS_ID, static_cast<LayerUPtr(*)(NeoMathEnginePtr, BaseSettingsCRef)>(CreateOutputLayerNeoML				) },
-			{ ReLULayerSettings					::SETTINGS_ID, static_cast<LayerUPtr(*)(NeoMathEnginePtr, BaseSettingsCRef)>(CreateReLULayerNeoML				) },
-			{ SoftmaxLayerSettings				::SETTINGS_ID, static_cast<LayerUPtr(*)(NeoMathEnginePtr, BaseSettingsCRef)>(CreateSoftmaxLayerNeoML			) },
-			{ SourceLayerSettings				::SETTINGS_ID, static_cast<LayerUPtr(*)(NeoMathEnginePtr, BaseSettingsCRef)>(CreateSourceLayerNeoML				) },
+			{ BatchNormalizationLayerSettings	::SETTINGS_ID, static_cast<std::shared_ptr<ILayer>(*)(NeoMathEnginePtr, BaseSettingsCRef)>(CreateBatchNormalizationLayerNeoML	) },
+			{ Conv1DLayerSettings				::SETTINGS_ID, static_cast<std::shared_ptr<ILayer>(*)(NeoMathEnginePtr, BaseSettingsCRef)>(CreateConv1DLayerNeoML				) },
+			{ Conv2DLayerSettings				::SETTINGS_ID, static_cast<std::shared_ptr<ILayer>(*)(NeoMathEnginePtr, BaseSettingsCRef)>(CreateConv2DLayerNeoML				) },
+			{ Conv3DLayerSettings				::SETTINGS_ID, static_cast<std::shared_ptr<ILayer>(*)(NeoMathEnginePtr, BaseSettingsCRef)>(CreateConv3DLayerNeoML				) },
+			{ CrossEntropyLayerSettings			::SETTINGS_ID, static_cast<std::shared_ptr<ILayer>(*)(NeoMathEnginePtr, BaseSettingsCRef)>(CreateCrossEntropyLayerNeoML			) },
+			{ DenseLayerSettings				::SETTINGS_ID, static_cast<std::shared_ptr<ILayer>(*)(NeoMathEnginePtr, BaseSettingsCRef)>(CreateDenseLayerNeoML				) },
+			{ FlattenLayerSettings				::SETTINGS_ID, static_cast<std::shared_ptr<ILayer>(*)(NeoMathEnginePtr, BaseSettingsCRef)>(CreateFlattenLayerNeoML				) },
+			{ MaxPooling1DLayerSettings			::SETTINGS_ID, static_cast<std::shared_ptr<ILayer>(*)(NeoMathEnginePtr, BaseSettingsCRef)>(CreateMaxPooling1DLayerNeoML			) },
+			{ MaxPooling2DLayerSettings			::SETTINGS_ID, static_cast<std::shared_ptr<ILayer>(*)(NeoMathEnginePtr, BaseSettingsCRef)>(CreateMaxPooling2DLayerNeoML			) },
+			{ MaxPooling3DLayerSettings			::SETTINGS_ID, static_cast<std::shared_ptr<ILayer>(*)(NeoMathEnginePtr, BaseSettingsCRef)>(CreateMaxPooling3DLayerNeoML			) },
+			{ OutputLayerSettings				::SETTINGS_ID, static_cast<std::shared_ptr<ILayer>(*)(NeoMathEnginePtr, BaseSettingsCRef)>(CreateOutputLayerNeoML				) },
+			{ ReLULayerSettings					::SETTINGS_ID, static_cast<std::shared_ptr<ILayer>(*)(NeoMathEnginePtr, BaseSettingsCRef)>(CreateReLULayerNeoML					) },
+			{ SoftmaxLayerSettings				::SETTINGS_ID, static_cast<std::shared_ptr<ILayer>(*)(NeoMathEnginePtr, BaseSettingsCRef)>(CreateSoftmaxLayerNeoML				) },
+			{ SourceLayerSettings				::SETTINGS_ID, static_cast<std::shared_ptr<ILayer>(*)(NeoMathEnginePtr, BaseSettingsCRef)>(CreateSourceLayerNeoML				) },
 		};
 		isInitialized = true;
 	}
 
 private:
-	std::map<std::string, std::function<LayerUPtr(NeoMathEnginePtr, BaseSettingsCRef)>> creators;
+	std::map<std::string, std::function<std::shared_ptr<ILayer>(NeoMathEnginePtr, BaseSettingsCRef)>> creators;
 };
 
 LayerCreator<std::string> g_idCreator;
@@ -99,14 +100,14 @@ LayerCreator<StepNN::Neural::BaseLayerSettings> g_settingsCreator;
 
 //.............................................................................
 
-LayerUPtr LayerEngineNeoML::CreateLayer(const std::string& layerID)
+std::shared_ptr<ILayer> LayerEngineNeoML::CreateLayer(const std::string& layerID)
 {
 	return g_idCreator.Create(layerID, GetMathEngine().get());
 }
 
 //.............................................................................
 
-LayerUPtr LayerEngineNeoML::CreateLayer(const BaseLayerSettings& settings)
+std::shared_ptr<ILayer> LayerEngineNeoML::CreateLayer(const BaseLayerSettings& settings)
 {
 	return g_settingsCreator.Create(settings, GetMathEngine().get());
 }

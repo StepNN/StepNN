@@ -83,8 +83,8 @@ public:
 
 }
 
-LayerUPtr CreateConv1DLayerTorch(const BaseLayerSettings& settings) { return std::make_unique<ConvLayerTorch<1, torch::nn::Conv1d>>(settings); }
-LayerUPtr CreateConv2DLayerTorch(const BaseLayerSettings& settings) { return std::make_unique<ConvLayerTorch<2, torch::nn::Conv2d>>(settings); }
-LayerUPtr CreateConv3DLayerTorch(const BaseLayerSettings& settings) { return std::make_unique<ConvLayerTorch<3, torch::nn::Conv3d>>(settings); }
+std::shared_ptr<ILayer> CreateConv1DLayerTorch(const BaseLayerSettings& settings) { return std::make_shared<ConvLayerTorch<1, torch::nn::Conv1d>>(settings); }
+std::shared_ptr<ILayer> CreateConv2DLayerTorch(const BaseLayerSettings& settings) { return std::make_shared<ConvLayerTorch<2, torch::nn::Conv2d>>(settings); }
+std::shared_ptr<ILayer> CreateConv3DLayerTorch(const BaseLayerSettings& settings) { return std::make_shared<ConvLayerTorch<3, torch::nn::Conv3d>>(settings); }
 
 }

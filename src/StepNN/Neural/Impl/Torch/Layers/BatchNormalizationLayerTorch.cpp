@@ -37,9 +37,9 @@ public:
 
 }
 
-LayerUPtr CreateBatchNormalizationLayerTorch(const BaseLayerSettings& settings)
+std::shared_ptr<ILayer> CreateBatchNormalizationLayerTorch(const BaseLayerSettings& settings)
 {
-	return std::make_unique<BatchNormalizationLayerTorch>(settings);
+	return std::make_shared<BatchNormalizationLayerTorch>(settings);
 }
 
 }

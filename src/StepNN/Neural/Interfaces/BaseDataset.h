@@ -16,15 +16,15 @@ public:
 	size_t GetTestSize() const override;
 	void Reshuffle() override;
 
-	void SetAccessMode(AccessMode value) { m_mode = value; }
-	AccessMode GetAccessMode() const noexcept override { return m_mode; }
+	void SetAccessMode(AccessMode value) { m_accessMode = value; }
+	AccessMode GetAccessMode() const noexcept override { return m_accessMode; }
 
 protected:
 	explicit BaseDataset() = default;
 
 protected:
 	std::vector<size_t> m_shuffleIndicies;
-	AccessMode m_mode { AccessMode::Random };
+	AccessMode m_accessMode { AccessMode::Random };
 };
 
 }

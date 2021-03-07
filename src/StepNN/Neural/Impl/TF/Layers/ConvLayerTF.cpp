@@ -26,14 +26,9 @@ public:
 
 }
 
-LayerUPtr CreateConvLayerTF(const BaseLayerSettings& settings)
+std::shared_ptr<ILayer> CreateConvLayerTF(const BaseLayerSettings& settings)
 {
 	return nullptr;
-
-	//if (settings.GetSettingsID() == EmptySettings::SETTINGS_ID)
-	//	return std::make_unique<ConvLayerTF>();
-	//else
-	//	return std::make_unique<ConvLayerTF>(settings);
 }
 
 }

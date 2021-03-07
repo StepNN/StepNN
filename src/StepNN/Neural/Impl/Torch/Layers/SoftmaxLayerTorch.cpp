@@ -30,9 +30,9 @@ public:
 
 }
 
-LayerUPtr CreateSoftmaxLayerTorch(const BaseLayerSettings& settings)
+std::shared_ptr<ILayer> CreateSoftmaxLayerTorch(const BaseLayerSettings& settings)
 {
-	return std::make_unique<SoftmaxLayerTorch>(settings);
+	return std::make_shared<SoftmaxLayerTorch>(settings);
 }
 
 }

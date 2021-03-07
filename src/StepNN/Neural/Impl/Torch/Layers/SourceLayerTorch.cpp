@@ -25,9 +25,9 @@ public:
 
 }
 
-LayerUPtr CreateSourceLayerTorch(const BaseLayerSettings& settings)
+std::shared_ptr<ILayer> CreateSourceLayerTorch(const BaseLayerSettings& settings)
 {
-	return std::make_unique<SourceLayerTorch>(settings);
+	return std::make_shared<SourceLayerTorch>(settings);
 }
 
 }

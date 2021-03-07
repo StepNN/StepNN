@@ -24,9 +24,9 @@ public:
 
 }
 
-LayerUPtr CreateReLULayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings)
+std::shared_ptr<ILayer> CreateReLULayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings)
 {
-	return std::make_unique<ReLULayerNeoML>(mathEngine, settings);
+	return std::make_shared<ReLULayerNeoML>(mathEngine, settings);
 }
 
 }

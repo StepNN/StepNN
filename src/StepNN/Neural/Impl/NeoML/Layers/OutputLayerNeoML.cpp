@@ -24,9 +24,9 @@ public:
 
 }
 
-LayerUPtr CreateOutputLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings)
+std::shared_ptr<ILayer> CreateOutputLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings)
 {
-	return std::make_unique<OutputLayerNeoML>(mathEngine, settings);
+	return std::make_shared<OutputLayerNeoML>(mathEngine, settings);
 }
 
 }

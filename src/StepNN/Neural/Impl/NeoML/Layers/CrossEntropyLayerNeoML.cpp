@@ -24,9 +24,9 @@ public:
 
 }
 
-LayerUPtr CreateCrossEntropyLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings)
+std::shared_ptr<ILayer> CreateCrossEntropyLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings)
 {
-	return std::make_unique<CrossEntropyLayerNeoML>(mathEngine, settings);
+	return std::make_shared<CrossEntropyLayerNeoML>(mathEngine, settings);
 }
 
 }

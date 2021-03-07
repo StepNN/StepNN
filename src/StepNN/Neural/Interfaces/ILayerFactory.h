@@ -13,8 +13,8 @@ class STEPNN_API ILayerFactory
 public:
 	virtual ~ILayerFactory() = default;
 
-	virtual LayerUPtr CreateLayer(const std::string& layerID) = 0;
-	virtual LayerUPtr CreateLayer(const BaseLayerSettings& settings) = 0;
+	virtual std::shared_ptr<ILayer> CreateLayer(const std::string& layerID) = 0;
+	virtual std::shared_ptr<ILayer> CreateLayer(const BaseLayerSettings& settings) = 0;
 };
 
 }

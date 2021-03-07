@@ -16,8 +16,10 @@ class BaseLayerEngine : public ILayerEngine
 public:
 /// ILayerEngine
 	bool AddLayer(const BaseLayerSettings& settings) override;
-	LayerCPtr GetLayer(const std::string& id) const override;
-	const LayerUPtrs& GetLayers() const override;
+	std::shared_ptr<ILayer> GetLayer(const std::string& id) const override;
+	const std::vector<std::shared_ptr<ILayer>>& GetLayers() const override;
+	void AddLossLayer(const BaseLayerSettings& settings) override;
+	std::shared_ptr<ILayer> GetLossLayer() const override;
 	void ConnectLayers(const std::string& id, const std::string& prevId) override;
 	void SequentialConnection(const std::vector<std::string>& ids) override;
 	const ILayerGraph* GetLayerGraph() const noexcept override;
@@ -27,13 +29,14 @@ protected:
 	BaseLayerEngine();
 
 /// ILayerFactory
-	LayerUPtr CreateLayer(const std::string& layerID) override { assert(!(Defs::NOT_IMPL_STR)); return nullptr; };
-	LayerUPtr CreateLayer(const BaseLayerSettings& settings) override { assert(!(Defs::NOT_IMPL_STR)); return nullptr; };
+	std::shared_ptr<ILayer> CreateLayer(const std::string& layerID) override { assert(!(Defs::NOT_IMPL_STR)); return nullptr; };
+	std::shared_ptr<ILayer> CreateLayer(const BaseLayerSettings& settings) override { assert(!(Defs::NOT_IMPL_STR)); return nullptr; };
 ///
 
 protected:
 	std::unique_ptr<ILayerGraph> m_graph;
 	LayerUPtrs m_layers;
+	LayerUPtr m_lossLayer;
 };
 
 }

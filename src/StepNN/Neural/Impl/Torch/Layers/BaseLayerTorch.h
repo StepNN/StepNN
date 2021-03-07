@@ -25,10 +25,12 @@ public:
 protected:
 	explicit BaseLayerTorch() = default;
 
-	void SetSettings(const BaseLayerSettings& settings) override { throw std::runtime_error(Defs::NOT_IMPL_STR);  }
-	const BaseLayerSettings& GetBaseSettings() const override { throw std::runtime_error(Defs::NOT_IMPL_STR);  }
+	void SetSettings(const BaseLayerSettings& settings) override { throw std::runtime_error(Defs::NOT_IMPL_STR); }
+	const BaseLayerSettings& GetBaseSettings() const override { throw std::runtime_error(Defs::NOT_IMPL_STR); }
 	const std::string& GetId() const override { throw std::runtime_error(Defs::NOT_IMPL_STR); }
 	void Connect(LayerPtr) override { throw std::runtime_error(Defs::NOT_IMPL_STR); }
+
+	virtual std::shared_ptr<TorchModule> GetImpl() const { throw std::runtime_error(Defs::NOT_IMPL_STR); }
 };
 
 }

@@ -24,9 +24,9 @@ public:
 
 }
 
-LayerUPtr CreateSourceLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings)
+std::shared_ptr<ILayer> CreateSourceLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings)
 {
-	return std::make_unique<SourceLayerNeoML>(mathEngine, settings);
+	return std::make_shared<SourceLayerNeoML>(mathEngine, settings);
 }
 
 }

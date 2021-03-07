@@ -24,7 +24,7 @@ bool BaseLayerEngine::AddLayer(const BaseLayerSettings& settings)
 
 //.............................................................................
 
-LayerCPtr BaseLayerEngine::GetLayer(const std::string& id) const
+std::shared_ptr<ILayer> BaseLayerEngine::GetLayer(const std::string& id) const
 {
 	const auto it = std::find_if(m_layers.cbegin(), m_layers.cend(), [&id](const auto& layerPtr) { return layerPtr->GetId() == id; });
 	return it != m_layers.cend() ? it->get() : nullptr;
@@ -32,9 +32,24 @@ LayerCPtr BaseLayerEngine::GetLayer(const std::string& id) const
 
 //.............................................................................
 
-const LayerUPtrs& BaseLayerEngine::GetLayers() const
+const std::vector<std::shared_ptr<ILayer>>& BaseLayerEngine::GetLayers() const
 {
 	return m_layers;
+}
+
+//.............................................................................
+
+void BaseLayerEngine::AddLossLayer(const BaseLayerSettings& settings)
+{
+	m_lossLayer = CreateLayer(settings);
+}
+
+//.............................................................................
+
+std::shared_ptr<ILayer> BaseLayerEngine::GetLossLayer() const
+{
+	assert(m_lossLayer);
+	return m_lossLayer ? m_lossLayer.get() : nullptr;
 }
 
 //.............................................................................
@@ -60,6 +75,7 @@ void BaseLayerEngine::SequentialConnection(const std::vector<std::string>& ids)
 
 const ILayerGraph* BaseLayerEngine::GetLayerGraph() const noexcept
 {
+	assert(m_graph);
 	return m_graph ? m_graph.get() : nullptr;
 }
 

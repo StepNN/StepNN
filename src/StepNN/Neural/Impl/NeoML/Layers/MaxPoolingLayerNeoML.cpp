@@ -47,8 +47,8 @@ public:
 
 }
 
-LayerUPtr CreateMaxPooling1DLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings) { assert(!Defs::NOT_IMPL_STR); return nullptr; }
-LayerUPtr CreateMaxPooling2DLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings) { return std::make_unique<MaxPoolingLayerNeoML<2>>(mathEngine, settings); }
-LayerUPtr CreateMaxPooling3DLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings) { assert(!Defs::NOT_IMPL_STR); return nullptr; }
+std::shared_ptr<ILayer> CreateMaxPooling1DLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings) { assert(!Defs::NOT_IMPL_STR); return nullptr; }
+std::shared_ptr<ILayer> CreateMaxPooling2DLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings) { return std::make_shared<MaxPoolingLayerNeoML<2>>(mathEngine, settings); }
+std::shared_ptr<ILayer> CreateMaxPooling3DLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings) { assert(!Defs::NOT_IMPL_STR); return nullptr; }
 
 }

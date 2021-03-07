@@ -13,11 +13,15 @@ class LayerEngineTorch
 	, virtual public IControllerTorchSequential
 {
 public:
-	explicit LayerEngineTorch();
+	explicit LayerEngineTorch() = default;
 
-/// Implementation of ILayerFactory
-	LayerUPtr CreateLayer(const std::string& layerID) override;
-	LayerUPtr CreateLayer(const BaseLayerSettings& settings) override;
+/// ILayerEngine
+	void AddLossLayer(const BaseLayerSettings& settings);
+///
+
+/// ILayerFactory
+	std::shared_ptr<ILayer> CreateLayer(const std::string& layerID) override;
+	std::shared_ptr<ILayer> CreateLayer(const BaseLayerSettings& settings) override;
 ///
 };
 

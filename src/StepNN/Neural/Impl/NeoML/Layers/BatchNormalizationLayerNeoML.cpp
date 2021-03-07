@@ -24,9 +24,9 @@ public:
 
 }
 
-LayerUPtr CreateBatchNormalizationLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings)
+std::shared_ptr<ILayer> CreateBatchNormalizationLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings)
 {
-	return std::make_unique<BatchNormalizationLayerNeoML>(mathEngine, settings);
+	return std::make_shared<BatchNormalizationLayerNeoML>(mathEngine, settings);
 }
 
 }

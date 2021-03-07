@@ -53,8 +53,8 @@ public:
 
 }
 
-LayerUPtr CreateMaxPooling1DLayerTorch(const BaseLayerSettings& settings) { return std::make_unique<MaxPoolingLayerTorch<1, torch::nn::MaxPool1d>>(settings); }
-LayerUPtr CreateMaxPooling2DLayerTorch(const BaseLayerSettings& settings) { return std::make_unique<MaxPoolingLayerTorch<2, torch::nn::MaxPool2d>>(settings); }
-LayerUPtr CreateMaxPooling3DLayerTorch(const BaseLayerSettings& settings) { return std::make_unique<MaxPoolingLayerTorch<3, torch::nn::MaxPool3d>>(settings); }
+std::shared_ptr<ILayer> CreateMaxPooling1DLayerTorch(const BaseLayerSettings& settings) { return std::make_shared<MaxPoolingLayerTorch<1, torch::nn::MaxPool1d>>(settings); }
+std::shared_ptr<ILayer> CreateMaxPooling2DLayerTorch(const BaseLayerSettings& settings) { return std::make_shared<MaxPoolingLayerTorch<2, torch::nn::MaxPool2d>>(settings); }
+std::shared_ptr<ILayer> CreateMaxPooling3DLayerTorch(const BaseLayerSettings& settings) { return std::make_shared<MaxPoolingLayerTorch<3, torch::nn::MaxPool3d>>(settings); }
 
 }

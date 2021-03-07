@@ -25,9 +25,9 @@ public:
 
 }
 
-LayerUPtr CreateOutputLayerTorch(const BaseLayerSettings& settings)
+std::shared_ptr<ILayer> CreateOutputLayerTorch(const BaseLayerSettings& settings)
 {
-	return std::make_unique<OutputLayerTorch>(settings);
+	return std::make_shared<OutputLayerTorch>(settings);
 }
 
 }

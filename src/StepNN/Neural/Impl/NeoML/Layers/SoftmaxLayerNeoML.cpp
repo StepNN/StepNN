@@ -24,9 +24,9 @@ public:
 
 }
 
-LayerUPtr CreateSoftmaxLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings)
+std::shared_ptr<ILayer> CreateSoftmaxLayerNeoML(NeoMathEnginePtr mathEngine, const BaseLayerSettings& settings)
 {
-	return std::make_unique<SoftmaxLayerNeoML>(mathEngine, settings);
+	return std::make_shared<SoftmaxLayerNeoML>(mathEngine, settings);
 }
 
 }

@@ -12,8 +12,8 @@ public:
 	explicit LayerEngineTF();
 
 /// Implementation of ILayerFactory
-	LayerUPtr CreateLayer(const std::string& layerID) override;
-	LayerUPtr CreateLayer(const BaseLayerSettings& settings) override;
+	std::shared_ptr<ILayer> CreateLayer(const std::string& layerID) override;
+	std::shared_ptr<ILayer> CreateLayer(const BaseLayerSettings& settings) override;
 ///
 };
 

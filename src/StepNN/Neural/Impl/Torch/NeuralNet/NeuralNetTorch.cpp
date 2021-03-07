@@ -1,95 +1,48 @@
-#include <torch/torch.h>
-
 #include "StepNN/Neural/Data/NeuralConfiguration/OptimizerSettings.h"
-
-#include "StepNN/Neural/Impl/Torch/Interfaces/IUserTorchSequential.h"
 
 #include "StepNN/Neural/Impl/Torch/Dataset/DataLoaderTorch.h"
 
 #include "NeuralNetTorch.h"
 
+#include "StepNN/Utils/Logging/Logging.h"
+
 using namespace StepNN::Neural::Interfaces;
 
 namespace StepNN::Neural {
 
-class NeuralNetTorch::Impl : public IUserTorchSequential
+namespace {
+
+std::unique_ptr<torch::optim::Optimizer> CreateOptimizer(const OptimizerSettings& settings, const std::vector<torch::Tensor>& trainableParams)
 {
-public:
-	Impl()
+	switch (settings.type)
 	{
-	}
-
-	void SetDataLoader(std::unique_ptr<IDataLoaderTorch>&& dataLoader)
-	{
-		m_dataLoader = std::move(dataLoader);
-	}
-
-	void Train()
-	{
-		const auto& trainSettings = m_config.trainSettings;
-		const auto& sampleSettings = m_config.sampleSettings;
-		const auto& classificationSettings = m_config.classificationSettings;
-
-		// neural net layer configuration
-		auto sequential = GetTorchSequential()->get();
-		sequential->train();
-
-		
-
-		//auto dataLoader = torch::data::make_data_loader();
-
-		//auto train_loader =
-		//	torch::data::make_data_loader
-
-		float epochLoss;
-		for (int epoch = 0; epoch < trainSettings.epochCount; ++epoch)
+	case OptimizerType::Adam:
 		{
-			epochLoss = 0.0f;
+			const auto & adamSettings = dynamic_cast<const AdamSettings&>(settings);
+			torch::optim::AdamOptions options;
+			
+			options
+				.lr(adamSettings.lr)
+				.eps(adamSettings.eps)
+				.weight_decay(adamSettings.weight_decay)
+				.betas(std::tuple<double, double>(adamSettings.beta1, adamSettings.beta2))
+				.amsgrad(adamSettings.amsgrad)
+				;
 
-		//	int iterationPerEpoch = 0; //@ todo
-		//	for (int iter = 0; iter < iterationPerEpoch; ++iter)
-		//	{
-		//		sequential->zero_grad();
-		//		auto output = sequential->forward(/*@todo add inputs*/);
-
-		//		dataset->GetTrainSamples(iter, trainSettings.trainBatchWidth, dataBlob);
-		//		dataset->GetTrainLabels(iter, trainSettings.trainBatchWidth, labelBlob);
-
-		//		dnn.RunAndLearnOnce();
-		//		epochLoss += lossLayer->GetLastLoss();
-
-		//	}
-		//	LOG(L_INFO, "NeoML: Epoch {}/{} loss: {}", epoch + 1, trainSettings.epochCount, epochLoss / iterationPerEpoch);
-		//	dataset->Reshuffle();
+			return std::make_unique<torch::optim::Adam>(trainableParams, options);
 		}
-		//LOG(L_INFO, "NeoML NeuralNet: End training. Loss: {0}", epochLoss / iterationPerEpoch);
-
+	default:
+		return nullptr;
 	}
+}
 
-	void Configure(const NeuralConfiguration& config)
-	{
-		CreateOptimizer(config.optimizerSettings);
-	}
-
-private:
-	void CreateOptimizer(const OptimizerSettings& optimSettings)
-	{
-		//m_optimizer = std::make_unique<torch::optim::Adam>();
-		//@todo
-	}
-
-private:
-	std::unique_ptr<torch::optim::Optimizer> m_optimizer;
-	NeuralConfiguration m_config;
-
-	std::unique_ptr<IDataLoaderTorch> m_dataLoader;
-};
+}
 
 //.............................................................................
 
 NeuralNetTorch::NeuralNetTorch(const ILayerEngine* layerEngine)
 	: BaseNeuralNet(layerEngine)
-	, m_impl(new Impl())
+	, m_device(torch::kCPU)
 {}
 
 //.............................................................................
@@ -100,9 +53,63 @@ NeuralNetTorch::~NeuralNetTorch() = default;
 
 void NeuralNetTorch::Train()
 {
+	const auto& trainSettings = m_config.trainSettings;
+	const auto& sampleSettings = m_config.sampleSettings;
+	const auto& classificationSettings = m_config.classificationSettings;
+
 	auto* dataset = GetDatasetImpl();
-	m_impl->SetDataLoader(IDataLoaderTorch::Create(std::move(*dataset), torch::data::DataLoaderOptions()));
-	m_impl->Train();
+	auto trainDataLoader = dataset->GetTrainDataLoader();
+
+	/*
+	* Optimizer must be created here (instead of OnSetNeuralConfiguration)
+	* because it require full configured sequential module
+	*/
+	m_optimizer = CreateOptimizer(m_config.optimizerSettings, GetTrainableParams());
+
+	auto net = GetTorchSequential()->get();
+	net->to(m_device);
+
+	for (int epoch = 0; epoch < trainSettings.epochCount; ++epoch)
+	{
+		float epochLoss = 0.0f;
+		int iter = 0;
+
+		net->train();
+
+		for(auto& batchData : *trainDataLoader)
+		{
+			auto data = batchData.data;
+			auto targets = batchData.target;
+
+			// @todo move to specific type
+			//data = data.to(torch::kF32);
+			//targets = targets.to(torch::kLong);
+
+			data.to(m_device);
+			targets.to(m_device);
+
+			m_optimizer->zero_grad();
+			auto output = net->forward(data);
+
+			auto loss = m_lossCriterion(output, targets);
+			epochLoss += loss.item<float>();
+
+			loss.backward();
+			m_optimizer->step();
+
+			++iter;
+		}
+
+		LOG(L_INFO, "Torch: Epoch {}/{} loss: {}", epoch + 1, trainSettings.epochCount, epochLoss / iter);
+	}
 }
+
+//.............................................................................
+
+void NeuralNetTorch::Evaluate()
+{
+
+}
+
 
 }
