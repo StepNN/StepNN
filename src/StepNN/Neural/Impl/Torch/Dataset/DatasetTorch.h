@@ -17,7 +17,7 @@ class IDataLoaderTorch;
 
 //.............................................................................
 
-class STEPNN_API DatasetTorchImpl : virtual public torch::data::Dataset<DatasetTorchImpl>
+class STEPNN_API DatasetTorchImpl : public torch::data::Dataset<DatasetTorchImpl>
 {
 public:
 	torch::data::Example<> get(size_t index) override { throw std::runtime_error(Defs::NOT_IMPL_STR); }

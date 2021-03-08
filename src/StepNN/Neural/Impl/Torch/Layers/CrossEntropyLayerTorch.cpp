@@ -54,6 +54,13 @@ public:
 
 		m_layerImpl = std::make_shared<torch::nn::CrossEntropyLoss>(options);
 	}
+
+/// ILossCriterionTorch
+	torch::Tensor CalculateLoss(const torch::Tensor& input, const torch::Tensor& target) override
+	{
+		return m_layerImpl->get()->forward(input, target);
+	}
+///
 };
 
 }

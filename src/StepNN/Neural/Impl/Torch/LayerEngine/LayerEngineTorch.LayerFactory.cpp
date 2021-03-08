@@ -21,7 +21,7 @@
 
 namespace StepNN::Neural {
 
-#define CREATE_LAYER(NAME) LayerUPtr Create##NAME(const BaseLayerSettings& settings);
+#define CREATE_LAYER(NAME) std::shared_ptr<ILayer> Create##NAME(const BaseLayerSettings& settings);
 
 CREATE_LAYER(BatchNormalizationLayerTorch)
 CREATE_LAYER(Conv1DLayerTorch)
@@ -75,15 +75,15 @@ private:
 			{ Conv1DLayerSettings				::SETTINGS_ID, static_cast<std::shared_ptr<ILayer>(*)(BaseSettingsCRef)>(CreateConv1DLayerTorch				) },
 			{ Conv2DLayerSettings				::SETTINGS_ID, static_cast<std::shared_ptr<ILayer>(*)(BaseSettingsCRef)>(CreateConv2DLayerTorch				) },
 			{ Conv3DLayerSettings				::SETTINGS_ID, static_cast<std::shared_ptr<ILayer>(*)(BaseSettingsCRef)>(CreateConv3DLayerTorch				) },
-			{ CrossEntropyLayerSettings			::SETTINGS_ID, static_cast<std::shared_ptr<ILayer>(*)(BaseSettingsCRef)>(CreateCrossEntropyLayerTorch			) },
+			{ CrossEntropyLayerSettings			::SETTINGS_ID, static_cast<std::shared_ptr<ILayer>(*)(BaseSettingsCRef)>(CreateCrossEntropyLayerTorch		) },
 			{ DenseLayerSettings				::SETTINGS_ID, static_cast<std::shared_ptr<ILayer>(*)(BaseSettingsCRef)>(CreateDenseLayerTorch				) },
-			{ FlattenLayerSettings				::SETTINGS_ID, static_cast<std::shared_ptr<ILayer>(*)(BaseSettingsCRef)>(CreateFlattenLayerTorch				) },
-			{ MaxPooling1DLayerSettings			::SETTINGS_ID, static_cast<std::shared_ptr<ILayer>(*)(BaseSettingsCRef)>(CreateMaxPooling1DLayerTorch			) },
-			{ MaxPooling2DLayerSettings			::SETTINGS_ID, static_cast<std::shared_ptr<ILayer>(*)(BaseSettingsCRef)>(CreateMaxPooling2DLayerTorch			) },
-			{ MaxPooling3DLayerSettings			::SETTINGS_ID, static_cast<std::shared_ptr<ILayer>(*)(BaseSettingsCRef)>(CreateMaxPooling3DLayerTorch			) },
+			{ FlattenLayerSettings				::SETTINGS_ID, static_cast<std::shared_ptr<ILayer>(*)(BaseSettingsCRef)>(CreateFlattenLayerTorch			) },
+			{ MaxPooling1DLayerSettings			::SETTINGS_ID, static_cast<std::shared_ptr<ILayer>(*)(BaseSettingsCRef)>(CreateMaxPooling1DLayerTorch		) },
+			{ MaxPooling2DLayerSettings			::SETTINGS_ID, static_cast<std::shared_ptr<ILayer>(*)(BaseSettingsCRef)>(CreateMaxPooling2DLayerTorch		) },
+			{ MaxPooling3DLayerSettings			::SETTINGS_ID, static_cast<std::shared_ptr<ILayer>(*)(BaseSettingsCRef)>(CreateMaxPooling3DLayerTorch		) },
 			{ OutputLayerSettings				::SETTINGS_ID, static_cast<std::shared_ptr<ILayer>(*)(BaseSettingsCRef)>(CreateOutputLayerTorch				) },
-			{ ReLULayerSettings					::SETTINGS_ID, static_cast<std::shared_ptr<ILayer>(*)(BaseSettingsCRef)>(CreateReLULayerTorch					) },
-			{ SoftmaxLayerSettings				::SETTINGS_ID, static_cast<std::shared_ptr<ILayer>(*)(BaseSettingsCRef)>(CreateSoftmaxLayerTorch				) },
+			{ ReLULayerSettings					::SETTINGS_ID, static_cast<std::shared_ptr<ILayer>(*)(BaseSettingsCRef)>(CreateReLULayerTorch				) },
+			{ SoftmaxLayerSettings				::SETTINGS_ID, static_cast<std::shared_ptr<ILayer>(*)(BaseSettingsCRef)>(CreateSoftmaxLayerTorch			) },
 			{ SourceLayerSettings				::SETTINGS_ID, static_cast<std::shared_ptr<ILayer>(*)(BaseSettingsCRef)>(CreateSourceLayerTorch				) },
 		};
 
@@ -91,7 +91,7 @@ private:
 	}
 
 private:
-	std::map<std::string, std::function<LayerUPtr(BaseSettingsCRef)>> creators;
+	std::map<std::string, std::function<std::shared_ptr<ILayer>(BaseSettingsCRef)>> creators;
 };
 
 LayerCreator<std::string> g_idCreator;

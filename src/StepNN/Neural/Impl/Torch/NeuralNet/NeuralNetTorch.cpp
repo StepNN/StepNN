@@ -69,6 +69,8 @@ void NeuralNetTorch::Train()
 	auto net = GetTorchSequential()->get();
 	net->to(m_device);
 
+	auto lossCriterion = GetLossCriterion();
+
 	for (int epoch = 0; epoch < trainSettings.epochCount; ++epoch)
 	{
 		float epochLoss = 0.0f;
@@ -91,7 +93,7 @@ void NeuralNetTorch::Train()
 			m_optimizer->zero_grad();
 			auto output = net->forward(data);
 
-			auto loss = m_lossCriterion(output, targets);
+			auto loss = lossCriterion->CalculateLoss(output, targets);
 			epochLoss += loss.item<float>();
 
 			loss.backward();

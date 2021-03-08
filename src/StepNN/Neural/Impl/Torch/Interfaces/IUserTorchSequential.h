@@ -4,6 +4,8 @@
 
 #include "StepNN/Neural/Impl/Torch/CommonTorch.h"
 
+#include "ILossCriterionTorch.h"
+
 namespace StepNN::Neural {
 
 class IUserTorchSequential
@@ -12,7 +14,7 @@ public:
 	virtual ~IUserTorchSequential() = default;
 
 	virtual void SetTorchSequential(const std::weak_ptr<TorchSequential>& torchSequential) { m_torchSequential = torchSequential; }
-	virtual void SetLossCriterion(const std::weak_ptr<TorchModule>& lossCriterion) { m_lossCriterion = lossCriterion; }
+	virtual void SetLossCriterion(const std::weak_ptr<ILossCriterionTorch>& lossCriterion) { m_lossCriterion = lossCriterion; }
 
 protected:
 	std::shared_ptr<TorchSequential> GetTorchSequential(bool required = true) const
@@ -24,7 +26,7 @@ protected:
 		return torchSequential;
 	}
 
-	std::shared_ptr<TorchModule> GetLossCriterion(bool required = true) const
+	std::shared_ptr<ILossCriterionTorch> GetLossCriterion(bool required = true) const
 	{
 		const auto lossCriterion = m_lossCriterion.lock();
 		if (!lossCriterion && required)
@@ -48,7 +50,7 @@ protected:
 
 protected:
 	std::weak_ptr<TorchSequential> m_torchSequential;
-	std::weak_ptr<TorchModule> m_lossCriterion;
+	std::weak_ptr<ILossCriterionTorch> m_lossCriterion;
 };
 
 }

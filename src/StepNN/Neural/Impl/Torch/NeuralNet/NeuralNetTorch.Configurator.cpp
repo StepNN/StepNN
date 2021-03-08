@@ -24,9 +24,6 @@ void NeuralNetTorch::OnSetNeuralConfiguration()
 
 	//@todo create optimizer
 	m_optimizer = nullptr;
-
-	//@todo create loss criterion
-	m_lossCriterion = [](torch::Tensor, torch::Tensor) { return torch::Tensor(); };
 }
 
 }

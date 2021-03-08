@@ -69,11 +69,6 @@ protected:
 		this->m_typedSettings = typedSettings;
 	}
 
-private:
-/// BaseLayerTorch
-	virtual std::shared_ptr<TorchModule> GetImpl() const { return m_layerImpl; }
-///
-
 protected:
 	SettingsType m_typedSettings;
 	std::shared_ptr<ImplType> m_layerImpl { nullptr };

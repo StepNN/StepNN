@@ -37,7 +37,6 @@ private:
 private:
 	torch::Device m_device;
 	std::unique_ptr<torch::optim::Optimizer> m_optimizer;
-	std::function<torch::Tensor(torch::Tensor, torch::Tensor)> m_lossCriterion;
 };
 
 }

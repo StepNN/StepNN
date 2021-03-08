@@ -2,6 +2,8 @@
 
 #include "StepNN/Utils/Interfaces/IUserController.h"
 
+#include "ILossCriterionTorch.h"
+
 #include "IUserTorchSequential.h"
 
 namespace StepNN::Neural {
@@ -18,7 +20,7 @@ public:
 			user->SetTorchSequential(torchSequential);
 	}
 
-	void SetLossCriterion(const std::shared_ptr<TorchModule>& lossCriterion)
+	void SetLossCriterion(const std::shared_ptr<ILossCriterionTorch>& lossCriterion)
 	{
 		m_lossCriterion = lossCriterion;
 		for (auto& user : m_users)
@@ -28,7 +30,7 @@ public:
 protected:
 	// Common sequential of torch neural net
 	std::shared_ptr<TorchSequential> m_torchSequential;
-	std::shared_ptr<TorchModule> m_lossCriterion;
+	std::shared_ptr<ILossCriterionTorch> m_lossCriterion;
 };
 
 }

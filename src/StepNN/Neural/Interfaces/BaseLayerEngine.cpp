@@ -27,7 +27,7 @@ bool BaseLayerEngine::AddLayer(const BaseLayerSettings& settings)
 std::shared_ptr<ILayer> BaseLayerEngine::GetLayer(const std::string& id) const
 {
 	const auto it = std::find_if(m_layers.cbegin(), m_layers.cend(), [&id](const auto& layerPtr) { return layerPtr->GetId() == id; });
-	return it != m_layers.cend() ? it->get() : nullptr;
+	return it != m_layers.cend() ? *it : nullptr;
 }
 
 //.............................................................................
@@ -49,7 +49,7 @@ void BaseLayerEngine::AddLossLayer(const BaseLayerSettings& settings)
 std::shared_ptr<ILayer> BaseLayerEngine::GetLossLayer() const
 {
 	assert(m_lossLayer);
-	return m_lossLayer ? m_lossLayer.get() : nullptr;
+	return m_lossLayer ? m_lossLayer : nullptr;
 }
 
 //.............................................................................
@@ -58,7 +58,7 @@ void BaseLayerEngine::ConnectLayers(const std::string& id, const std::string& pr
 {
 	assert(GetLayer(id) && GetLayer(prevId));
 
-	GetLayer(id)->Connect(GetLayer(prevId));
+	GetLayer(id)->Connect(GetLayer(prevId).get());
 
 	m_graph->AddEdge(id, prevId);
 }

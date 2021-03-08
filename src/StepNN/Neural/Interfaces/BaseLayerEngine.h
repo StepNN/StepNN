@@ -35,8 +35,8 @@ protected:
 
 protected:
 	std::unique_ptr<ILayerGraph> m_graph;
-	LayerUPtrs m_layers;
-	LayerUPtr m_lossLayer;
+	std::vector<std::shared_ptr<ILayer>> m_layers;
+	std::shared_ptr<ILayer> m_lossLayer;
 };
 
 }
