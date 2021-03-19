@@ -17,7 +17,7 @@ std::unique_ptr<IDataLoaderTorch> DatasetTorch::GetTestDataLoader()
 {
 	assert(m_testDataset);
 
-	return m_accessMode != AccessMode::Undefined ?  IDataLoaderTorch::Create(std::move(*m_testDataset), torch::data::DataLoaderOptions(), m_accessMode) : nullptr;
+	return m_accessMode != AccessMode::Undefined ? IDataLoaderTorch::Create(std::move(*m_testDataset), torch::data::DataLoaderOptions(), m_accessMode) : nullptr;
 }
 
 }

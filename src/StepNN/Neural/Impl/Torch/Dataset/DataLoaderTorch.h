@@ -17,6 +17,12 @@ public:
 
 	virtual torch::data::Iterator<torch::data::Example<>> begin() = 0;
 	virtual torch::data::Iterator<torch::data::Example<>> end() = 0;
+
+	c10::ScalarType GetSampleScalarType() const { return m_sampleScalarType; }
+	c10::ScalarType GetLabelScalarType() const { return m_labelScalarType; }
+
+protected:
+	c10::ScalarType m_sampleScalarType, m_labelScalarType;
 };
 
 template<typename SamplerT, typename DataLoaderT>
@@ -29,8 +35,15 @@ public:
 		: ptr(CreateImpl(std::move(dataset), std::move(options)))
 	{}
 
-	static Ptr CreateImpl(DatasetTorchImpl&& dataset, torch::data::DataLoaderOptions&& options)
+	torch::data::Iterator<torch::data::Example<>> begin() { assert(ptr); return ptr->begin(); }
+	torch::data::Iterator<torch::data::Example<>> end() { assert(ptr); return ptr->end(); }
+
+private:
+	Ptr CreateImpl(DatasetTorchImpl&& dataset, torch::data::DataLoaderOptions&& options)
 	{
+		m_sampleScalarType = dataset.GetSampleScalarType();
+		m_labelScalarType = dataset.GetLabelScalarType();
+
 		/*
 		* Dataset should be mapped to Stack<>
 		* ...
@@ -47,9 +60,6 @@ public:
 
 		return torch::data::make_data_loader(std::move(mappedDataset), std::move(sampler), std::move(options));
 	}
-
-	torch::data::Iterator<torch::data::Example<>> begin() { assert(ptr); return ptr->begin(); }
-	torch::data::Iterator<torch::data::Example<>> end() { assert(ptr); return ptr->end(); }
 
 public:
 	Ptr ptr;

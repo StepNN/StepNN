@@ -83,9 +83,8 @@ void NeuralNetTorch::Train()
 			auto data = batchData.data;
 			auto targets = batchData.target;
 
-			// @todo move to specific type
-			//data = data.to(torch::kF32);
-			//targets = targets.to(torch::kLong);
+			data = data.to(trainDataLoader->GetSampleScalarType());
+			targets = targets.to(trainDataLoader->GetLabelScalarType());
 
 			data.to(m_device);
 			targets.to(m_device);

@@ -114,6 +114,8 @@ void NeuralNetNeoML::Configure(NeoML::CDnn& dnn)
 {
 	for (const auto& layer : m_layerEnginePtr->GetLayers())
 		dnn.AddLayer(*CastLayer(layer.get())->GetLayerImpl());
+
+	dnn.AddLayer(*CastLayer(m_layerEnginePtr->GetLossLayer().get())->GetLayerImpl());
 }
 
 //.............................................................................
