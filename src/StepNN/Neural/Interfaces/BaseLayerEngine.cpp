@@ -57,10 +57,23 @@ std::shared_ptr<ILayer> BaseLayerEngine::GetLossLayer() const
 void BaseLayerEngine::ConnectLayers(const std::string& id, const std::string& prevId)
 {
 	assert(GetLayer(id) && GetLayer(prevId));
-
-	GetLayer(id)->Connect(GetLayer(prevId).get());
-
 	m_graph->AddEdge(id, prevId);
+}
+
+//.............................................................................
+
+void BaseLayerEngine::Connect()
+{
+	m_graph->SetComplete();
+	const auto edges = m_graph->GetSortedEdges();
+
+	/*
+	* @todo For now we expecting linear connection structure of net
+	* Complicated structures requires another approach
+	*/
+
+	for(const auto& [from, to] : edges)
+		GetLayer(to.GetLayerId())->Connect(GetLayer(from.GetLayerId()).get());
 }
 
 //.............................................................................

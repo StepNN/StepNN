@@ -20,6 +20,7 @@ public:
 
 	Nodes GetNodes() const override;
 	Edges GetEdges() const override;
+	Edges GetSortedEdges(bool ascending) const override;
 
 	void SetComplete() override;
 	bool IsCompleted() const noexcept override;

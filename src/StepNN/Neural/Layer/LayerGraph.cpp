@@ -65,6 +65,25 @@ LayerGraph::Edges LayerGraph::GetEdges() const
 
 //.............................................................................
 
+LayerGraph::Edges LayerGraph::GetSortedEdges(bool ascending) const
+{
+	auto implEdges = m_impl->GetSortedEdgesByHierarchicalLevel(ascending);
+	Edges edges;
+	edges.reserve(implEdges.size());
+
+	std::transform(implEdges.cbegin(), implEdges.cend(), std::back_inserter(edges), [this](const auto& implEdge)
+	{
+		const auto& [nodeIdFrom, nodeIdTo] = implEdge.GetEdge();
+		const auto& nodeFrom = m_impl->GetNode(nodeIdFrom);
+		const auto& nodeTo = m_impl->GetNode(nodeIdTo);
+		return Edge({ nodeFrom.GetData(), nodeTo.GetData() });
+	});
+
+	return edges;
+}
+
+//.............................................................................
+
 void LayerGraph::SetComplete()
 {
 	m_impl->SetComplete();

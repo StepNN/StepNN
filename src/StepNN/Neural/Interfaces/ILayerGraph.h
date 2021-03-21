@@ -24,6 +24,8 @@ public:
 	
 	virtual Nodes GetNodes() const = 0;
 	virtual Edges GetEdges() const = 0;
+
+	virtual Edges GetSortedEdges(bool ascending = true) const = 0;
 	
 	virtual void SetComplete() = 0;
 	virtual bool IsCompleted() const noexcept = 0;

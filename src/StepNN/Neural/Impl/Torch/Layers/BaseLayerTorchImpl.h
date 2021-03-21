@@ -41,8 +41,12 @@ protected:
 		return m_typedSettings.GetLayerId();
 	}
 
-	// Don't need LayerPtr in Connect,
-	// layer implementation will be push_backed to common TorchSequential from IControllerTorchSequential (LayerEngineTorch)
+	/*
+	* Don't need LayerPtr in Connect,
+	* layer implementation will be push_backed to common TorchSequential from IControllerTorchSequential (LayerEngineTorch)
+	*
+	* ATTENTION: layers should be added in right order
+	* */
 	void Connect(LayerPtr) override
 	{
 		auto commonSequential = GetTorchSequential();

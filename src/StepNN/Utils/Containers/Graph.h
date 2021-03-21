@@ -70,6 +70,23 @@ public:
 	const Nodes& GetNodes() const noexcept { return m_nodes; }
 	const Edges& GetEdges() const noexcept { return m_edges; }
 
+	/*
+	* ascending:
+		true - from first edge to last
+		false - from last to first
+	*/
+	Edges GetSortedEdgesByHierarchicalLevel(bool ascending = true) const noexcept
+	{
+		auto edges = m_edges;
+		std::sort(edges.begin(), edges.end(), [&ascending](const auto& e0, const auto& e1)
+		{
+			return ascending
+				? e0.GetHierarchicalLevel() > e1.GetHierarchicalLevel()
+				: e0.GetHierarchicalLevel() < e1.GetHierarchicalLevel()
+				;
+		});
+	}
+
 	const Node& GetNode(int index) const;
 	const Node& GetNode(const IdType& id) const;
 
@@ -123,7 +140,7 @@ inline void Graph<DataType, IdType>::AddEdge(const IdType& idFrom, const IdType&
 }
 
 template<typename DataType, typename IdType>
-inline void Graph<DataType, IdType>::CalculateHierarchicalLevels()
+void Graph<DataType, IdType>::CalculateHierarchicalLevels()
 {
 	// Find empty node adjacency list - it is a list of the last node
 	int lastNode;

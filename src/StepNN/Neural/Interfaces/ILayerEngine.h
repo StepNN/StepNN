@@ -22,6 +22,8 @@ public:
 
 	virtual void ConnectLayers(const std::string& id, const std::string& prevId) = 0;
 
+	virtual void Connect() = 0;
+
 	virtual void SequentialConnection(const std::vector<std::string>& ids) = 0;
 
 	virtual const ILayerGraph* GetLayerGraph() const noexcept = 0;
